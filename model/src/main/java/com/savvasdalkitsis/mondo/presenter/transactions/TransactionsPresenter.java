@@ -5,12 +5,14 @@ import com.savvasdalkitsis.mondo.view.transactions.TransactionsView;
 
 public class TransactionsPresenter {
 
-    public TransactionsPresenter(BalanceUseCase balanceUseCase) {
+    private BalanceUseCase balanceUseCase;
 
+    public TransactionsPresenter(BalanceUseCase balanceUseCase) {
+        this.balanceUseCase = balanceUseCase;
     }
 
     public void startPresenting(TransactionsView transactionsView) {
-
+        balanceUseCase.getBalance().subscribe(transactionsView::displayBalance);
     }
 
 }

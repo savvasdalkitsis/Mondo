@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
 
 configurations {
     //noinspection GroovyAssignabilityCheck
@@ -22,4 +23,7 @@ dependencies {
         'com.shazam:shazamcrest:0.11',
     )
     provided 'org.projectlombok:lombok:1.12.6'
+    retrolambdaConfig 'com.jakewharton.retrolambda:retrolambda:2.1.0-jake2'
 }
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
