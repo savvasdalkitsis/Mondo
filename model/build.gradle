@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+configurations {
+    //noinspection GroovyAssignabilityCheck
+    provided {
+        dependencies.all { dep ->
+            //noinspection GroovyAssignabilityCheck
+            configurations.default.exclude group: dep.group, module: dep.name
+        }
+    }
+    compile.extendsFrom provided
+}
+
+dependencies {
+    compile (
+        'io.reactivex:rxjava:1.1.3',
+    )
+    testCompile (
+        'junit:junit:4.12',
+        'org.hamcrest:hamcrest-all:1.3',
+        'org.jmock:jmock-junit4:2.8.2',
+        'com.shazam:shazamcrest:0.11',
+    )
+    provided 'org.projectlombok:lombok:1.12.6'
+}
