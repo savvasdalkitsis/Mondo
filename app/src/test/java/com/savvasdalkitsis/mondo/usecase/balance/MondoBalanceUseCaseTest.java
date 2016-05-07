@@ -38,11 +38,13 @@ public class MondoBalanceUseCaseTest {
 
         mondoApi.emitSuccess(ApiBalance.builder()
                 .balance(999)
+                .spentToday(666)
                 .currency(USD)
                 .build());
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.success(Balance.builder()
                 .balance(999)
+                .spentToday(666)
                 .currencySymbol(USD_SYMBOL)
                 .build())));
     }

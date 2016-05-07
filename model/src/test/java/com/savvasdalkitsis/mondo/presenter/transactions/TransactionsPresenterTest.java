@@ -23,6 +23,7 @@ public class TransactionsPresenterTest {
     public void displaysBalanceWhenStarted() {
         Balance balance = Balance.builder()
                 .balance(100)
+                .spentToday(99)
                 .currencySymbol("$")
                 .build();
 

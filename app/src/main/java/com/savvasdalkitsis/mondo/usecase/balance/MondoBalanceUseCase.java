@@ -27,9 +27,11 @@ public class MondoBalanceUseCase implements BalanceUseCase {
                 .map(apiBalanceResult -> {
                     retrofit2.Response<ApiBalance> response = apiBalanceResult.response();
                     if (response.isSuccessful()) {
+                        ApiBalance apiBalance = response.body();
                         return Response.success(Balance.<Balance>builder()
-                                .balance(response.body().getBalance())
-                                .currencySymbol(currencySymbols.getSymbolFor(response.body().getCurrency()))
+                                .balance(apiBalance.getBalance())
+                                .spentToday(apiBalance.getSpentToday())
+                                .currencySymbol(currencySymbols.getSymbolFor(apiBalance.getCurrency()))
                                 .build());
                     }
                     return Response.<Balance>error();

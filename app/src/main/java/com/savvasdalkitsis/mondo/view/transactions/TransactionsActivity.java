@@ -19,6 +19,8 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Bind(R.id.view_balance) TextView balanceView;
     @Bind(R.id.view_balance_currency) TextView balanceCurrencyView;
+    @Bind(R.id.view_spent_today) TextView spentTodayView;
+    @Bind(R.id.view_spent_today_currency) TextView spentTodayCurrencyView;
 
     @Override
     protected void onStart() {
@@ -36,6 +38,8 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     public void displayBalance(Balance balance) {
         balanceView.setText(String.valueOf(balance.getBalance()));
         balanceCurrencyView.setText(balance.getCurrencySymbol());
+        spentTodayView.setText(String.valueOf(balance.getSpentToday()));
+        spentTodayCurrencyView.setText(balance.getCurrencySymbol());
     }
 
     @Override

@@ -4,7 +4,10 @@ import com.savvasdalkitsis.mondo.test.data.TestCurrency;
 import com.savvasdalkitsis.mondo.test.data.TestResponses;
 import com.savvasdalkitsis.mondo.test.server.MatchingDispatcher;
 
+import org.hamcrest.Matcher;
+
 import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.RecordedRequest;
 
 import static com.savvasdalkitsis.mondo.test.matchers.RecordedRequestMatchers.withPath;
 
@@ -17,8 +20,16 @@ public class UserArrangements {
     }
 
     public void hasBalance(double balance, TestCurrency currency) {
-        dispatcher.matchRequest(withPath("/balance"), new MockResponse()
+        respond(withPath("/balance"), TestResponses.balance(balance, currency));
+    }
+
+    public void hasSpentToday(double amount, TestCurrency currency) {
+        respond(withPath("/balance"), TestResponses.spentToday(amount, currency));
+    }
+
+    private void respond(Matcher<RecordedRequest> requestMatcher, String body) {
+        dispatcher.matchRequest(requestMatcher, new MockResponse()
                 .setResponseCode(200)
-                .setBody(TestResponses.balance(balance, currency)));
+                .setBody(body));
     }
 }

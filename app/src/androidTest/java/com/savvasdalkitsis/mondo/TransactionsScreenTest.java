@@ -26,4 +26,13 @@ public class TransactionsScreenTest extends MondoTest {
 
         then(user).seesErrorContactingMondo();
     }
+
+    @Test
+    public void displaysSpentToday() {
+        given(user).hasSpentToday(66.6, GBP);
+
+        when(user).launchesMondo();
+
+        then(user).seesSpentToday(66.6, GBP);
+    }
 }

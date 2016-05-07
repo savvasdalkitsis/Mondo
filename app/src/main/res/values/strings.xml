@@ -2,4 +2,5 @@
     <string name="app_name">Mondo</string>
     <string name="balance">Balance</string>
     <string name="error_talking_to_mondo">Error talking to Mondo</string>
+    <string name="spent_today">Spent today</string>
 </resources>
