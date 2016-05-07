@@ -11,10 +11,10 @@ public class TransactionsScreenTest extends MondoTest {
 
     @Test
     public void displaysUserBalance() {
-        given(user).hasBalance(123, GBP);
+        given(user).hasBalance(123.4, GBP);
 
         when(user).launchesMondo();
 
-        then(user).seesBalance(123, GBP);
+        then(user).seesBalance(123.4, GBP);
     }
 }

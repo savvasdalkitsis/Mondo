@@ -4,8 +4,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.savvasdalkitsis.mondo.injector.repository.MondoApiBaseUrlProviderInjector;
 import com.savvasdalkitsis.mondo.repository.ConfigurableApiBaseUrlProvider;
+import com.savvasdalkitsis.mondo.rx.RxIdlingResource;
 import com.savvasdalkitsis.mondo.test.server.MatchingDispatcher;
 import com.savvasdalkitsis.mondo.test.ui.actors.User;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsActivity;
@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 
 import okhttp3.mockwebserver.MockWebServer;
+import rx.plugins.RxJavaResettablePlugins;
 
 import static com.savvasdalkitsis.mondo.injector.repository.MondoApiBaseUrlProviderInjector.configurableMondoApiBaseUrlProvider;
 
@@ -33,6 +34,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        RxJavaResettablePlugins.getInstance().registerObservableExecutionHook(RxIdlingResource.get());
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         server = new MockWebServer();
         dispatcher = new MatchingDispatcher();
@@ -46,6 +48,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
     public void tearDown() throws Exception {
         super.tearDown();
         server.shutdown();
+        RxJavaResettablePlugins.resetPlugins();
     }
 
     public void startApp() {

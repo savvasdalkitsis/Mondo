@@ -1,7 +1,7 @@
 package com.savvasdalkitsis.mondo.fakes;
 
-import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
+import com.savvasdalkitsis.mondo.repository.model.ApiBalance;
 
 import java.io.IOException;
 
@@ -13,16 +13,16 @@ import rx.subjects.PublishSubject;
 
 public class FakeMondoApi implements MondoApi {
 
-    private PublishSubject<Result<Balance>> subject;
+    private PublishSubject<Result<ApiBalance>> subject;
 
     @Override
-    public Observable<Result<Balance>> getBalance() {
+    public Observable<Result<ApiBalance>> getBalance() {
         subject = PublishSubject.create();
         return subject;
     }
 
 
-    public void emitSuccess(Balance balance) {
+    public void emitSuccess(ApiBalance balance) {
         emitAndFinish(Result.response(Response.success(balance)));
     }
 
@@ -34,7 +34,7 @@ public class FakeMondoApi implements MondoApi {
         emitAndFinish(Result.response(Response.error(500, ResponseBody.create(null, ""))));
     }
 
-    private void emitAndFinish(Result<Balance> result) {
+    private void emitAndFinish(Result<ApiBalance> result) {
         subject.onNext(result);
         subject.onCompleted();
     }

@@ -1,24 +1,24 @@
 package com.savvasdalkitsis.mondo.view.transactions;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
+import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.presenter.transactions.TransactionsPresenter;
+import com.shazam.android.aspects.base.activity.AspectAppCompatActivity;
+
+import butterknife.Bind;
 
 import static com.savvasdalkitsis.mondo.injector.presenter.PresentersInjector.transactionsPresenter;
 
-public class TransactionsActivity extends AppCompatActivity implements TransactionsView {
+@BindLayout(R.layout.activity_transactions)
+public class TransactionsActivity extends AspectAppCompatActivity implements TransactionsView {
 
     private final TransactionsPresenter presenter = transactionsPresenter();
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transactions);
-    }
+    @Bind(R.id.view_balance) TextView balanceView;
+    @Bind(R.id.view_balance_currency) TextView balanceCurrencyView;
 
     @Override
     protected void onStart() {
@@ -28,6 +28,7 @@ public class TransactionsActivity extends AppCompatActivity implements Transacti
 
     @Override
     public void displayBalance(Balance balance) {
-
+        balanceView.setText(String.valueOf(balance.getBalance()));
+        balanceCurrencyView.setText(balance.getCurrencySymbol());
     }
 }

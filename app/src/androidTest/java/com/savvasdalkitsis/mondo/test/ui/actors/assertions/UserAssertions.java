@@ -6,7 +6,7 @@ import static com.savvasdalkitsis.mondo.test.assertions.SeesAssertions.seesText;
 
 public class UserAssertions {
 
-    public void seesBalance(int balance, TestCurrency currency) {
+    public void seesBalance(double balance, TestCurrency currency) {
         seesText("Balance");
         seesText(String.valueOf(balance));
         seesText(currency.displayString());

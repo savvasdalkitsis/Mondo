@@ -16,8 +16,8 @@ public class UserArrangements {
         this.dispatcher = dispatcher;
     }
 
-    public void hasBalance(int balance, TestCurrency currency) {
-        dispatcher.matchRequest(withPath("balance"), new MockResponse()
+    public void hasBalance(double balance, TestCurrency currency) {
+        dispatcher.matchRequest(withPath("/balance"), new MockResponse()
                 .setResponseCode(200)
                 .setBody(TestResponses.balance(balance, currency)));
     }
