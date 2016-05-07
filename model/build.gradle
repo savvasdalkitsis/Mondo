@@ -14,7 +14,7 @@ configurations {
 
 dependencies {
     compile (
-        'io.reactivex:rxjava:1.1.3',
+        'io.reactivex:rxjava:1.1.0',
     )
     testCompile (
         'junit:junit:4.12',
@@ -25,5 +25,7 @@ dependencies {
     provided 'org.projectlombok:lombok:1.12.6'
     retrolambdaConfig 'com.jakewharton.retrolambda:retrolambda:2.1.0-jake2'
 }
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = JavaVersion.VERSION_1_8
+//noinspection GroovyUnusedAssignment
 targetCompatibility = JavaVersion.VERSION_1_8
