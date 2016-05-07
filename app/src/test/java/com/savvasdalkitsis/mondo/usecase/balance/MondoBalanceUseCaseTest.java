@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.balance;
 
+import com.google.common.collect.ImmutableMap;
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
@@ -12,16 +13,23 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
+import java.util.Map;
+
 import rx.Observable;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 public class MondoBalanceUseCaseTest {
 
-    @Rule public TestRule timeout = Timeout.seconds(2);
+    private static final String USD_SYMBOL = "$";
+    private static final String USD = "USD";
+
     @Rule public TestRule android = new AndroidRxSchedulerRuleImmediate();
+    @Rule public TestRule timeout = Timeout.seconds(2);
+
     private final FakeMondoApi mondoApi = new FakeMondoApi();
-    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi);
+    private final Map<String, String> currencySymbolMap = ImmutableMap.of(USD, USD_SYMBOL);
+    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, currencySymbolMap);
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
 
     @Test
@@ -30,12 +38,12 @@ public class MondoBalanceUseCaseTest {
 
         mondoApi.emitSuccess(ApiBalance.builder()
                 .balance(999)
-                .currency("$")
+                .currency(USD)
                 .build());
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.success(Balance.builder()
                 .balance(999)
-                .currencySymbol("$")
+                .currencySymbol(USD_SYMBOL)
                 .build())));
     }
 
