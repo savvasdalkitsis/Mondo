@@ -3,6 +3,8 @@ package com.savvasdalkitsis.mondo.fakes;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
 
+import java.io.IOException;
+
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
@@ -22,5 +24,9 @@ public class FakeMondoApi implements MondoApi {
     public void emitSuccess(Balance balance) {
         subject.onNext(Result.response(Response.success(balance)));
         subject.onCompleted();
+    }
+
+    public void emitError() {
+        subject.onError(new IOException("Error during api call"));
     }
 }

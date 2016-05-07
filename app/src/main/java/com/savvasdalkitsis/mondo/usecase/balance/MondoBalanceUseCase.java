@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.balance;
 
+import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
 import com.savvasdalkitsis.mondo.usecase.BalanceUseCase;
@@ -15,8 +16,9 @@ public class MondoBalanceUseCase implements BalanceUseCase {
     }
 
     @Override
-    public Observable<Balance> getBalance() {
+    public Observable<Response<Balance>> getBalance() {
         return mondoApi.getBalance()
-                .map(balanceResult -> balanceResult.response().body());
+                .map(balanceResult -> Response.success(balanceResult.response().body()))
+                .onErrorResumeNext(Observable.just(Response.error()));
     }
 }
