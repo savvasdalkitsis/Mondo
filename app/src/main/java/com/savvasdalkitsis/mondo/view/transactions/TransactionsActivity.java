@@ -27,6 +27,12 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.stopPresenting();
+    }
+
+    @Override
     public void displayBalance(Balance balance) {
         balanceView.setText(String.valueOf(balance.getBalance()));
         balanceCurrencyView.setText(balance.getCurrencySymbol());

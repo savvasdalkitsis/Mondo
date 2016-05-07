@@ -16,11 +16,11 @@ public class TransactionsPresenterTest {
 
     @Rule public JUnitRuleMockery mockery = new JUnitRuleMockery();
     @Mock private TransactionsView view;
+    private final FakeBalanceUseCase balanceUseCase = new FakeBalanceUseCase();
+    private final TransactionsPresenter presenter = new TransactionsPresenter(balanceUseCase);
 
     @Test
     public void displaysBalanceWhenStarted() {
-        FakeBalanceUseCase balanceUseCase = new FakeBalanceUseCase();
-        TransactionsPresenter presenter = new TransactionsPresenter(balanceUseCase);
         Balance balance = Balance.builder()
                 .balance(100)
                 .currencySymbol("$")
@@ -33,5 +33,17 @@ public class TransactionsPresenterTest {
         presenter.startPresenting(view);
 
         balanceUseCase.emitBalance(balance);
+    }
+
+    @Test
+    public void stopsDisplayingToTheViewWhenStopped() {
+        presenter.startPresenting(view);
+        presenter.stopPresenting();
+
+        mockery.checking(new Expectations() {{
+            never(view);
+        }});
+
+        balanceUseCase.emitBalance(Balance.builder().build());
     }
 }
