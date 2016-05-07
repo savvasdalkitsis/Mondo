@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Mondo</string>
     <string name="balance">Balance</string>
+    <string name="error_talking_to_mondo">Error talking to Mondo</string>
 </resources>

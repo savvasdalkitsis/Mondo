@@ -1,6 +1,5 @@
 package com.savvasdalkitsis.mondo;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.savvasdalkitsis.mondo.test.data.TestCurrency.GBP;
@@ -20,7 +19,6 @@ public class TransactionsScreenTest extends MondoTest {
     }
 
     @Test
-    @Ignore
     public void displaysErrorWhenGettingBalanceFails() {
         given(mondo).cannotBeContacted();
 

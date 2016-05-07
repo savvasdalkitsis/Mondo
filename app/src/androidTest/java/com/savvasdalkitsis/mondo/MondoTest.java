@@ -10,7 +10,6 @@ import com.savvasdalkitsis.mondo.test.server.MatchingDispatcher;
 import com.savvasdalkitsis.mondo.test.ui.actors.Mondo;
 import com.savvasdalkitsis.mondo.test.ui.actors.User;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsActivity;
-import com.shazam.gwen.collaborators.Arranger;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

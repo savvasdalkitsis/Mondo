@@ -19,4 +19,8 @@ public class FakeBalanceUseCase implements BalanceUseCase {
     public void emitBalance(Balance balance) {
         publishSubject.onNext(Response.success(balance));
     }
+
+    public void emitError() {
+        publishSubject.onNext(Response.error());
+    }
 }

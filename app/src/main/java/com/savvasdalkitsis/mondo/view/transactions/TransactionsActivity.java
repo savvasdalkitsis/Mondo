@@ -37,4 +37,9 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
         balanceView.setText(String.valueOf(balance.getBalance()));
         balanceCurrencyView.setText(balance.getCurrencySymbol());
     }
+
+    @Override
+    public void displayError() {
+        balanceView.setText(R.string.error_talking_to_mondo);
+    }
 }

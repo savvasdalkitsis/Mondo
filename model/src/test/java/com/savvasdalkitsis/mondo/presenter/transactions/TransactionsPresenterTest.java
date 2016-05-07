@@ -26,18 +26,18 @@ public class TransactionsPresenterTest {
                 .currencySymbol("$")
                 .build();
 
+        startPresenting();
+
         mockery.checking(new Expectations() {{
             oneOf(view).displayBalance(with(sameBeanAs(balance)));
         }});
-
-        presenter.startPresenting(view);
 
         balanceUseCase.emitBalance(balance);
     }
 
     @Test
     public void stopsDisplayingToTheViewWhenStopped() {
-        presenter.startPresenting(view);
+        startPresenting();
         presenter.stopPresenting();
 
         mockery.checking(new Expectations() {{
@@ -45,5 +45,20 @@ public class TransactionsPresenterTest {
         }});
 
         balanceUseCase.emitBalance(Balance.builder().build());
+    }
+
+    @Test
+    public void displaysErrorWhenBalanceCannotBeRetrieved() {
+        startPresenting();
+
+        mockery.checking(new Expectations() {{
+            oneOf(view).displayError();
+        }});
+
+        balanceUseCase.emitError();
+    }
+
+    private void startPresenting() {
+        presenter.startPresenting(view);
     }
 }
