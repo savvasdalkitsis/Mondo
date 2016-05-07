@@ -11,6 +11,7 @@ import com.savvasdalkitsis.mondo.test.ui.actors.Mondo;
 import com.savvasdalkitsis.mondo.test.ui.actors.User;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsActivity;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 
@@ -39,7 +40,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
         RxJavaResettablePlugins.getInstance().registerObservableExecutionHook(RxIdlingResource.get());
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         server = new MockWebServer();
-        MatchingDispatcher dispatcher = new MatchingDispatcher();
+        MatchingDispatcher dispatcher =  new MatchingDispatcher();
         server.setDispatcher(dispatcher);
         user = new User(this, dispatcher);
         mondo = new Mondo(server);
@@ -47,7 +48,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
         configurableApiBaseUrlProvider.overrideUrl(server.url("").toString());
     }
 
-    @Override
+    @After
     public void tearDown() throws Exception {
         super.tearDown();
         server.shutdown();

@@ -85,7 +85,7 @@ public final class RxIdlingResource extends RxJavaObservableExecutionHook implem
     public <T> Observable.OnSubscribe<T> onSubscribeStart(Observable<? extends T> observableInstance,
                                                           final Observable.OnSubscribe<T> onSubscribe) {
         int activeSubscriptionCount = subscriptions.incrementAndGet();
-        Log.d(TAG, onSubscribe + " - onSubscribeStart: " + activeSubscriptionCount, new Throwable());
+        Log.d(TAG, onSubscribe + " - onSubscribeStart: " + activeSubscriptionCount);
 
         return new Observable.OnSubscribe<T>() {
             @Override
