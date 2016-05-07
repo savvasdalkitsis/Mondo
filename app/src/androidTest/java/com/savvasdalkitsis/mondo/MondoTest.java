@@ -7,8 +7,10 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.savvasdalkitsis.mondo.repository.ConfigurableApiBaseUrlProvider;
 import com.savvasdalkitsis.mondo.rx.RxIdlingResource;
 import com.savvasdalkitsis.mondo.test.server.MatchingDispatcher;
+import com.savvasdalkitsis.mondo.test.ui.actors.Mondo;
 import com.savvasdalkitsis.mondo.test.ui.actors.User;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsActivity;
+import com.shazam.gwen.collaborators.Arranger;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -23,23 +25,25 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
 
     private final ConfigurableApiBaseUrlProvider configurableApiBaseUrlProvider = configurableMondoApiBaseUrlProvider();
     private MockWebServer server;
-    private MatchingDispatcher dispatcher;
 
     public MondoTest() {
         super(TransactionsActivity.class);
     }
 
     protected User user;
+    protected Mondo mondo;
 
     @Before
     public void setUp() throws Exception {
         super.setUp();
+        RxJavaResettablePlugins.resetPlugins();
         RxJavaResettablePlugins.getInstance().registerObservableExecutionHook(RxIdlingResource.get());
         injectInstrumentation(InstrumentationRegistry.getInstrumentation());
         server = new MockWebServer();
-        dispatcher = new MatchingDispatcher();
+        MatchingDispatcher dispatcher = new MatchingDispatcher();
         server.setDispatcher(dispatcher);
         user = new User(this, dispatcher);
+        mondo = new Mondo(server);
         server.start();
         configurableApiBaseUrlProvider.overrideUrl(server.url("").toString());
     }

@@ -11,4 +11,8 @@ public class UserAssertions {
         seesText(String.valueOf(balance));
         seesText(currency.displayString());
     }
+
+    public void seesErrorContactingMondo() {
+        seesText("Error talking to Mondo");
+    }
 }
