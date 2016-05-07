@@ -1,6 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.balance;
 
-import com.google.common.collect.ImmutableMap;
+import com.savvasdalkitsis.mondo.fakes.FakeCurrencySymbols;
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
@@ -12,8 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
-
-import java.util.Map;
 
 import rx.Observable;
 
@@ -28,12 +26,14 @@ public class MondoBalanceUseCaseTest {
     @Rule public TestRule timeout = Timeout.seconds(2);
 
     private final FakeMondoApi mondoApi = new FakeMondoApi();
-    private final Map<String, String> currencySymbolMap = ImmutableMap.of(USD, USD_SYMBOL);
-    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, currencySymbolMap);
+    private final FakeCurrencySymbols currencySymbols = new FakeCurrencySymbols();
+    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, currencySymbols);
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
 
     @Test
     public void retrievesBalanceFromMondoApi() {
+        currencySymbols.mapping(USD, USD_SYMBOL);
+
         getBalance().subscribe(subscriber);
 
         mondoApi.emitSuccess(ApiBalance.builder()
