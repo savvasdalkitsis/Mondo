@@ -18,7 +18,12 @@ public class MondoBalanceUseCase implements BalanceUseCase {
     @Override
     public Observable<Response<Balance>> getBalance() {
         return mondoApi.getBalance()
-                .map(balanceResult -> Response.success(balanceResult.response().body()))
+                .map(balanceResult -> {
+                    if (balanceResult.response().isSuccessful()) {
+                        return Response.success(balanceResult.response().body());
+                    }
+                    return Response.<Balance>error();
+                })
                 .onErrorResumeNext(Observable.just(Response.error()));
     }
 }

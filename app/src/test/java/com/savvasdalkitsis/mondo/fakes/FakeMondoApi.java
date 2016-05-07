@@ -23,8 +23,7 @@ public class FakeMondoApi implements MondoApi {
 
 
     public void emitSuccess(Balance balance) {
-        subject.onNext(Result.response(Response.success(balance)));
-        subject.onCompleted();
+        emitAndFinish(Result.response(Response.success(balance)));
     }
 
     public void emitError() {
@@ -32,6 +31,11 @@ public class FakeMondoApi implements MondoApi {
     }
 
     public void emitErrorResponse() {
-        subject.onNext(Result.response(Response.error(500, ResponseBody.create(null, ""))));
+        emitAndFinish(Result.response(Response.error(500, ResponseBody.create(null, ""))));
+    }
+
+    private void emitAndFinish(Result<Balance> result) {
+        subject.onNext(result);
+        subject.onCompleted();
     }
 }

@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
+import rx.Observable;
+
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 public class MondoBalanceUseCaseTest {
@@ -23,7 +25,7 @@ public class MondoBalanceUseCaseTest {
     public void retrievesBalanceFromMondoApi() {
         Balance balance = Balance.builder().balance(999).build();
 
-        useCase.getBalance().subscribe(subscriber);
+        getBalance().subscribe(subscriber);
 
         mondoApi.emitSuccess(balance);
 
@@ -32,7 +34,7 @@ public class MondoBalanceUseCaseTest {
 
     @Test
     public void respondsWithErrorWhenApiErrors() {
-        useCase.getBalance().subscribe(subscriber);
+        getBalance().subscribe(subscriber);
 
         mondoApi.emitError();
 
@@ -41,11 +43,15 @@ public class MondoBalanceUseCaseTest {
 
     @Test
     public void respondsWithErrorWhenApiReturnsNon200Response() {
-        useCase.getBalance().subscribe(subscriber);
+        getBalance().subscribe(subscriber);
 
         mondoApi.emitErrorResponse();
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
+    }
+
+    private Observable<Response<Balance>> getBalance() {
+        return useCase.getBalance();
     }
 
 }
