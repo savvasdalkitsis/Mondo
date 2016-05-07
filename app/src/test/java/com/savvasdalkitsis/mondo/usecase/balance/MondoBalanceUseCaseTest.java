@@ -5,12 +5,16 @@ import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.subscribers.HamcrestTestSubscriber;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 public class MondoBalanceUseCaseTest {
 
+    @Rule public TestRule timeout = Timeout.seconds(2);
     private final FakeMondoApi mondoApi = new FakeMondoApi();
     private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi);
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
@@ -31,6 +35,15 @@ public class MondoBalanceUseCaseTest {
         useCase.getBalance().subscribe(subscriber);
 
         mondoApi.emitError();
+
+        subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
+    }
+
+    @Test
+    public void respondsWithErrorWhenApiReturnsNon200Response() {
+        useCase.getBalance().subscribe(subscriber);
+
+        mondoApi.emitErrorResponse();
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
     }

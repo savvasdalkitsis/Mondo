@@ -5,6 +5,7 @@ import com.savvasdalkitsis.mondo.repository.MondoApi;
 
 import java.io.IOException;
 
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
@@ -28,5 +29,9 @@ public class FakeMondoApi implements MondoApi {
 
     public void emitError() {
         subject.onError(new IOException("Error during api call"));
+    }
+
+    public void emitErrorResponse() {
+        subject.onNext(Result.response(Response.error(500, ResponseBody.create(null, ""))));
     }
 }
