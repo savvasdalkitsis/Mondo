@@ -1,4 +1,4 @@
-package com.savvasdalkitsis.mondo;
+package com.savvasdalkitsis.mondo.test.ui;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -6,7 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import com.savvasdalkitsis.mondo.repository.ConfigurableApiBaseUrlProvider;
 import com.savvasdalkitsis.mondo.rx.RxIdlingResource;
-import com.savvasdalkitsis.mondo.test.server.MatchingDispatcher;
+import com.savvasdalkitsis.mondo.test.ui.server.MatchingDispatcher;
 import com.savvasdalkitsis.mondo.test.ui.actors.Mondo;
 import com.savvasdalkitsis.mondo.test.ui.actors.User;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsActivity;
@@ -42,7 +42,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
         server = new MockWebServer();
         MatchingDispatcher dispatcher =  new MatchingDispatcher();
         server.setDispatcher(dispatcher);
-        user = new User(this, dispatcher);
+        user = new User(this, dispatcher, getInstrumentation().getContext());
         mondo = new Mondo(server);
         server.start();
         configurableApiBaseUrlProvider.overrideUrl(server.url("").toString());

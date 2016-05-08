@@ -1,5 +1,8 @@
-package com.savvasdalkitsis.mondo;
+package com.savvasdalkitsis.mondo.test.ui;
 
+import com.savvasdalkitsis.mondo.test.R;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.savvasdalkitsis.mondo.test.data.TestCurrency.GBP;
@@ -34,5 +37,16 @@ public class TransactionsScreenTest extends MondoTest {
         when(user).launchesMondo();
 
         then(user).seesSpentToday(66.6, GBP);
+    }
+
+    @Test
+    @Ignore
+    public void displaysUserTransactions() {
+        given(user).hasTransactions(R.raw.transactions_100starbucks_33mcdonalds);
+
+        when(user).launchesMondo();
+
+        then(user).seesTransaction(100, "Starbucks");
+        then(user).seesTransaction(33, "McDonal's");
     }
 }

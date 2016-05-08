@@ -1,6 +1,6 @@
 package com.savvasdalkitsis.mondo.test.ui.actors.actions;
 
-import com.savvasdalkitsis.mondo.MondoTest;
+import com.savvasdalkitsis.mondo.test.ui.MondoTest;
 
 public class UserActions {
 

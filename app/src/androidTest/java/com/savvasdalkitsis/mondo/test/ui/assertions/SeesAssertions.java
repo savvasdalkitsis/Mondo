@@ -1,4 +1,4 @@
-package com.savvasdalkitsis.mondo.test.assertions;
+package com.savvasdalkitsis.mondo.test.ui.assertions;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.ViewInteraction;

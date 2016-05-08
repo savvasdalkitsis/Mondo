@@ -1,4 +1,4 @@
-package com.savvasdalkitsis.mondo.test.server;
+package com.savvasdalkitsis.mondo.test.ui.server;
 
 import android.util.Log;
 

@@ -3,8 +3,8 @@ package com.savvasdalkitsis.mondo.test.ui.actors.assertions;
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.test.data.TestCurrency;
 
-import static com.savvasdalkitsis.mondo.test.assertions.SeesAssertions.seesText;
-import static com.savvasdalkitsis.mondo.test.assertions.SeesAssertions.seesTextOnViewWithId;
+import static com.savvasdalkitsis.mondo.test.ui.assertions.SeesAssertions.seesText;
+import static com.savvasdalkitsis.mondo.test.ui.assertions.SeesAssertions.seesTextOnViewWithId;
 
 public class UserAssertions {
 
@@ -22,5 +22,10 @@ public class UserAssertions {
         seesText("Spent today");
         seesText(amount);
         seesTextOnViewWithId(R.id.view_spent_today_currency, currency.displayString());
+    }
+
+    public void seesTransaction(double amount, String merchant) {
+        seesText(merchant);
+        seesText(amount);
     }
 }

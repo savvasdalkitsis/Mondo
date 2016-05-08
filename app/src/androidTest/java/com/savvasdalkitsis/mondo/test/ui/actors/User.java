@@ -1,7 +1,9 @@
 package com.savvasdalkitsis.mondo.test.ui.actors;
 
-import com.savvasdalkitsis.mondo.MondoTest;
-import com.savvasdalkitsis.mondo.test.server.MatchingDispatcher;
+import android.content.Context;
+
+import com.savvasdalkitsis.mondo.test.ui.MondoTest;
+import com.savvasdalkitsis.mondo.test.ui.server.MatchingDispatcher;
 import com.savvasdalkitsis.mondo.test.ui.actors.actions.UserActions;
 import com.savvasdalkitsis.mondo.test.ui.actors.arrangements.UserArrangements;
 import com.savvasdalkitsis.mondo.test.ui.actors.assertions.UserAssertions;
@@ -15,9 +17,9 @@ public class User implements Given<UserArrangements>, When<UserActions>, Then<Us
     private final UserActions userActions;
     private final UserAssertions userAssertions = new UserAssertions();
 
-    public User(MondoTest mondoTest, MatchingDispatcher dispatcher) {
+    public User(MondoTest mondoTest, MatchingDispatcher dispatcher, Context instrumentationContext) {
         userActions = new UserActions(mondoTest);
-        userArrangements = new UserArrangements(dispatcher);
+        userArrangements = new UserArrangements(dispatcher, instrumentationContext);
     }
 
     @Override
