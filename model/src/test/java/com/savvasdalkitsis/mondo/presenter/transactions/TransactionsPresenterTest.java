@@ -50,6 +50,7 @@ public class TransactionsPresenterTest {
         }});
 
         balanceUseCase.emitBalance(Balance.builder().build());
+        transactionsUseCase.emitPage(TransactionsPage.builder().build());
     }
 
     @Test
