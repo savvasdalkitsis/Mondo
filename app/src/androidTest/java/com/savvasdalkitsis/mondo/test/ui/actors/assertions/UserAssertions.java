@@ -14,8 +14,8 @@ public class UserAssertions {
         seesTextOnViewWithId(R.id.view_balance_currency, currency.displayString());
     }
 
-    public void seesErrorContactingMondo() {
-        seesText("Error talking to Mondo");
+    public void seesErrorRetrievingBalance() {
+        seesText("Error retrieving balance");
     }
 
     public void seesSpentToday(double amount, TestCurrency currency) {
@@ -27,5 +27,9 @@ public class UserAssertions {
     public void seesTransaction(double amount, String merchant) {
         seesText(merchant);
         seesText(amount);
+    }
+
+    public void seesErrorRetrievingTransactions() {
+        seesText("Error retrieving transactions");
     }
 }

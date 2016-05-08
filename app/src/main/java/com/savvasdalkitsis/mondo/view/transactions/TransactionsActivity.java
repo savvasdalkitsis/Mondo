@@ -48,7 +48,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayError() {
-        balanceView.setText(R.string.error_talking_to_mondo);
+        balanceView.setText(R.string.error_retrieving_balance);
     }
 
     @Override
