@@ -6,6 +6,6 @@ import static com.savvasdalkitsis.mondo.injector.usecase.balance.BalanceUserCase
 
 public class PresentersInjector {
     public static TransactionsPresenter transactionsPresenter() {
-        return new TransactionsPresenter(balanceUseCase());
+        return new TransactionsPresenter(balanceUseCase(), transactionsUseCase);
     }
 }

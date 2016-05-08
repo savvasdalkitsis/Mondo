@@ -1,6 +1,8 @@
 package com.savvasdalkitsis.mondo.presenter.transactions;
 
+import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.usecase.BalanceUseCase;
+import com.savvasdalkitsis.mondo.usecase.transactions.TransactionsUseCase;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsView;
 
 import rx.Subscription;
@@ -8,10 +10,12 @@ import rx.Subscription;
 public class TransactionsPresenter {
 
     private BalanceUseCase balanceUseCase;
+    private TransactionsUseCase transactionsUseCase;
     private Subscription subscription;
 
-    public TransactionsPresenter(BalanceUseCase balanceUseCase) {
+    public TransactionsPresenter(BalanceUseCase balanceUseCase, TransactionsUseCase transactionsUseCase) {
         this.balanceUseCase = balanceUseCase;
+        this.transactionsUseCase = transactionsUseCase;
     }
 
     public void startPresenting(TransactionsView transactionsView) {
@@ -23,6 +27,9 @@ public class TransactionsPresenter {
                         transactionsView.displayError();
                     }
                 });
+        transactionsUseCase.getTransactions()
+                .map(Response::getData)
+                .subscribe(transactionsView::displayTransactionsPage);
     }
 
     public void stopPresenting() {

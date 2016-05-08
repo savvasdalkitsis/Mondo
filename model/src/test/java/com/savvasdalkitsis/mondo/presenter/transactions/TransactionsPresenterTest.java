@@ -1,7 +1,10 @@
 package com.savvasdalkitsis.mondo.presenter.transactions;
 
 import com.savvasdalkitsis.mondo.fakes.FakeBalanceUseCase;
+import com.savvasdalkitsis.mondo.fakes.FakeTransactionsUseCase;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
+import com.savvasdalkitsis.mondo.model.transactions.Transaction;
+import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsView;
 
 import org.jmock.Expectations;
@@ -17,7 +20,8 @@ public class TransactionsPresenterTest {
     @Rule public JUnitRuleMockery mockery = new JUnitRuleMockery();
     @Mock private TransactionsView view;
     private final FakeBalanceUseCase balanceUseCase = new FakeBalanceUseCase();
-    private final TransactionsPresenter presenter = new TransactionsPresenter(balanceUseCase);
+    private final FakeTransactionsUseCase transactionsUseCase = new FakeTransactionsUseCase();
+    private final TransactionsPresenter presenter = new TransactionsPresenter(balanceUseCase, transactionsUseCase);
 
     @Test
     public void displaysBalanceWhenStarted() {
@@ -57,6 +61,24 @@ public class TransactionsPresenterTest {
         }});
 
         balanceUseCase.emitError();
+    }
+
+    @Test
+    public void displaysTransactionsWhenStarted() {
+        TransactionsPage transactionsPage = TransactionsPage.builder()
+                .transaction(Transaction.builder()
+                        .amount(99)
+                        .merchantName("merchant")
+                        .build())
+                .build();
+
+        startPresenting();
+
+        mockery.checking(new Expectations() {{
+            oneOf(view).displayTransactionsPage(with(sameBeanAs(transactionsPage)));
+        }});
+
+        transactionsUseCase.emitPage(transactionsPage);
     }
 
     private void startPresenting() {

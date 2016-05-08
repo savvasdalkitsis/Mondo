@@ -5,6 +5,7 @@ import android.widget.TextView;
 import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
+import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.presenter.transactions.TransactionsPresenter;
 import com.shazam.android.aspects.base.activity.AspectAppCompatActivity;
 
@@ -45,5 +46,10 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Override
     public void displayError() {
         balanceView.setText(R.string.error_talking_to_mondo);
+    }
+
+    @Override
+    public void displayTransactionsPage(TransactionsPage transactionsPage) {
+
     }
 }
