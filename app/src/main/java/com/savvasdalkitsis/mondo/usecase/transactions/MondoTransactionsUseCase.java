@@ -5,6 +5,7 @@ import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransaction;
+import com.savvasdalkitsis.mondo.rx.RxTransformers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,6 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                     return Response.success(TransactionsPage.builder()
                             .transactions(transactions)
                             .build());
-                });
+                }).compose(RxTransformers.androidNetworkCall());
     }
 }

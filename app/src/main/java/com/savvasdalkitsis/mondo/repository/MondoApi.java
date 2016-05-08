@@ -12,5 +12,6 @@ public interface MondoApi {
     @GET("balance")
     Observable<Result<ApiBalance>> getBalance();
 
+    @GET("transactions?expand[]=merchant")
     Observable<Result<ApiTransactions>> getTransactions();
 }

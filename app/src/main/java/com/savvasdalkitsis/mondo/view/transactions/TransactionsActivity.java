@@ -1,10 +1,12 @@
 package com.savvasdalkitsis.mondo.view.transactions;
 
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
+import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.presenter.transactions.TransactionsPresenter;
 import com.shazam.android.aspects.base.activity.AspectAppCompatActivity;
@@ -22,6 +24,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Bind(R.id.view_balance_currency) TextView balanceCurrencyView;
     @Bind(R.id.view_spent_today) TextView spentTodayView;
     @Bind(R.id.view_spent_today_currency) TextView spentTodayCurrencyView;
+    @Bind(R.id.view_transactions) ViewGroup transactions;
 
     @Override
     protected void onStart() {
@@ -50,6 +53,13 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayTransactionsPage(TransactionsPage transactionsPage) {
-
+        for (Transaction transaction : transactionsPage.getTransactions()) {
+            TextView merchant = new TextView(this);
+            merchant.setText(transaction.getMerchantName());
+            TextView amount = new TextView(this);
+            amount.setText(String.valueOf(transaction.getAmount()));
+            transactions.addView(merchant);
+            transactions.addView(amount);
+        }
     }
 }
