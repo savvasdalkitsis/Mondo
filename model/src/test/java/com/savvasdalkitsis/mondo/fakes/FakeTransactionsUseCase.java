@@ -13,10 +13,16 @@ public class FakeTransactionsUseCase implements TransactionsUseCase {
 
     public void emitPage(TransactionsPage transactionsPage) {
         publishSubject.onNext(Response.success(transactionsPage));
+        publishSubject.onCompleted();
     }
 
     @Override
     public Observable<Response<TransactionsPage>> getTransactions() {
         return publishSubject;
+    }
+
+    public void emitError() {
+        publishSubject.onNext(Response.error());
+        publishSubject.onCompleted();
     }
 }

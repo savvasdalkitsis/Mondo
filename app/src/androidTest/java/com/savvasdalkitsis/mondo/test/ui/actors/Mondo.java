@@ -1,16 +1,15 @@
 package com.savvasdalkitsis.mondo.test.ui.actors;
 
 import com.savvasdalkitsis.mondo.test.ui.actors.arrangements.MondoArrangements;
+import com.savvasdalkitsis.mondo.test.ui.server.MatchingDispatcher;
 import com.shazam.gwen.gwt.Given;
-
-import okhttp3.mockwebserver.MockWebServer;
 
 public class Mondo implements Given<MondoArrangements> {
 
     private final MondoArrangements mondoArrangements;
 
-    public Mondo(MockWebServer server) {
-        mondoArrangements = new MondoArrangements(server);
+    public Mondo(MatchingDispatcher dispatcher) {
+        mondoArrangements = new MondoArrangements(dispatcher);
     }
 
     @Override

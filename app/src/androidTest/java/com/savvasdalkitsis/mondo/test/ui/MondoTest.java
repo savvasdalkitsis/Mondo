@@ -43,7 +43,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
         MatchingDispatcher dispatcher =  new MatchingDispatcher();
         server.setDispatcher(dispatcher);
         user = new User(this, dispatcher, getInstrumentation().getContext());
-        mondo = new Mondo(server);
+        mondo = new Mondo(dispatcher);
         server.start();
         configurableApiBaseUrlProvider.overrideUrl(server.url("").toString());
     }

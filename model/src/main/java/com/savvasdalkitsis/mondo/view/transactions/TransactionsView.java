@@ -6,6 +6,7 @@ import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 public interface TransactionsView {
 
     void displayBalance(Balance balance);
-    void displayError();
+    void displayErrorGettingBalance();
+    void displayErrorGettingTransactions();
     void displayTransactionsPage(TransactionsPage transactionsPage);
 }

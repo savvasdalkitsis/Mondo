@@ -2,7 +2,6 @@ package com.savvasdalkitsis.mondo.test.ui;
 
 import com.savvasdalkitsis.mondo.test.R;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static com.savvasdalkitsis.mondo.test.data.TestCurrency.GBP;
@@ -23,7 +22,7 @@ public class TransactionsScreenTest extends MondoTest {
 
     @Test
     public void displaysErrorWhenGettingBalanceFails() {
-        given(mondo).cannotBeContacted();
+        given(mondo).isDown();
 
         when(user).launchesMondo();
 
@@ -50,9 +49,8 @@ public class TransactionsScreenTest extends MondoTest {
     }
 
     @Test
-    @Ignore
     public void displaysErrorWhenFailingToRetrieveTransactions() {
-        given(mondo).cannotBeContacted();
+        given(mondo).isDown();
 
         when(user).launchesMondo();
 

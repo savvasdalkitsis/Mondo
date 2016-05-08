@@ -24,16 +24,21 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
     public Observable<Response<TransactionsPage>> getTransactions() {
         return mondoApi.getTransactions()
                 .map(apiTransactionsResult -> {
-                    List<Transaction> transactions = new ArrayList<>();
-                    for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
-                        transactions.add(Transaction.builder()
-                                .amount(Math.abs(apiTransaction.getAmount()))
-                                .merchantName(apiTransaction.getMerchant().getName())
+                    if (!apiTransactionsResult.isError()) {
+                        List<Transaction> transactions = new ArrayList<>();
+                        for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
+                            transactions.add(Transaction.builder()
+                                    .amount(Math.abs(apiTransaction.getAmount()))
+                                    .merchantName(apiTransaction.getMerchant().getName())
+                                    .build());
+                        }
+                        return Response.success(TransactionsPage.builder()
+                                .transactions(transactions)
                                 .build());
                     }
-                    return Response.success(TransactionsPage.builder()
-                            .transactions(transactions)
-                            .build());
-                }).compose(RxTransformers.androidNetworkCall());
+                    return Response.<TransactionsPage>error();
+                })
+                .compose(RxTransformers.androidNetworkCall())
+                .onErrorResumeNext(Observable.just(Response.error()));
     }
 }

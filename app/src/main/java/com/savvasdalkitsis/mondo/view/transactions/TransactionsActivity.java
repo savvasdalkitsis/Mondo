@@ -47,8 +47,15 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     }
 
     @Override
-    public void displayError() {
+    public void displayErrorGettingBalance() {
         balanceView.setText(R.string.error_retrieving_balance);
+    }
+
+    @Override
+    public void displayErrorGettingTransactions() {
+        TextView error = new TextView(this);
+        error.setText(R.string.error_retrieving_transactions);
+        transactions.addView(error);
     }
 
     @Override

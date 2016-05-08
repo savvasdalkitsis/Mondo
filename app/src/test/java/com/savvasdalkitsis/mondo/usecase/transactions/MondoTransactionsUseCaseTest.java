@@ -7,22 +7,28 @@ import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.model.ApiMerchant;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransaction;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
+import com.savvasdalkitsis.mondo.rx.AndroidRxSchedulerRuleImmediate;
 import com.savvasdalkitsis.mondo.subscribers.HamcrestTestSubscriber;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestRule;
+
+import rx.Observable;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 import static java.util.Arrays.asList;
 
 public class MondoTransactionsUseCaseTest {
 
+    @Rule public TestRule android = new AndroidRxSchedulerRuleImmediate();
+    private final FakeMondoApi mondoApi = new FakeMondoApi();
+    private final HamcrestTestSubscriber<Response<TransactionsPage>> subscriber = new HamcrestTestSubscriber<>();
+    private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi);
+
     @Test
     public void retrievesPageFromMondoApi() {
-        FakeMondoApi mondoApi = new FakeMondoApi();
-        HamcrestTestSubscriber<Response<TransactionsPage>> subscriber = new HamcrestTestSubscriber<>();
-        MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi);
-
-        useCase.getTransactions().subscribe(subscriber);
+        getTransactions().subscribe(subscriber);
 
         mondoApi.emitSuccessfulTransactionPage(ApiTransactions.builder()
                 .transactions(asList(ApiTransaction.builder()
@@ -47,6 +53,28 @@ public class MondoTransactionsUseCaseTest {
                         .amount(200)
                         .build()))
                 .build())));
+    }
+
+    @Test
+    public void respondsWithErrorWhenApiErrors() {
+        getTransactions().subscribe(subscriber);
+
+        mondoApi.emitTransactionsError();
+
+        subscriber.assertFinishedWithItem(sameBeanAs(Response.error()));
+    }
+
+    @Test
+    public void respondsWithErrorWhenApiRespondsWithError() {
+        getTransactions().subscribe(subscriber);
+
+        mondoApi.emitTransactionsErrorResponse();
+
+        subscriber.assertFinishedWithItem(sameBeanAs(Response.error()));
+    }
+
+    private Observable<Response<TransactionsPage>> getTransactions() {
+        return useCase.getTransactions();
     }
 
 }

@@ -35,7 +35,7 @@ public class FakeMondoApi implements MondoApi {
     }
 
     public void emitBalanceError() {
-        balanceSubject.onError(new IOException("Error during api call"));
+        balanceSubject.onError(ioException());
     }
 
     public void emitBalanceErrorResponse() {
@@ -49,6 +49,19 @@ public class FakeMondoApi implements MondoApi {
 
     public void emitSuccessfulTransactionPage(ApiTransactions apiTransactions) {
         transactionsSubject.onNext(Result.response(Response.success(apiTransactions)));
+        transactionsSubject.onCompleted();
+    }
+
+    public void emitTransactionsError() {
+        transactionsSubject.onError(ioException());
+    }
+
+    private IOException ioException() {
+        return new IOException("Error during api call");
+    }
+
+    public void emitTransactionsErrorResponse() {
+        transactionsSubject.onNext(Result.response(Response.error(500, ResponseBody.create(null, ""))));
         transactionsSubject.onCompleted();
     }
 }

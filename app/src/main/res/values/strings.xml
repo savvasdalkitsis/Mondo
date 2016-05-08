@@ -3,4 +3,5 @@
     <string name="balance">Balance</string>
     <string name="error_retrieving_balance">Error retrieving balance</string>
     <string name="spent_today">Spent today</string>
+    <string name="error_retrieving_transactions">Error retrieving transactions</string>
 </resources>

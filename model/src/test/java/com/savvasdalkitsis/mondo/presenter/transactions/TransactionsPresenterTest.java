@@ -59,7 +59,7 @@ public class TransactionsPresenterTest {
         startPresenting();
 
         mockery.checking(new Expectations() {{
-            oneOf(view).displayError();
+            oneOf(view).displayErrorGettingBalance();
         }});
 
         balanceUseCase.emitError();
@@ -81,6 +81,17 @@ public class TransactionsPresenterTest {
         }});
 
         transactionsUseCase.emitPage(transactionsPage);
+    }
+
+    @Test
+    public void displaysErrorWhenTransactionsCannotBeReceived() {
+        startPresenting();
+
+        mockery.checking(new Expectations() {{
+            oneOf(view).displayErrorGettingTransactions();
+        }});
+
+        transactionsUseCase.emitError();
     }
 
     private void startPresenting() {

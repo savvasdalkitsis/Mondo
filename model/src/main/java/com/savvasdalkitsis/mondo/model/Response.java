@@ -1,10 +1,12 @@
 package com.savvasdalkitsis.mondo.model;
 
 import lombok.Getter;
+import lombok.ToString;
 import lombok.experimental.Builder;
 
 @Builder
 @Getter
+@ToString
 public class Response<T> {
 
     private T data;

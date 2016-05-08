@@ -29,10 +29,14 @@ public class MatchingDispatcher extends Dispatcher {
                 Log.v(MatchingDispatcher.class.getName(), description.toString());
             }
         }
-        return new MockResponse().setResponseCode(404);
+        return new MockResponse().setResponseCode(500);
     }
 
     public void matchRequest(Matcher<RecordedRequest> requestMatcher, MockResponse response) {
         responses.put(requestMatcher, response);
+    }
+
+    public void clearAll() {
+        responses.clear();
     }
 }

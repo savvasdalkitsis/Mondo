@@ -1,6 +1,5 @@
 package com.savvasdalkitsis.mondo.presenter.transactions;
 
-import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.usecase.BalanceUseCase;
 import com.savvasdalkitsis.mondo.usecase.transactions.TransactionsUseCase;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsView;
@@ -25,13 +24,18 @@ public class TransactionsPresenter {
                     if (!balanceResponse.isError()) {
                         transactionsView.displayBalance(balanceResponse.getData());
                     } else {
-                        transactionsView.displayError();
+                        transactionsView.displayErrorGettingBalance();
                     }
                 })
         );
         subscriptions.add(transactionsUseCase.getTransactions()
-                .map(Response::getData)
-                .subscribe(transactionsView::displayTransactionsPage)
+                .subscribe(transactionsPageResponse -> {
+                    if (!transactionsPageResponse.isError()) {
+                        transactionsView.displayTransactionsPage(transactionsPageResponse.getData());
+                    } else {
+                        transactionsView.displayErrorGettingTransactions();
+                    }
+                })
         );
     }
 
