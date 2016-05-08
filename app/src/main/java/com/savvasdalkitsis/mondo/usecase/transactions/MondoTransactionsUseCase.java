@@ -30,6 +30,7 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                             transactions.add(Transaction.builder()
                                     .amount(Math.abs(apiTransaction.getAmount()))
                                     .merchantName(apiTransaction.getMerchant().getName())
+                                    .logoUrl(apiTransaction.getMerchant().getLogo())
                                     .build());
                         }
                         return Response.success(TransactionsPage.builder()

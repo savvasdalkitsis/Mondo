@@ -8,4 +8,5 @@ import lombok.experimental.Builder;
 public class Transaction {
     private double amount;
     private String merchantName;
+    private String logoUrl;
 }

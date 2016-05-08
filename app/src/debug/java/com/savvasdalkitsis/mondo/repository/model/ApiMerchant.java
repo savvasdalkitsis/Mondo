@@ -10,4 +10,6 @@ import lombok.experimental.Builder;
 public class ApiMerchant {
     @SerializedName("name")
     private String name;
+    @SerializedName("logo")
+    private String logo;
 }
