@@ -33,7 +33,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Bind(R.id.view_spent_today) TextView spentTodayView;
     @Bind(R.id.view_spent_today_currency) TextView spentTodayCurrencyView;
     @Bind(R.id.view_transactions) RecyclerView transactions;
-    @Bind(R.id.view_coordinator) View coordinator;
+    @Bind(android.R.id.content) View root;
     private Snackbar snackbar;
 
     @Override
@@ -47,7 +47,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
         super.onStart();
         transactions.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         transactions.addItemDecoration(new VerticalSpaceItemDecoration(getResources()
-                .getDimensionPixelSize(R.dimen.transcactions_item_spacing)));
+                .getDimensionPixelSize(R.dimen.transactions_item_spacing)));
         transactions.setAdapter(transactionsAdapter);
         presenter.startPresenting(this);
     }
@@ -85,7 +85,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
         if (snackbar != null) {
             snackbar.dismiss();
         }
-        snackbar = Snackbar.make(coordinator, message, Snackbar.LENGTH_INDEFINITE);
+        snackbar = Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
     }
 }

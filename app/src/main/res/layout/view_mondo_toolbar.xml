@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_extended_height">
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:text="@string/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/view_balance_currency"
+        style="@style/Mondo.Text.ToolBar.Balance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
+        android:id="@+id/view_balance"
+        style="@style/Mondo.Text.ToolBar.Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/view_balance_currency"
+        android:layout_toRightOf="@id/view_balance_currency" />
+
+    <TextView
+        android:id="@+id/view_balance_title"
+        style="@style/Mondo.Text.ToolBar.Title.Small"
+        android:text="@string/balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/view_balance"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/view_spent_today_title"
+        style="@style/Mondo.Text.ToolBar.Title.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBaseline="@id/view_balance_title"
+        android:text="@string/spent_today" />
+
+    <TextView
+        android:id="@+id/view_spent_today"
+        style="@style/Mondo.Text.ToolBar.Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/view_balance_currency"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/view_spent_today_currency"
+        style="@style/Mondo.Text.ToolBar.Balance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/view_balance_currency"
+        android:layout_toLeftOf="@+id/view_spent_today" />
+
+
+</RelativeLayout>

@@ -11,4 +11,20 @@
     <style name="AppTheme" parent="BaseAppTheme">
     </style>
 
+    <style name="Mondo.Text" parent="TextAppearance.AppCompat"/>
+    <style name="Mondo.Text.ToolBar"/>
+    <style name="Mondo.Text.ToolBar.Title"/>
+
+    <style name="Mondo.Text.ToolBar.Title.Small">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="Mondo.Text.ToolBar.Balance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">32sp</item>
+    </style>
+
+    <style name="Mondo.Text.ToolBar.Balance.Small">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

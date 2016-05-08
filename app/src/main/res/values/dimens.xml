@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="transcactions_item_spacing">18dp</dimen>
+    <dimen name="transactions_item_spacing">18dp</dimen>
+    <dimen name="toolbar_extended_height">160dp</dimen>
 </resources>
