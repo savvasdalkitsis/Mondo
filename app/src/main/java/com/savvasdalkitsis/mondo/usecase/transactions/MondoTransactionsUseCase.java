@@ -24,7 +24,7 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
     public Observable<Response<TransactionsPage>> getTransactions() {
         return mondoApi.getTransactions()
                 .map(apiTransactionsResult -> {
-                    if (!apiTransactionsResult.isError()) {
+                    if (!apiTransactionsResult.isError() && apiTransactionsResult.response().isSuccessful()) {
                         List<Transaction> transactions = new ArrayList<>();
                         for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
                             transactions.add(Transaction.builder()
