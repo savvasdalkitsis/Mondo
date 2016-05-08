@@ -1,8 +1,10 @@
 package com.savvasdalkitsis.mondo.model.transactions;
 
+import java.util.List;
+
 import lombok.experimental.Builder;
 
 @Builder
 public class TransactionsPage {
-    private Transaction transaction;
+    private List<Transaction> transactions;
 }

@@ -14,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
+import static java.util.Collections.singletonList;
 
 public class TransactionsPresenterTest {
 
@@ -67,10 +68,10 @@ public class TransactionsPresenterTest {
     @Test
     public void displaysTransactionsWhenStarted() {
         TransactionsPage transactionsPage = TransactionsPage.builder()
-                .transaction(Transaction.builder()
+                .transactions(singletonList(Transaction.builder()
                         .amount(99)
                         .merchantName("merchant")
-                        .build())
+                        .build()))
                 .build();
 
         startPresenting();

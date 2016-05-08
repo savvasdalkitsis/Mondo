@@ -36,7 +36,7 @@ public class MondoBalanceUseCaseTest {
 
         getBalance().subscribe(subscriber);
 
-        mondoApi.emitSuccess(ApiBalance.builder()
+        mondoApi.emitSuccessfulBalance(ApiBalance.builder()
                 .balance(999)
                 .spentToday(666)
                 .currency(USD)
@@ -53,7 +53,7 @@ public class MondoBalanceUseCaseTest {
     public void respondsWithErrorWhenApiErrors() {
         getBalance().subscribe(subscriber);
 
-        mondoApi.emitError();
+        mondoApi.emitBalanceError();
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
     }
@@ -62,7 +62,7 @@ public class MondoBalanceUseCaseTest {
     public void respondsWithErrorWhenApiReturnsNon200Response() {
         getBalance().subscribe(subscriber);
 
-        mondoApi.emitErrorResponse();
+        mondoApi.emitBalanceErrorResponse();
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
     }
