@@ -40,6 +40,9 @@ retrolambda {
 dependencies {
     compile (
             'com.android.support:appcompat-v7:23.3.0',
+            'com.android.support:design:23.3.0',
+            'com.android.support:cardview-v7:23.3.0',
+            'com.android.support:recyclerview-v7:23.3.0',
             'com.squareup.retrofit2:retrofit:2.0.2',
             'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4',
             'com.squareup.retrofit2:converter-gson:2.0.0-beta4',
