@@ -12,6 +12,7 @@ import org.hamcrest.Matcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.RecordedRequest;
 
+import static com.savvasdalkitsis.mondo.test.matchers.RecordedRequestMatchers.anywhere;
 import static com.savvasdalkitsis.mondo.test.matchers.RecordedRequestMatchers.withPath;
 import static com.savvasdalkitsis.mondo.test.util.RawUtils.fromRaw;
 
@@ -38,9 +39,18 @@ public class UserArrangements {
                 fromRaw(rawId, instrumentationContext.getResources()));
     }
 
+    public void isNotAuthenticated() {
+        respond(anywhere(), new MockResponse().setResponseCode(401));
+    }
+
     private void respond(Matcher<RecordedRequest> requestMatcher, String body) {
-        dispatcher.matchRequest(requestMatcher, new MockResponse()
+        respond(requestMatcher, new MockResponse()
                 .setResponseCode(200)
                 .setBody(body));
     }
+
+    private void respond(Matcher<RecordedRequest> requestMatcher, MockResponse response) {
+        dispatcher.matchRequest(requestMatcher, response);
+    }
+
 }

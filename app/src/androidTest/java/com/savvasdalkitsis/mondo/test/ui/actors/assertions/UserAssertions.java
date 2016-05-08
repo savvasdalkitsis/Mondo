@@ -32,4 +32,8 @@ public class UserAssertions {
     public void seesErrorRetrievingTransactions() {
         seesText("Error retrieving transactions");
     }
+
+    public void seesAuthenticationScreen() {
+        seesText("Authenticate");
+    }
 }

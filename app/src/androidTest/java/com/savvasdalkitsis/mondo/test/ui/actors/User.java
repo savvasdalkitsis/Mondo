@@ -2,7 +2,7 @@ package com.savvasdalkitsis.mondo.test.ui.actors;
 
 import android.content.Context;
 
-import com.savvasdalkitsis.mondo.test.ui.MondoTest;
+import com.savvasdalkitsis.mondo.test.ui.tests.MondoTest;
 import com.savvasdalkitsis.mondo.test.ui.server.MatchingDispatcher;
 import com.savvasdalkitsis.mondo.test.ui.actors.actions.UserActions;
 import com.savvasdalkitsis.mondo.test.ui.actors.arrangements.UserArrangements;

@@ -1,5 +1,7 @@
 package com.savvasdalkitsis.mondo.injector.external.retrofit;
 
+import com.savvasdalkitsis.mondo.infra.network.AuthenticationValidatingInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -8,6 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.savvasdalkitsis.mondo.injector.infra.AuthenticationNavigatorInjector.authenticationRepository;
 import static com.savvasdalkitsis.mondo.injector.repository.MondoApiBaseUrlProviderInjector.mondoApiBaseUrlProvider;
 
 public class RetrofitInjector {
@@ -21,6 +24,7 @@ public class RetrofitInjector {
                     .readTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(20, TimeUnit.SECONDS)
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .addInterceptor(new AuthenticationValidatingInterceptor(authenticationRepository()))
                     .build())
             .build();
 

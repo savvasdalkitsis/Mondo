@@ -1,4 +1,4 @@
-package com.savvasdalkitsis.mondo.test.ui;
+package com.savvasdalkitsis.mondo.test.ui.tests;
 
 import com.savvasdalkitsis.mondo.test.R;
 
