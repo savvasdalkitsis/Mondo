@@ -2,7 +2,11 @@ package com.savvasdalkitsis.mondo.repository;
 
 public interface CredentialsRepository {
 
-    void saveAuthToken(String authToken);
+    void saveAccessToken(String accessToken);
 
-    String getAuthToken();
+    void saveRefreshToken(String refreshToken);
+
+    String getAccessToken();
+
+    String getRefreshToken();
 }

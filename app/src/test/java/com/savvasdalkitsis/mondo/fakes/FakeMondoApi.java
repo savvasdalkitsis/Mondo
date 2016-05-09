@@ -77,9 +77,9 @@ public class FakeMondoApi implements MondoApi {
         oAuthSubjects.put(keyFor(clientId, clientSecret, code), PublishSubject.create());
     }
 
-    public void emitSuccessfulOAuthFor(String clientId, String clientSecret, String code, String authToken) {
+    public void emitSuccessfulOAuthFor(String clientId, String clientSecret, String code, ApiOAuthToken apiOAuthToken) {
         PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code));
-        subject.onNext(Result.response(Response.success(ApiOAuthToken.builder().authToken(authToken).build())));
+        subject.onNext(Result.response(Response.success(apiOAuthToken)));
         subject.onCompleted();
     }
 

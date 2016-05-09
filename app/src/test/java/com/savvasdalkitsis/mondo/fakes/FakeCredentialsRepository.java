@@ -5,14 +5,25 @@ import com.savvasdalkitsis.mondo.repository.CredentialsRepository;
 public class FakeCredentialsRepository implements CredentialsRepository {
 
     private String authToken;
+    private String refreshToken;
 
     @Override
-    public void saveAuthToken(String authToken) {
-        this.authToken = authToken;
+    public void saveAccessToken(String accessToken) {
+        this.authToken = accessToken;
     }
 
     @Override
-    public String getAuthToken() {
+    public void saveRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    @Override
+    public String getAccessToken() {
         return authToken;
+    }
+
+    @Override
+    public String getRefreshToken() {
+        return refreshToken;
     }
 }
