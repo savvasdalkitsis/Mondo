@@ -18,7 +18,7 @@ public class PreferencesCredentialsRepository implements CredentialsRepository {
 
     @Override
     public void saveRefreshToken(String refreshToken) {
-
+        mondoPreferences.putStringPreference(PreferenceKeys.KEY_REFRESH_TOKEN, refreshToken);
     }
 
     @Override

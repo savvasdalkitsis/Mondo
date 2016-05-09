@@ -36,4 +36,11 @@ public class PreferencesCredentialsRepositoryTest {
         assertThat(repository.getRefreshToken(), equalTo(REFRESH_TOKEN));
     }
 
+    @Test
+    public void savesRefreshTokenInPreferences() {
+        repository.saveRefreshToken(REFRESH_TOKEN);
+
+        assertThat(mondoPreferences.getStringPreference(PreferenceKeys.KEY_REFRESH_TOKEN), equalTo(REFRESH_TOKEN));
+    }
+
 }
