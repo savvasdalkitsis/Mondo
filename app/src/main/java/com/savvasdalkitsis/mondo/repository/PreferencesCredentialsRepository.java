@@ -13,7 +13,7 @@ public class PreferencesCredentialsRepository implements CredentialsRepository {
 
     @Override
     public void saveAccessToken(String accessToken) {
-
+        mondoPreferences.putStringPreference(PreferenceKeys.KEY_ACCESS_TOKEN, accessToken);
     }
 
     @Override
