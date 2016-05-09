@@ -38,6 +38,6 @@ public class PreferencesCredentialsRepository implements CredentialsRepository {
 
     @Override
     public String getAccountId() {
-        return null;
+        return mondoPreferences.getStringPreference(PreferenceKeys.KEY_ACCOUNT_ID);
     }
 }

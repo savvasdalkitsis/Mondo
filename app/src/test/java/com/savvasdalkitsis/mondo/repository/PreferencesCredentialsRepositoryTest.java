@@ -42,6 +42,13 @@ public class PreferencesCredentialsRepositoryTest {
         assertPreference(PreferenceKeys.KEY_REFRESH_TOKEN, TOKEN);
     }
 
+    @Test
+    public void readsAccountIdFromPreferences() {
+        savePref(PreferenceKeys.KEY_ACCOUNT_ID, TOKEN);
+
+        assertThat(repository.getAccountId(), equalTo(TOKEN));
+    }
+
     private void savePref(String key, String value) {
         mondoPreferences.putStringPreference(key, value);
     }
