@@ -90,12 +90,17 @@ public class FakeMondoApi implements MondoApi {
         subject.onCompleted();
     }
 
-    private String keyFor(String clientId, String clienSecret, String code) {
-        return clientId + "::" + clienSecret + "::" + code;
+    public void emitErrorOAuth(String clientId, String clientSecret, String code) {
+        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+        subject.onError(new IOException("error getting oauth token"));
     }
 
     public void emitSuccessfulAccounts(ApiAccounts apiAccounts) {
         accountsSubject.onNext(Result.response(Response.success(apiAccounts)));
         accountsSubject.onCompleted();
+    }
+
+    private String keyFor(String clientId, String clienSecret, String code) {
+        return clientId + "::" + clienSecret + "::" + code;
     }
 }

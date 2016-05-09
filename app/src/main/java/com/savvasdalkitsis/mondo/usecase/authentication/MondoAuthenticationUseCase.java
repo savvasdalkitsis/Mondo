@@ -32,6 +32,7 @@ public class MondoAuthenticationUseCase implements AuthenticationUseCase {
                 .flatMap(token -> mondoApi.getAccounts())
                 .map(result -> result.response().body())
                 .doOnNext(accounts -> credentialsRepository.saveAccountId(accounts.getAccounts().get(0).getId()))
-                .map(apiOAuthTokenResult -> Response.success(null));
+                .map(apiOAuthTokenResult -> Response.<Void>success(null))
+                .onErrorResumeNext(Observable.just(Response.<Void>error()));
     }
 }
