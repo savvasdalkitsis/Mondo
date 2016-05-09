@@ -10,37 +10,44 @@ import static org.junit.Assert.*;
 
 public class PreferencesCredentialsRepositoryTest {
 
-    private static final String ACCESS_TOKEN = "access_token";
-    private static final String REFRESH_TOKEN = "refresh_token";
+    private static final String TOKEN = "token";
     private final FakeMondoPreferences mondoPreferences = new FakeMondoPreferences();
     private final PreferencesCredentialsRepository repository = new PreferencesCredentialsRepository(mondoPreferences);
 
     @Test
     public void readsAccessTokenFromPreferences() {
-        mondoPreferences.putStringPreference(PreferenceKeys.KEY_ACCESS_TOKEN, ACCESS_TOKEN);
+        savePref(PreferenceKeys.KEY_ACCESS_TOKEN, TOKEN);
 
-        assertThat(repository.getAccessToken(), equalTo(ACCESS_TOKEN));
+        assertThat(repository.getAccessToken(), equalTo(TOKEN));
     }
 
     @Test
     public void savesAccessTokenInPreferences() {
-        repository.saveAccessToken(ACCESS_TOKEN);
+        repository.saveAccessToken(TOKEN);
 
-        assertThat(mondoPreferences.getStringPreference(PreferenceKeys.KEY_ACCESS_TOKEN), equalTo(ACCESS_TOKEN));
+        assertPreference(PreferenceKeys.KEY_ACCESS_TOKEN, TOKEN);
     }
 
     @Test
     public void readsRefreshTokenFromPreferences() {
-        mondoPreferences.putStringPreference(PreferenceKeys.KEY_REFRESH_TOKEN, REFRESH_TOKEN);
+        savePref(PreferenceKeys.KEY_REFRESH_TOKEN, TOKEN);
 
-        assertThat(repository.getRefreshToken(), equalTo(REFRESH_TOKEN));
+        assertThat(repository.getRefreshToken(), equalTo(TOKEN));
     }
 
     @Test
     public void savesRefreshTokenInPreferences() {
-        repository.saveRefreshToken(REFRESH_TOKEN);
+        repository.saveRefreshToken(TOKEN);
 
-        assertThat(mondoPreferences.getStringPreference(PreferenceKeys.KEY_REFRESH_TOKEN), equalTo(REFRESH_TOKEN));
+        assertPreference(PreferenceKeys.KEY_REFRESH_TOKEN, TOKEN);
+    }
+
+    private void savePref(String key, String value) {
+        mondoPreferences.putStringPreference(key, value);
+    }
+
+    private void assertPreference(String key, String value) {
+        assertThat(mondoPreferences.getStringPreference(key), equalTo(value));
     }
 
 }
