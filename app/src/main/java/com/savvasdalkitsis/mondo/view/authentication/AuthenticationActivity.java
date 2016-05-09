@@ -1,6 +1,7 @@
 package com.savvasdalkitsis.mondo.view.authentication;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,10 +30,13 @@ public class AuthenticationActivity extends AspectAppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        loadFragment(AuthenticationFragment.createFragment(AuthenticationData.builder()
-                .code(intent.getData().getQueryParameter("code"))
-                .state(intent.getData().getQueryParameter("state"))
-                .build()));
+        Uri data = intent.getData();
+        if (data != null) {
+            loadFragment(AuthenticationFragment.createFragment(AuthenticationData.builder()
+                    .code(data.getQueryParameter("code"))
+                    .state(data.getQueryParameter("state"))
+                    .build()));
+        }
     }
 
     private int loadFragment(Fragment fragment) {

@@ -28,6 +28,14 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="Mondo.Text.Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Mondo.Text.Title.Light">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="BaseToolbar">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>

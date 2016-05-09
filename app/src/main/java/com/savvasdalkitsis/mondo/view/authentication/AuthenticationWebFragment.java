@@ -12,7 +12,7 @@ import com.shazam.android.aspects.base.fragment.AspectSupportFragment;
 
 import butterknife.Bind;
 
-@BindLayout(R.layout.fragment_authentication)
+@BindLayout(R.layout.fragment_authentication_web)
 public class AuthenticationWebFragment extends AspectSupportFragment {
 
     @Bind(R.id.view_web) WebView webView;

@@ -5,4 +5,7 @@
     <string name="spent_today">Spent today</string>
     <string name="error_retrieving_transactions">Error retrieving transactions</string>
     <string name="welcome_to_mondo">Welcome to Mondo</string>
+    <string name="logging_in">Logging you in</string>
+    <string name="logged_in">Logged in</string>
+    <string name="error_logging_in">Something went wrong while trying to log you in</string>
 </resources>

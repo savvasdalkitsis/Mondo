@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<WebView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/view_web"
+    android:background="@color/colorPrimaryDark"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</WebView>
+
+    <ProgressBar
+        android:id="@+id/view_progress"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        style="@style/Mondo.Text.Title.Light"
+        android:id="@+id/view_authentication_title"
+        android:layout_margin="16dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/view_progress"
+        android:gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>
