@@ -23,7 +23,7 @@ public class PreferencesCredentialsRepository implements CredentialsRepository {
 
     @Override
     public void saveAccountId(String accountId) {
-
+        mondoPreferences.putStringPreference(PreferenceKeys.KEY_ACCOUNT_ID, accountId);
     }
 
     @Override
