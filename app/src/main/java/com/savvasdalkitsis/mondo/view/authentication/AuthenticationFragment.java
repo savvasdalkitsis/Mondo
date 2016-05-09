@@ -1,37 +1,38 @@
 package com.savvasdalkitsis.mondo.view.authentication;
 
-import android.annotation.SuppressLint;
-import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.webkit.WebView;
 
-import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
-import com.savvasdalkitsis.mondo.BuildConfig;
-import com.savvasdalkitsis.mondo.R;
+import com.savvasdalkitsis.mondo.model.authentication.AuthenticationData;
+import com.savvasdalkitsis.mondo.presenter.authentication.AuthenticationPresenter;
 import com.shazam.android.aspects.base.fragment.AspectSupportFragment;
 
-import butterknife.Bind;
+import static com.savvasdalkitsis.mondo.injector.presenter.PresentersInjector.authenticationPresenter;
 
-@BindLayout(R.layout.fragment_authentication)
-public class AuthenticationFragment extends AspectSupportFragment {
+public class AuthenticationFragment extends AspectSupportFragment implements AuthenticationView {
 
-    @Bind(R.id.view_web) WebView webView;
+    private static final String PARAM_AUTHENTICATION_DATA = "param_authentication_data";
 
-    public static Fragment createFragment() {
-        return new AuthenticationFragment();
+    private final AuthenticationPresenter authenticationPresenter = authenticationPresenter();
+
+    public static Fragment createFragment(AuthenticationData authenticationData) {
+        AuthenticationFragment fragment = new AuthenticationFragment();
+        fragment.setArguments(new Bundle());
+        fragment.setAuthenticationData(authenticationData);
+        return fragment;
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onStart() {
         super.onStart();
-        webView.getSettings().setJavaScriptEnabled(true);
-        Uri authenticationUrl = Uri.parse(BuildConfig.MONDO_AUTH_BASE_URL).buildUpon()
-                .appendQueryParameter("response_type", "code")
-                .appendQueryParameter("client_id", BuildConfig.MONDO_CLIENT_ID)
-                .appendQueryParameter("redirect_uri", "http://mondotest/redirect")
-                .appendQueryParameter("state_token", "asdkjhasl")
-                .build();
-        webView.loadUrl(authenticationUrl.toString());
+        authenticationPresenter.startPresenting(this, getAuthenticationData());
+    }
+
+    private void setAuthenticationData(AuthenticationData authenticationData) {
+        getArguments().putSerializable(PARAM_AUTHENTICATION_DATA, authenticationData);
+    }
+
+    private AuthenticationData getAuthenticationData() {
+        return (AuthenticationData) getArguments().getSerializable(PARAM_AUTHENTICATION_DATA);
     }
 }
