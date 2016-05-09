@@ -1,8 +1,10 @@
 package com.savvasdalkitsis.mondo.view.authentication;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
@@ -26,12 +28,27 @@ public class AuthenticationFragment extends AspectSupportFragment implements Aut
     View progress;
     @Bind(R.id.view_authentication_title)
     TextView authenticationTitle;
+    @Bind(R.id.view_retry)
+    Button retry;
+    private AuthenticationListener authenticationListener;
 
     public static Fragment createFragment(AuthenticationData authenticationData) {
         AuthenticationFragment fragment = new AuthenticationFragment();
         fragment.setArguments(new Bundle());
         fragment.setAuthenticationData(authenticationData);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        authenticationListener = (AuthenticationListener) activity;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        retry.setOnClickListener(v -> authenticationListener.onRetryAuthentication());
     }
 
     @Override
@@ -50,18 +67,20 @@ public class AuthenticationFragment extends AspectSupportFragment implements Aut
     public void displayLoading() {
         authenticationTitle.setText(R.string.logging_in);
         progress.setVisibility(View.VISIBLE);
+        retry.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void successfulAuthentication() {
         authenticationTitle.setText(R.string.logged_in);
         progress.setVisibility(View.INVISIBLE);
-        getActivity().finish();
+        authenticationListener.onAuthenticationSuccess();
     }
 
     @Override
     public void errorAuthenticating() {
         authenticationTitle.setText(R.string.error_logging_in);
+        retry.setVisibility(View.VISIBLE);
         progress.setVisibility(View.INVISIBLE);
     }
 

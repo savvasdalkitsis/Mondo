@@ -8,4 +8,5 @@
     <string name="logging_in">Logging you in</string>
     <string name="logged_in">Logged in</string>
     <string name="error_logging_in">Something went wrong while trying to log you in</string>
+    <string name="retry">Retry</string>
 </resources>

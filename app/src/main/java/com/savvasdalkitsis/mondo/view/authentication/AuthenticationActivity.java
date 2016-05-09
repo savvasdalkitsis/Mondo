@@ -15,15 +15,14 @@ import com.shazam.android.aspects.base.activity.AspectAppCompatActivity;
 import butterknife.Bind;
 
 @BindLayout(R.layout.activity_authentication)
-public class AuthenticationActivity extends AspectAppCompatActivity {
+public class AuthenticationActivity extends AspectAppCompatActivity implements AuthenticationListener {
     @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setSupportActionBar(toolbar);
-        Fragment fragment = AuthenticationWebFragment.createFragment();
-        loadFragment(fragment);
+        loadFragment(AuthenticationWebFragment.createFragment());
     }
 
     @Override
@@ -43,5 +42,15 @@ public class AuthenticationActivity extends AspectAppCompatActivity {
         return getSupportFragmentManager().beginTransaction()
                 .replace(R.id.view_fragment_container, fragment)
                 .commit();
+    }
+
+    @Override
+    public void onRetryAuthentication() {
+        loadFragment(AuthenticationWebFragment.createFragment());
+    }
+
+    @Override
+    public void onAuthenticationSuccess() {
+        finish();
     }
 }
