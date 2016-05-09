@@ -26,7 +26,8 @@ public class MondoAuthenticationUseCase implements AuthenticationUseCase {
     @Override
     public Observable<Response<Void>> authenticate(AuthenticationData authenticationData) {
         return mondoApi.oAuthToken(clientId, clientSecret, authenticationData.getCode())
-                .doOnNext(result -> credentialsRepository.saveAuthToken(result.response().body().getAuthToken()))
+                .map(result -> result.response().body())
+                .doOnNext(result -> credentialsRepository.saveAuthToken(result.getAuthToken()))
                 .map(apiOAuthTokenResult -> Response.success(null));
     }
 }
