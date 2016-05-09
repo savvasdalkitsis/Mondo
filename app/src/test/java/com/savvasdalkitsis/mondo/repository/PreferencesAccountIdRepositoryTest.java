@@ -16,7 +16,7 @@ public class PreferencesAccountIdRepositoryTest {
 
     @Test
     public void retrievesCurrentAccountIfFromPreferences() {
-        preferences.returningFor(PreferenceKeys.KEY_ACCOUNT_ID, ACCOUNT_ID);
+        preferences.putStringPreference(PreferenceKeys.KEY_ACCOUNT_ID, ACCOUNT_ID);
 
         assertThat(repository.getAccountId(), equalTo(ACCOUNT_ID));
     }
