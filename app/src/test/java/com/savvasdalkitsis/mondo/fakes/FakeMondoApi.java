@@ -2,9 +2,12 @@ package com.savvasdalkitsis.mondo.fakes;
 
 import com.savvasdalkitsis.mondo.repository.MondoApi;
 import com.savvasdalkitsis.mondo.repository.model.ApiBalance;
+import com.savvasdalkitsis.mondo.repository.model.ApiOAuthToken;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -16,6 +19,7 @@ public class FakeMondoApi implements MondoApi {
 
     private PublishSubject<Result<ApiBalance>> balanceSubject;
     private PublishSubject<Result<ApiTransactions>> transactionsSubject;
+    private final Map<String, PublishSubject<Result<ApiOAuthToken>>> oAuthSubjects = new HashMap<>();
 
     @Override
     public Observable<Result<ApiBalance>> getBalance() {
@@ -29,6 +33,10 @@ public class FakeMondoApi implements MondoApi {
         return transactionsSubject;
     }
 
+    @Override
+    public Observable<Result<ApiOAuthToken>> oAuthToken(String clientId, String clientSecret, String code) {
+        return oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+    }
 
     public void emitSuccessfulBalance(ApiBalance balance) {
         emitBalanceAndFinish(Result.response(Response.success(balance)));
@@ -63,5 +71,19 @@ public class FakeMondoApi implements MondoApi {
     public void emitTransactionsErrorResponse() {
         transactionsSubject.onNext(Result.response(Response.error(500, ResponseBody.create(null, ""))));
         transactionsSubject.onCompleted();
+    }
+
+    public void acceptsOAuthCall(String clientId, String clientSecret, String code) {
+        oAuthSubjects.put(keyFor(clientId, clientSecret, code), PublishSubject.create());
+    }
+
+    public void emitSuccessfulOAuthFor(String clientId, String clientSecret, String code, String authToken) {
+        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+        subject.onNext(Result.response(Response.success(ApiOAuthToken.builder().authToken(authToken).build())));
+        subject.onCompleted();
+    }
+
+    private String keyFor(String clientId, String clienSecret, String code) {
+        return clientId + "::" + clienSecret + "::" + code;
     }
 }
