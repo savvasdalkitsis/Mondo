@@ -35,4 +35,14 @@ public class AuthenticationFragment extends AspectSupportFragment implements Aut
     private AuthenticationData getAuthenticationData() {
         return (AuthenticationData) getArguments().getSerializable(PARAM_AUTHENTICATION_DATA);
     }
+
+    @Override
+    public void displayLoading() {
+
+    }
+
+    @Override
+    public void successfulAuthentication() {
+
+    }
 }
