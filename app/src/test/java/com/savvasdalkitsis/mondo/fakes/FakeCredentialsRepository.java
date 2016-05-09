@@ -6,6 +6,7 @@ public class FakeCredentialsRepository implements CredentialsRepository {
 
     private String authToken;
     private String refreshToken;
+    private String accountId;
 
     @Override
     public void saveAccessToken(String accessToken) {
@@ -18,6 +19,11 @@ public class FakeCredentialsRepository implements CredentialsRepository {
     }
 
     @Override
+    public void saveAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    @Override
     public String getAccessToken() {
         return authToken;
     }
@@ -25,5 +31,10 @@ public class FakeCredentialsRepository implements CredentialsRepository {
     @Override
     public String getRefreshToken() {
         return refreshToken;
+    }
+
+    @Override
+    public String getAccountId() {
+        return accountId;
     }
 }

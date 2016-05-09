@@ -1,6 +1,7 @@
 package com.savvasdalkitsis.mondo.fakes;
 
 import com.savvasdalkitsis.mondo.repository.MondoApi;
+import com.savvasdalkitsis.mondo.repository.model.ApiAccounts;
 import com.savvasdalkitsis.mondo.repository.model.ApiBalance;
 import com.savvasdalkitsis.mondo.repository.model.ApiOAuthToken;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
@@ -18,6 +19,7 @@ import rx.subjects.PublishSubject;
 public class FakeMondoApi implements MondoApi {
 
     private PublishSubject<Result<ApiBalance>> balanceSubject;
+    private PublishSubject<Result<ApiAccounts>> accountsSubject;
     private PublishSubject<Result<ApiTransactions>> transactionsSubject;
     private final Map<String, PublishSubject<Result<ApiOAuthToken>>> oAuthSubjects = new HashMap<>();
 
@@ -36,6 +38,11 @@ public class FakeMondoApi implements MondoApi {
     @Override
     public Observable<Result<ApiOAuthToken>> oAuthToken(String clientId, String clientSecret, String code) {
         return oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+    }
+
+    public Observable<Result<ApiAccounts>> getAccounts() {
+        accountsSubject = PublishSubject.create();
+        return accountsSubject;
     }
 
     public void emitSuccessfulBalance(ApiBalance balance) {
@@ -85,5 +92,10 @@ public class FakeMondoApi implements MondoApi {
 
     private String keyFor(String clientId, String clienSecret, String code) {
         return clientId + "::" + clienSecret + "::" + code;
+    }
+
+    public void emitSuccessfulAccounts(ApiAccounts apiAccounts) {
+        accountsSubject.onNext(Result.response(Response.success(apiAccounts)));
+        accountsSubject.onCompleted();
     }
 }

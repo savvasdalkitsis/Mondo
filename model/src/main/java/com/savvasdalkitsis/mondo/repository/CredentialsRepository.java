@@ -6,7 +6,11 @@ public interface CredentialsRepository {
 
     void saveRefreshToken(String refreshToken);
 
+    void saveAccountId(String accountId);
+
     String getAccessToken();
 
     String getRefreshToken();
+
+    String getAccountId();
 }

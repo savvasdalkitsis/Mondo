@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.repository;
 
+import com.savvasdalkitsis.mondo.repository.model.ApiAccounts;
 import com.savvasdalkitsis.mondo.repository.model.ApiBalance;
 import com.savvasdalkitsis.mondo.repository.model.ApiOAuthToken;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
@@ -22,4 +23,7 @@ public interface MondoApi {
     Observable<Result<ApiOAuthToken>> oAuthToken(@Query("client_id") String clientId,
                                                  @Query("client_secret") String clientSecret,
                                                  @Query("code") String code);
+
+    @GET("accounts")
+    Observable<Result<ApiAccounts>> getAccounts();
 }
