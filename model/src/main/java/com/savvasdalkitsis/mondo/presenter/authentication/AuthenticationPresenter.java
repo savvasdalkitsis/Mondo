@@ -14,7 +14,12 @@ public class AuthenticationPresenter {
 
     public void startPresenting(AuthenticationView authenticationView, AuthenticationData authenticationData) {
         authenticationView.displayLoading();
-        authenticationUseCase.authenticate(authenticationData)
-                .subscribe(response -> authenticationView.successfulAuthentication());
+        authenticationUseCase.authenticate(authenticationData).subscribe(response -> {
+            if (response.isError()) {
+                authenticationView.errorAuthenticating();
+            } else {
+                authenticationView.successfulAuthentication();
+            }
+        });
     }
 }

@@ -4,4 +4,6 @@ public interface AuthenticationView {
 
     void displayLoading();
     void successfulAuthentication();
+
+    void errorAuthenticating();
 }

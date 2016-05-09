@@ -45,4 +45,9 @@ public class AuthenticationFragment extends AspectSupportFragment implements Aut
     public void successfulAuthentication() {
 
     }
+
+    @Override
+    public void errorAuthenticating() {
+
+    }
 }
