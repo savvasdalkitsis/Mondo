@@ -33,13 +33,14 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Bind(R.id.view_spent_today) TextView spentTodayView;
     @Bind(R.id.view_spent_today_currency) TextView spentTodayCurrencyView;
     @Bind(R.id.view_transactions) RecyclerView transactions;
+    @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(android.R.id.content) View root;
     private Snackbar snackbar;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setSupportActionBar(toolbar);
     }
 
     @Override

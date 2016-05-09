@@ -27,4 +27,12 @@
     <style name="Mondo.Text.ToolBar.Balance.Small">
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="BaseToolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+    <style name="Mondo.Toolbar" parent="BaseToolbar" />
+
 </resources>

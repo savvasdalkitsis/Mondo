@@ -18,6 +18,16 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".view.authentication.AuthenticationActivity"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="mondotest" android:path="/redirect"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

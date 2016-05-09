@@ -18,6 +18,8 @@ android {
 
         testInstrumentationRunner "com.savvasdalkitsis.mondo.test.MondoInstrumentationRunner"
         buildConfigField 'String', "MONDO_API_BASE_URL", '"https://api.getmondo.co.uk"'
+        buildConfigField 'String', "MONDO_AUTH_BASE_URL", '"https://auth.getmondo.co.uk"'
+        buildConfigField 'String', "MONDO_CLIENT_ID", project.hasProperty("MONDO_CLIENT_ID") ? "\"$MONDO_CLIENT_ID\"" : '""'
     }
     buildTypes {
         release {

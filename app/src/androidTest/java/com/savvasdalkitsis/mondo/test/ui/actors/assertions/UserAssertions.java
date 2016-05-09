@@ -34,6 +34,6 @@ public class UserAssertions {
     }
 
     public void seesAuthenticationScreen() {
-        seesText("Authenticate");
+        seesText("Welcome to Mondo");
     }
 }
