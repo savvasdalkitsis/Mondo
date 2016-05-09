@@ -28,12 +28,10 @@ public class AuthenticationFragment extends AspectSupportFragment implements Aut
         authenticationPresenter.startPresenting(this, getAuthenticationData());
     }
 
-    private void setAuthenticationData(AuthenticationData authenticationData) {
-        getArguments().putSerializable(PARAM_AUTHENTICATION_DATA, authenticationData);
-    }
-
-    private AuthenticationData getAuthenticationData() {
-        return (AuthenticationData) getArguments().getSerializable(PARAM_AUTHENTICATION_DATA);
+    @Override
+    public void onStop() {
+        super.onStop();
+        authenticationPresenter.stopPresenting();
     }
 
     @Override
@@ -49,5 +47,13 @@ public class AuthenticationFragment extends AspectSupportFragment implements Aut
     @Override
     public void errorAuthenticating() {
 
+    }
+
+    private void setAuthenticationData(AuthenticationData authenticationData) {
+        getArguments().putSerializable(PARAM_AUTHENTICATION_DATA, authenticationData);
+    }
+
+    private AuthenticationData getAuthenticationData() {
+        return (AuthenticationData) getArguments().getSerializable(PARAM_AUTHENTICATION_DATA);
     }
 }

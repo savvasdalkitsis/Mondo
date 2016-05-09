@@ -41,9 +41,7 @@ public class AuthenticationPresenterTest {
 
     @Test
     public void notifiesViewOfErrorAuthenticating() {
-        mockery.checking(new Expectations() {{
-            ignoring(view).displayLoading();
-        }});
+        ignoreLoading();
         presenter.startPresenting(view, authenticationData);
 
         mockery.checking(new Expectations() {{
@@ -51,6 +49,26 @@ public class AuthenticationPresenterTest {
         }});
 
         authenticationUseCase.emitErrorResponseFor(authenticationData);
+    }
+
+    @Test
+    public void doesNotNotifyViewOfAnythingAfterStopping() {
+        ignoreLoading();
+        presenter.startPresenting(view, authenticationData);
+
+        presenter.stopPresenting();
+
+        mockery.checking(new Expectations() {{
+            never(view);
+        }});
+
+        authenticationUseCase.emitSuccessfulResponseFor(authenticationData);
+    }
+
+    private void ignoreLoading() {
+        mockery.checking(new Expectations() {{
+            ignoring(view).displayLoading();
+        }});
     }
 
 }
