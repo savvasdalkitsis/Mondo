@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 public class PreferencesCredentialsRepositoryTest {
 
     private static final String ACCESS_TOKEN = "access_token";
+    private static final String REFRESH_TOKEN = "refresh_token";
     private final FakeMondoPreferences mondoPreferences = new FakeMondoPreferences();
     private final PreferencesCredentialsRepository repository = new PreferencesCredentialsRepository(mondoPreferences);
 
@@ -26,6 +27,13 @@ public class PreferencesCredentialsRepositoryTest {
         repository.saveAccessToken(ACCESS_TOKEN);
 
         assertThat(mondoPreferences.getStringPreference(PreferenceKeys.KEY_ACCESS_TOKEN), equalTo(ACCESS_TOKEN));
+    }
+
+    @Test
+    public void readsRefreshTokenFromPreferences() {
+        mondoPreferences.putStringPreference(PreferenceKeys.KEY_REFRESH_TOKEN, REFRESH_TOKEN);
+
+        assertThat(repository.getRefreshToken(), equalTo(REFRESH_TOKEN));
     }
 
 }

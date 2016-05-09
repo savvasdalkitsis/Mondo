@@ -33,7 +33,7 @@ public class PreferencesCredentialsRepository implements CredentialsRepository {
 
     @Override
     public String getRefreshToken() {
-        return null;
+        return mondoPreferences.getStringPreference(PreferenceKeys.KEY_REFRESH_TOKEN);
     }
 
     @Override
