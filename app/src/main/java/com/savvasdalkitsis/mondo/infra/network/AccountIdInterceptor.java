@@ -1,6 +1,6 @@
 package com.savvasdalkitsis.mondo.infra.network;
 
-import com.savvasdalkitsis.mondo.repository.AccountIdRepository;
+import com.savvasdalkitsis.mondo.repository.CredentialsRepository;
 
 import java.io.IOException;
 
@@ -11,17 +11,17 @@ import okhttp3.Response;
 
 public class AccountIdInterceptor implements Interceptor {
 
-    private final AccountIdRepository accountIdRepository;
+    private CredentialsRepository credentialsRepository;
 
-    public AccountIdInterceptor(AccountIdRepository accountIdRepository) {
-        this.accountIdRepository = accountIdRepository;
+    public AccountIdInterceptor(CredentialsRepository credentialsRepository) {
+        this.credentialsRepository = credentialsRepository;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         HttpUrl url = request.url().newBuilder()
-                .addQueryParameter("account_id", accountIdRepository.getAccountId())
+                .addQueryParameter("account_id", credentialsRepository.getAccountId())
                 .build();
         return chain.proceed(request.newBuilder().url(url).build());
     }

@@ -4,8 +4,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.savvasdalkitsis.mondo.repository.AccountIdRepository;
 import com.savvasdalkitsis.mondo.repository.ConfigurableApiBaseUrlProvider;
+import com.savvasdalkitsis.mondo.repository.CredentialsRepository;
 import com.savvasdalkitsis.mondo.rx.RxIdlingResource;
 import com.savvasdalkitsis.mondo.test.data.TestAccountId;
 import com.savvasdalkitsis.mondo.test.ui.actors.Mondo;
@@ -20,14 +20,14 @@ import org.junit.runner.RunWith;
 import okhttp3.mockwebserver.MockWebServer;
 import rx.plugins.RxJavaResettablePlugins;
 
-import static com.savvasdalkitsis.mondo.injector.repository.AccountIdRepositoryInjector.accountIdRepository;
+import static com.savvasdalkitsis.mondo.injector.repository.CredentialsRepositoryInjector.credentialsRepository;
 import static com.savvasdalkitsis.mondo.injector.repository.MondoApiBaseUrlProviderInjector.configurableMondoApiBaseUrlProvider;
 
 @RunWith(AndroidJUnit4.class)
 public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActivity> {
 
     private final ConfigurableApiBaseUrlProvider configurableApiBaseUrlProvider = configurableMondoApiBaseUrlProvider();
-    private final AccountIdRepository accountIdRepository = accountIdRepository();
+    private final CredentialsRepository credentialsRepository = credentialsRepository();
     private MockWebServer server;
 
     public MondoTest() {
@@ -49,7 +49,7 @@ public class MondoTest extends ActivityInstrumentationTestCase2<TransactionsActi
         user = new User(this, dispatcher, getInstrumentation().getContext());
         mondo = new Mondo(dispatcher);
         server.start();
-        accountIdRepository.saveAccountId(TestAccountId.TEST_ACCOUNT_ID);
+        credentialsRepository.saveAccountId(TestAccountId.TEST_ACCOUNT_ID);
         configurableApiBaseUrlProvider.overrideUrl(server.url("").toString());
     }
 

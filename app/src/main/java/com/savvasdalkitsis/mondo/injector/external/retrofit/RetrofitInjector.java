@@ -12,7 +12,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.savvasdalkitsis.mondo.injector.infra.AuthenticationNavigatorInjector.authenticationRepository;
-import static com.savvasdalkitsis.mondo.injector.repository.AccountIdRepositoryInjector.accountIdRepository;
+import static com.savvasdalkitsis.mondo.injector.repository.CredentialsRepositoryInjector.credentialsRepository;
 import static com.savvasdalkitsis.mondo.injector.repository.MondoApiBaseUrlProviderInjector.mondoApiBaseUrlProvider;
 
 public class RetrofitInjector {
@@ -26,7 +26,7 @@ public class RetrofitInjector {
                     .readTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(20, TimeUnit.SECONDS)
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .addInterceptor(new AccountIdInterceptor(accountIdRepository()))
+                    .addInterceptor(new AccountIdInterceptor(credentialsRepository()))
                     .addInterceptor(new AuthenticationValidatingInterceptor(authenticationRepository()))
                     .build())
             .build();
