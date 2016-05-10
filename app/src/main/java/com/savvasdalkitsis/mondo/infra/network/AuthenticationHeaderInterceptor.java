@@ -8,6 +8,8 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.savvasdalkitsis.mondo.util.StringUtils.isNotEmptyNorNull;
+
 public class AuthenticationHeaderInterceptor implements Interceptor {
 
     private final CredentialsRepository credentialsRepository;
@@ -20,7 +22,7 @@ public class AuthenticationHeaderInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String accessToken = credentialsRepository.getAccessToken();
         Request request = chain.request();
-        if (accessToken != null && !accessToken.isEmpty()) {
+        if (isNotEmptyNorNull(accessToken)) {
             request = request.newBuilder()
                     .header("Authorization", "Bearer " + accessToken)
                     .build();

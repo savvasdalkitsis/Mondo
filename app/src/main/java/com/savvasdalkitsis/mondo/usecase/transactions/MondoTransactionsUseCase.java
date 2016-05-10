@@ -15,6 +15,8 @@ import java.util.List;
 
 import rx.Observable;
 
+import static com.savvasdalkitsis.mondo.util.StringUtils.isNotEmptyNorNull;
+
 public class MondoTransactionsUseCase implements TransactionsUseCase {
 
     private MondoApi mondoApi;
@@ -31,12 +33,13 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                         List<Transaction> transactions = new ArrayList<>();
                         for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
                             ApiMerchant merchant = nullSafe(apiTransaction.getMerchant());
+                            String merchantName = merchant.getName();
                             transactions.add(Transaction.builder()
                                     .amount(Money.builder()
                                             .wholeValue(Math.abs(apiTransaction.getAmount()))
                                             .currency(apiTransaction.getCurrency())
                                             .build())
-                                    .merchantName(merchant.getName())
+                                    .description(isNotEmptyNorNull(merchantName) ? merchantName : apiTransaction.getDescription())
                                     .logoUrl(merchant.getLogo())
                                     .build());
                         }

@@ -9,6 +9,8 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.savvasdalkitsis.mondo.util.StringUtils.isNotEmptyNorNull;
+
 public class AccountIdInterceptor implements Interceptor {
 
     private CredentialsRepository credentialsRepository;
@@ -31,6 +33,6 @@ public class AccountIdInterceptor implements Interceptor {
 
     private String accountId() {
         String accountId = credentialsRepository.getAccountId();
-        return accountId != null && !accountId.isEmpty() ? accountId : "INVALID_ACCOUNT_ID";
+        return isNotEmptyNorNull(accountId) ? accountId : "INVALID_ACCOUNT_ID";
     }
 }

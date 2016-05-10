@@ -13,6 +13,8 @@ public class ApiTransaction {
     private int amount;
     @SerializedName("currency")
     private String currency;
+    @SerializedName("description")
+    private String description;
     @SerializedName("merchant")
     private ApiMerchant merchant;
 }

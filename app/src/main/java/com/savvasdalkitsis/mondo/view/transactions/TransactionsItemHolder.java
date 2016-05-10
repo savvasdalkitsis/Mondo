@@ -35,7 +35,7 @@ public class TransactionsItemHolder extends RecyclerView.ViewHolder {
 
     public void bindTo(Transaction transaction) {
         amount.bindTo(transaction.getAmount());
-        merchant.setText(transaction.getMerchantName());
+        merchant.setText(transaction.getDescription());
         imageLoader.load(transaction.getLogoUrl(), logo);
     }
 }

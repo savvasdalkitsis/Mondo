@@ -9,6 +9,6 @@ import lombok.experimental.Builder;
 @Getter
 public class Transaction {
     private Money amount;
-    private String merchantName;
+    private String description;
     private String logoUrl;
 }

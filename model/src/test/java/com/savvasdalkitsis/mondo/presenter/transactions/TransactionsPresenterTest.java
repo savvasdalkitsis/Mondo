@@ -76,7 +76,7 @@ public class TransactionsPresenterTest {
         TransactionsPage transactionsPage = TransactionsPage.builder()
                 .transactions(singletonList(Transaction.builder()
                         .amount(Money.builder().wholeValue(99).build())
-                        .merchantName("merchant")
+                        .description("merchant")
                         .build()))
                 .build();
 

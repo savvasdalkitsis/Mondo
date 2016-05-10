@@ -48,7 +48,7 @@ public class MondoTransactionsUseCaseTest {
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success(TransactionsPage.builder()
                 .transactions(singletonList(Transaction.builder()
-                        .merchantName("merchant1")
+                        .description("merchant1")
                         .logoUrl("logo1")
                         .amount(Money.builder().wholeValue(100).currency(USD).build())
                         .build()))
@@ -110,6 +110,25 @@ public class MondoTransactionsUseCaseTest {
                         Transaction.builder().amount(Money.builder().wholeValue(2).build()).build(),
                         Transaction.builder().amount(Money.builder().wholeValue(1).build()).build()
                 ))
+                .build())));
+    }
+
+    @Test
+    public void usesDescriptionIfMerchantIsMissing() {
+        getTransactions().subscribe(subscriber);
+
+        mondoApi.emitSuccessfulTransactionPage(ApiTransactions.builder()
+                .transactions(singletonList(ApiTransaction.builder()
+                        .merchant(null)
+                        .description("description")
+                        .build()))
+                .build());
+
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.success(TransactionsPage.builder()
+                .transactions(singletonList(Transaction.builder()
+                        .amount(Money.builder().build())
+                        .description("description")
+                        .build()))
                 .build())));
     }
 
