@@ -42,17 +42,17 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         setSupportActionBar(toolbar);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         transactions.setLayoutManager(layoutManager);
         transactions.addItemDecoration(new VerticalSpaceItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.transactions_item_spacing)));
         transactions.setAdapter(transactionsAdapter);
         transactions.addOnScrollListener(toolbar.scrollListener(layoutManager));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         presenter.startPresenting(this);
     }
 

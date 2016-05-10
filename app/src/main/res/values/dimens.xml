@@ -3,4 +3,6 @@
     <dimen name="transactions_item_spacing">18dp</dimen>
     <dimen name="toolbar_extended_height">160dp</dimen>
     <dimen name="toolbar_collapsed_height">56dp</dimen>
+    <dimen name="transactions_margin_top">16dp</dimen>
+    <dimen name="toolbar_offset_correction">6dp</dimen>
 </resources>

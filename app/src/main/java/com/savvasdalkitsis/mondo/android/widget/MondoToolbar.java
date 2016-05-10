@@ -1,6 +1,7 @@
 package com.savvasdalkitsis.mondo.android.widget;
 
 import android.content.Context;
+import android.support.annotation.DimenRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.savvasdalkitsis.mondo.R;
 public class MondoToolbar extends Toolbar {
 
     private int minTranslation;
+    private int toolbarCorrectionOffset;
 
     public MondoToolbar(Context context) {
         super(context);
@@ -29,13 +31,18 @@ public class MondoToolbar extends Toolbar {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        int expandedHeight = getResources().getDimensionPixelSize(R.dimen.toolbar_extended_height);
-        int toolbarHeight = getResources().getDimensionPixelSize(R.dimen.toolbar_collapsed_height);
+        int expandedHeight = pixels(R.dimen.toolbar_extended_height);
+        int toolbarHeight = pixels(R.dimen.toolbar_collapsed_height);
+        toolbarCorrectionOffset = pixels(R.dimen.transactions_margin_top) + pixels(R.dimen.toolbar_offset_correction);
         minTranslation = -expandedHeight + toolbarHeight;
     }
 
     public OnScrollListener scrollListener(LinearLayoutManager layoutManager) {
         return new ScrollListener(layoutManager);
+    }
+
+    private int pixels(@DimenRes int id) {
+        return getResources().getDimensionPixelSize(id);
     }
 
     private class ScrollListener extends OnScrollListener {
@@ -56,7 +63,7 @@ public class MondoToolbar extends Toolbar {
             if (first > 0) {
                 setTranslationY(minTranslation);
             } else {
-                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop(), minTranslation));
+                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop() - toolbarCorrectionOffset, minTranslation));
             }
         }
     }
