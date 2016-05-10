@@ -9,9 +9,10 @@ import static org.hamcrest.Matchers.contains;
 
 public class HamcrestTestSubscriber<T> extends TestSubscriber<T> {
 
-    public void assertFinishedWithItem(Matcher<T> itemMatcher) {
+    @SafeVarargs
+    public final void assertFinishedWithItems(Matcher<T>... itemMatchers) {
         awaitTerminalEvent();
         assertCompleted();
-        assertThat(getOnNextEvents(), contains(itemMatcher));
+        assertThat(getOnNextEvents(), contains(itemMatchers));
     }
 }

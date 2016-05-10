@@ -9,6 +9,7 @@ import com.savvasdalkitsis.mondo.repository.model.ApiTransaction;
 import com.savvasdalkitsis.mondo.rx.RxTransformers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
@@ -35,6 +36,8 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                                     .logoUrl(merchant.getLogo())
                                     .build());
                         }
+                        // in a real app, this would be sorted by a comparator using the transaction date
+                        Collections.reverse(transactions);
                         return Response.success(TransactionsPage.builder()
                                 .transactions(transactions)
                                 .build());

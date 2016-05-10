@@ -42,7 +42,7 @@ public class MondoBalanceUseCaseTest {
                 .currency(USD)
                 .build());
 
-        subscriber.assertFinishedWithItem(sameBeanAs(Response.success(Balance.builder()
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.success(Balance.builder()
                 .balance(999)
                 .spentToday(666)
                 .currencySymbol(USD_SYMBOL)
@@ -55,7 +55,7 @@ public class MondoBalanceUseCaseTest {
 
         mondoApi.emitBalanceError();
 
-        subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.<Balance>error()));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class MondoBalanceUseCaseTest {
 
         mondoApi.emitBalanceErrorResponse();
 
-        subscriber.assertFinishedWithItem(sameBeanAs(Response.<Balance>error()));
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.<Balance>error()));
     }
 
     private Observable<Response<Balance>> getBalance() {

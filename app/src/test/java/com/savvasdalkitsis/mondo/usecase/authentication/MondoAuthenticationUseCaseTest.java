@@ -94,7 +94,7 @@ public class MondoAuthenticationUseCaseTest {
         mondoApi.emitErrorOAuth(CLIENT_ID, CLIENT_SECRET, CODE,
                 GRANT_TYPE, REDIRECT_URI);
 
-        subscriber.assertFinishedWithItem(sameBeanAs(Response.error()));
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.error()));
     }
 
     private void emitSuccessful(ApiOAuthToken oAuthToken) {
