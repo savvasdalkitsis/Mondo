@@ -2,6 +2,7 @@ package com.savvasdalkitsis.mondo.usecase.transactions;
 
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
 import com.savvasdalkitsis.mondo.model.Response;
+import com.savvasdalkitsis.mondo.model.money.Money;
 import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.model.ApiMerchant;
@@ -23,6 +24,7 @@ import static java.util.Collections.singletonList;
 
 public class MondoTransactionsUseCaseTest {
 
+    private static final String USD = "USD";
     @Rule public TestRule android = new AndroidRxSchedulerRuleImmediate();
     @Rule public TestRule timeout = Timeout.seconds(3);
     private final FakeMondoApi mondoApi = new FakeMondoApi();
@@ -36,6 +38,7 @@ public class MondoTransactionsUseCaseTest {
         mondoApi.emitSuccessfulTransactionPage(ApiTransactions.builder()
                 .transactions(singletonList(ApiTransaction.builder()
                         .amount(-100)
+                        .currency(USD)
                         .merchant(ApiMerchant.builder()
                                 .name("merchant1")
                                 .logo("logo1")
@@ -47,7 +50,7 @@ public class MondoTransactionsUseCaseTest {
                 .transactions(singletonList(Transaction.builder()
                         .merchantName("merchant1")
                         .logoUrl("logo1")
-                        .amount(100)
+                        .amount(Money.builder().wholeValue(100).currency(USD).build())
                         .build()))
                 .build())));
     }
@@ -78,12 +81,16 @@ public class MondoTransactionsUseCaseTest {
                 .transactions(singletonList(ApiTransaction.builder()
                         .merchant(null)
                         .amount(-100)
+                        .currency(USD)
                         .build()))
                 .build());
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success(TransactionsPage.builder()
                 .transactions(singletonList(Transaction.builder()
-                        .amount(100)
+                        .amount(Money.builder()
+                                .wholeValue(100)
+                                .currency(USD)
+                                .build())
                         .build()))
                 .build())));
     }
@@ -100,8 +107,8 @@ public class MondoTransactionsUseCaseTest {
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success(TransactionsPage.builder()
                 .transactions(asList(
-                        Transaction.builder().amount(2).build(),
-                        Transaction.builder().amount(1).build()
+                        Transaction.builder().amount(Money.builder().wholeValue(2).build()).build(),
+                        Transaction.builder().amount(Money.builder().wholeValue(1).build()).build()
                 ))
                 .build())));
     }

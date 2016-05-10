@@ -10,7 +10,9 @@ import lombok.experimental.Builder;
 public class ApiTransaction {
 
     @SerializedName("amount")
-    private double amount;
+    private int amount;
+    @SerializedName("currency")
+    private String currency;
     @SerializedName("merchant")
     private ApiMerchant merchant;
 }

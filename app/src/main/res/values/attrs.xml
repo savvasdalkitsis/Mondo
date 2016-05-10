@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MoneyView">
+        <attr name="displayStyle" format="enum">
+            <enum name="large" value="0" />
+            <enum name="small" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>

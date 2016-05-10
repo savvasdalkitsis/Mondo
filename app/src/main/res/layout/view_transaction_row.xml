@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:paddingRight="8dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:minHeight="36dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/view_transaction_row_logo"
+        android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:layout_width="40dp"
         android:layout_height="40dp" />
@@ -17,15 +22,16 @@
         android:layout_toRightOf="@id/view_transaction_row_logo"
         android:layout_toLeftOf="@+id/view_transaction_row_amount"
         android:layout_centerVertical="true"
-        android:textSize="24sp"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <TextView
+    <com.savvasdalkitsis.mondo.android.widget.MoneyView
         android:id="@id/view_transaction_row_amount"
+        app:displayStyle="small"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textSize="26sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -21,11 +21,11 @@
     </style>
     <style name="Mondo.Text.ToolBar.Balance">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">@dimen/balance_size_large</item>
     </style>
 
     <style name="Mondo.Text.ToolBar.Balance.Small">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">@dimen/balance_size_large</item>
     </style>
 
     <style name="Mondo.Text.Title">
@@ -42,5 +42,4 @@
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
     <style name="Mondo.Toolbar" parent="BaseToolbar" />
-
 </resources>

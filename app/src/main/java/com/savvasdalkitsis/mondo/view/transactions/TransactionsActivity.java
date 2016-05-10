@@ -45,8 +45,6 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
         setSupportActionBar(toolbar);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         transactions.setLayoutManager(layoutManager);
-        transactions.addItemDecoration(new VerticalSpaceItemDecoration(getResources()
-                .getDimensionPixelSize(R.dimen.transactions_item_spacing)));
         transactions.setAdapter(transactionsAdapter);
         transactions.addOnScrollListener(toolbar.scrollListener(layoutManager));
     }

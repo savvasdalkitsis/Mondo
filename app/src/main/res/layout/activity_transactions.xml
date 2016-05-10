@@ -8,19 +8,17 @@
         style="@style/Mondo.Toolbar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/toolbar_extended_height">
 
         <include
             layout="@layout/view_mondo_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_extended_height"
-            android:layout_margin="16dp"
-            android:minHeight="@dimen/toolbar_extended_height"/>
+            android:layout_height="match_parent"
+            android:layout_margin="16dp" />
     </com.savvasdalkitsis.mondo.android.widget.MondoToolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_transactions"
-        android:layout_marginTop="@dimen/transactions_margin_top"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

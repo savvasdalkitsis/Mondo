@@ -1,6 +1,7 @@
 package com.savvasdalkitsis.mondo.usecase.transactions;
 
 import com.savvasdalkitsis.mondo.model.Response;
+import com.savvasdalkitsis.mondo.model.money.Money;
 import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
@@ -31,7 +32,10 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                         for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
                             ApiMerchant merchant = nullSafe(apiTransaction.getMerchant());
                             transactions.add(Transaction.builder()
-                                    .amount(Math.abs(apiTransaction.getAmount()))
+                                    .amount(Money.builder()
+                                            .wholeValue(Math.abs(apiTransaction.getAmount()))
+                                            .currency(apiTransaction.getCurrency())
+                                            .build())
                                     .merchantName(merchant.getName())
                                     .logoUrl(merchant.getLogo())
                                     .build());

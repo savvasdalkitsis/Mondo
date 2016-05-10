@@ -13,8 +13,7 @@ import com.savvasdalkitsis.mondo.R;
 
 public class MondoToolbar extends Toolbar {
 
-    private int minTranslation;
-    private int toolbarCorrectionOffset;
+    private int maxTranslation;
 
     public MondoToolbar(Context context) {
         super(context);
@@ -33,8 +32,7 @@ public class MondoToolbar extends Toolbar {
         super.onFinishInflate();
         int expandedHeight = pixels(R.dimen.toolbar_extended_height);
         int toolbarHeight = pixels(R.dimen.toolbar_collapsed_height);
-        toolbarCorrectionOffset = pixels(R.dimen.transactions_margin_top) + pixels(R.dimen.toolbar_offset_correction);
-        minTranslation = -expandedHeight + toolbarHeight;
+        maxTranslation = toolbarHeight - expandedHeight;
     }
 
     public OnScrollListener scrollListener(LinearLayoutManager layoutManager) {
@@ -61,9 +59,9 @@ public class MondoToolbar extends Toolbar {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             int first = layoutManager.findFirstVisibleItemPosition();
             if (first > 0) {
-                setTranslationY(minTranslation);
+                setTranslationY(maxTranslation);
             } else {
-                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop() / 2 - toolbarCorrectionOffset, minTranslation));
+                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop() / 2f, maxTranslation));
             }
         }
     }

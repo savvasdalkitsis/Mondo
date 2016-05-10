@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_extended_height">
+    android:layout_height="@dimen/toolbar_extended_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ProgressBar
         android:id="@+id/view_progress"
@@ -19,6 +19,7 @@
 
     <com.savvasdalkitsis.mondo.android.widget.MoneyView
         android:id="@+id/view_balance"
+        app:displayStyle="large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -35,6 +36,7 @@
 
     <com.savvasdalkitsis.mondo.android.widget.MoneyView
         android:id="@+id/view_spent_today"
+        app:displayStyle="large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
