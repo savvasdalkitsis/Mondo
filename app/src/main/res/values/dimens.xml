@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="toolbar_extended_height">192dp</dimen>
-    <dimen name="toolbar_collapsed_height">100dp</dimen>
+    <dimen name="toolbar_collapsed_height">95dp</dimen>
 
     <dimen name="balance_size_large">32sp</dimen>
     <dimen name="balance_size_small">20sp</dimen>
+    <dimen name="toolbar_logo_height">42dp</dimen>
+    <dimen name="toolbar_logo_width">180dp</dimen>
+    <dimen name="toolbar_balance_offset">64dp</dimen>
 </resources>

@@ -25,7 +25,7 @@
     </style>
 
     <style name="Mondo.Text.ToolBar.Balance.Small">
-        <item name="android:textSize">@dimen/balance_size_large</item>
+        <item name="android:textSize">@dimen/balance_size_small</item>
     </style>
 
     <style name="Mondo.Text.Title">

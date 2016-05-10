@@ -8,12 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.savvasdalkitsis.mondo.R;
 
 public class MondoToolbar extends Toolbar {
 
     private int maxTranslation;
+    private View appLogoNoLetters;
+    private View appLogo;
+    private View balance;
+    private View balanceTitle;
+    private int balanceOffset;
 
     public MondoToolbar(Context context) {
         super(context);
@@ -32,7 +38,12 @@ public class MondoToolbar extends Toolbar {
         super.onFinishInflate();
         int expandedHeight = pixels(R.dimen.toolbar_extended_height);
         int toolbarHeight = pixels(R.dimen.toolbar_collapsed_height);
+        balanceOffset = pixels(R.dimen.toolbar_balance_offset);
         maxTranslation = toolbarHeight - expandedHeight;
+        appLogoNoLetters = findViewById(R.id.view_app_logo_no_letters);
+        balance = findViewById(R.id.view_balance);
+        balanceTitle = findViewById(R.id.view_balance_title);
+        appLogo = findViewById(R.id.view_app_logo);
     }
 
     public OnScrollListener scrollListener(LinearLayoutManager layoutManager) {
@@ -58,11 +69,17 @@ public class MondoToolbar extends Toolbar {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             int first = layoutManager.findFirstVisibleItemPosition();
-            if (first > 0) {
-                setTranslationY(maxTranslation);
-            } else {
-                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop() / 2f, maxTranslation));
+            float translationY = maxTranslation;
+            if (first == 0) {
+                translationY = Math.max(recyclerView.getChildAt(0).getTop() / 2f, maxTranslation);
             }
+            float progress = translationY / maxTranslation;
+            setTranslationY(translationY);
+            appLogo.setTranslationY(-translationY);
+            appLogoNoLetters.setTranslationY(-translationY);
+            appLogo.setAlpha(1 - progress);
+            balance.setTranslationX(balanceOffset * progress);
+            balanceTitle.setTranslationX(balanceOffset * progress);
         }
     }
 }
