@@ -29,7 +29,7 @@ public class AuthenticationWebFragment extends AspectSupportFragment {
         Uri authenticationUrl = Uri.parse(BuildConfig.MONDO_AUTH_BASE_URL).buildUpon()
                 .appendQueryParameter("response_type", "code")
                 .appendQueryParameter("client_id", BuildConfig.MONDO_CLIENT_ID)
-                .appendQueryParameter("redirect_uri", "http://mondotest/redirect")
+                .appendQueryParameter("redirect_uri", BuildConfig.API_CALL_REDIRECT_URI)
                 .appendQueryParameter("state_token", "asdkjhasl")
                 .build();
         webView.loadUrl(authenticationUrl.toString());

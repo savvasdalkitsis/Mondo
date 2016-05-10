@@ -4,6 +4,7 @@ import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
+import com.savvasdalkitsis.mondo.repository.model.ApiMerchant;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransaction;
 import com.savvasdalkitsis.mondo.rx.RxTransformers;
 
@@ -27,10 +28,11 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                     if (!apiTransactionsResult.isError() && apiTransactionsResult.response().isSuccessful()) {
                         List<Transaction> transactions = new ArrayList<>();
                         for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
+                            ApiMerchant merchant = nullSafe(apiTransaction.getMerchant());
                             transactions.add(Transaction.builder()
                                     .amount(Math.abs(apiTransaction.getAmount()))
-                                    .merchantName(apiTransaction.getMerchant().getName())
-                                    .logoUrl(apiTransaction.getMerchant().getLogo())
+                                    .merchantName(merchant.getName())
+                                    .logoUrl(merchant.getLogo())
                                     .build());
                         }
                         return Response.success(TransactionsPage.builder()
@@ -41,5 +43,9 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                 })
                 .compose(RxTransformers.androidNetworkCall())
                 .onErrorResumeNext(Observable.just(Response.error()));
+    }
+
+    private ApiMerchant nullSafe(ApiMerchant merchant) {
+        return merchant != null ? merchant : ApiMerchant.builder().build();
     }
 }

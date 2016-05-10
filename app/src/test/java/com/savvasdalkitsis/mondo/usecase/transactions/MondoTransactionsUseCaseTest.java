@@ -14,10 +14,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 
+import java.util.Collections;
+
 import rx.Observable;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 
 public class MondoTransactionsUseCaseTest {
 
@@ -75,6 +78,24 @@ public class MondoTransactionsUseCaseTest {
         mondoApi.emitTransactionsErrorResponse();
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.error()));
+    }
+
+    @Test
+    public void allowsTransactionsWithoutMerchant() {
+        getTransactions().subscribe(subscriber);
+
+        mondoApi.emitSuccessfulTransactionPage(ApiTransactions.builder()
+                .transactions(singletonList(ApiTransaction.builder()
+                        .merchant(null)
+                        .amount(-100)
+                        .build()))
+                .build());
+
+        subscriber.assertFinishedWithItem(sameBeanAs(Response.success(TransactionsPage.builder()
+                .transactions(singletonList(Transaction.builder()
+                        .amount(100)
+                        .build()))
+                .build())));
     }
 
     private Observable<Response<TransactionsPage>> getTransactions() {

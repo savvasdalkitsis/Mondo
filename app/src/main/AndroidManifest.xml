@@ -11,7 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.transactions.TransactionsActivity">
+        <activity
+            android:name=".view.transactions.TransactionsActivity"
+            android:launchMode="singleInstance">>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,6 +22,7 @@
 
         <activity
             android:name=".view.authentication.AuthenticationActivity"
+            android:configChanges="orientation"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

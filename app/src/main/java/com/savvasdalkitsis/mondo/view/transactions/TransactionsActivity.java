@@ -6,12 +6,12 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
 import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
+import com.savvasdalkitsis.mondo.android.widget.MondoToolbar;
 import com.savvasdalkitsis.mondo.android.widget.VerticalSpaceItemDecoration;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
@@ -33,7 +33,8 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Bind(R.id.view_spent_today) TextView spentTodayView;
     @Bind(R.id.view_spent_today_currency) TextView spentTodayCurrencyView;
     @Bind(R.id.view_transactions) RecyclerView transactions;
-    @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar)
+    MondoToolbar toolbar;
     @Bind(android.R.id.content) View root;
     private Snackbar snackbar;
 
@@ -46,10 +47,12 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Override
     protected void onStart() {
         super.onStart();
-        transactions.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        transactions.setLayoutManager(layoutManager);
         transactions.addItemDecoration(new VerticalSpaceItemDecoration(getResources()
                 .getDimensionPixelSize(R.dimen.transactions_item_spacing)));
         transactions.setAdapter(transactionsAdapter);
+        transactions.addOnScrollListener(toolbar.scrollListener(layoutManager));
         presenter.startPresenting(this);
     }
 

@@ -9,23 +9,33 @@ import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import java.util.Collections;
 import java.util.List;
 
-public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsItemHolder> {
+public class TransactionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Transaction> transactions = Collections.emptyList();
 
     @Override
-    public TransactionsItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == 0) {
+            return new TopSpaceItemHolder(parent);
+        }
         return new TransactionsItemHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(TransactionsItemHolder holder, int position) {
-        holder.bindTo(transactions.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (position > 0) {
+            ((TransactionsItemHolder) holder).bindTo(transactions.get(position - 1));
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? 0 : 1;
     }
 
     @Override
     public int getItemCount() {
-        return transactions.size();
+        return transactions.size() + 1;
     }
 
     public void addPage(TransactionsPage transactionsPage) {

@@ -13,6 +13,7 @@ import java.util.Map;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
+import retrofit2.http.Field;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
@@ -36,8 +37,12 @@ public class FakeMondoApi implements MondoApi {
     }
 
     @Override
-    public Observable<Result<ApiOAuthToken>> oAuthToken(String clientId, String clientSecret, String code) {
-        return oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+    public Observable<Result<ApiOAuthToken>> oAuthToken(@Field("client_id") String clientId,
+                                                        @Field("client_secret") String clientSecret,
+                                                        @Field("code") String code,
+                                                        @Field("grant_type") String grantType,
+                                                        @Field("redirect_uri") String redirectUri) {
+        return oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
     }
 
     public Observable<Result<ApiAccounts>> getAccounts() {
@@ -80,18 +85,21 @@ public class FakeMondoApi implements MondoApi {
         transactionsSubject.onCompleted();
     }
 
-    public void acceptsOAuthCall(String clientId, String clientSecret, String code) {
-        oAuthSubjects.put(keyFor(clientId, clientSecret, code), PublishSubject.create());
+    public void acceptsOAuthCall(String clientId, String clientSecret, String code,
+                                 String grantType, String redirectUri) {
+        oAuthSubjects.put(keyFor(clientId, clientSecret, code, grantType, redirectUri), PublishSubject.create());
     }
 
-    public void emitSuccessfulOAuthFor(String clientId, String clientSecret, String code, ApiOAuthToken apiOAuthToken) {
-        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+    public void emitSuccessfulOAuthFor(String clientId, String clientSecret, String code,
+                                       String grantType, String redirectUri, ApiOAuthToken apiOAuthToken) {
+        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
         subject.onNext(Result.response(Response.success(apiOAuthToken)));
         subject.onCompleted();
     }
 
-    public void emitErrorOAuth(String clientId, String clientSecret, String code) {
-        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code));
+    public void emitErrorOAuth(String clientId, String clientSecret, String code,
+                               String grantType, String redirectUri) {
+        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
         subject.onError(new IOException("error getting oauth token"));
     }
 
@@ -100,7 +108,7 @@ public class FakeMondoApi implements MondoApi {
         accountsSubject.onCompleted();
     }
 
-    private String keyFor(String clientId, String clienSecret, String code) {
-        return clientId + "::" + clienSecret + "::" + code;
+    private String keyFor(String clientId, String clienSecret, String code, String grantType, String redirectUri) {
+        return clientId + "::" + clienSecret + "::" + code + "::" + grantType + "::" + redirectUri;
     }
 }

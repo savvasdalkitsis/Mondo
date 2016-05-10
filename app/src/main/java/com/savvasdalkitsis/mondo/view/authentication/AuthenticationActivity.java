@@ -9,13 +9,18 @@ import android.support.v7.widget.Toolbar;
 
 import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
+import com.savvasdalkitsis.mondo.infra.MainNavigator;
 import com.savvasdalkitsis.mondo.model.authentication.AuthenticationData;
 import com.shazam.android.aspects.base.activity.AspectAppCompatActivity;
 
 import butterknife.Bind;
 
+import static com.savvasdalkitsis.mondo.injector.infra.NavigatorInjector.mainRepository;
+
 @BindLayout(R.layout.activity_authentication)
 public class AuthenticationActivity extends AspectAppCompatActivity implements AuthenticationListener {
+
+    private final MainNavigator mainNavigator = mainRepository();
     @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
@@ -52,5 +57,6 @@ public class AuthenticationActivity extends AspectAppCompatActivity implements A
     @Override
     public void onAuthenticationSuccess() {
         finish();
+        mainNavigator.navigateToMainScreen();
     }
 }

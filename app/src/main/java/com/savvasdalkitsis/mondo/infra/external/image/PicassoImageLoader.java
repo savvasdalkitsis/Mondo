@@ -15,6 +15,10 @@ public class PicassoImageLoader implements ImageLoader {
 
     @Override
     public void load(String url, ImageView imageView) {
+        if (url == null || url.isEmpty()) {
+            imageView.setImageBitmap(null);
+            return;
+        }
         picasso.load(url)
                 .fit()
                 .into(imageView);

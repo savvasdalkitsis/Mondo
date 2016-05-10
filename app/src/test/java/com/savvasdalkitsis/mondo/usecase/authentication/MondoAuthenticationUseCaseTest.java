@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.authentication;
 
+import com.savvasdalkitsis.mondo.BuildConfig;
 import com.savvasdalkitsis.mondo.fakes.FakeCredentialsRepository;
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
 import com.savvasdalkitsis.mondo.model.Response;
@@ -13,6 +14,7 @@ import com.savvasdalkitsis.mondo.subscribers.HamcrestTestSubscriber;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
+import org.junit.rules.Timeout;
 
 import static com.shazam.shazamcrest.MatcherAssert.assertThat;
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
@@ -24,9 +26,13 @@ public class MondoAuthenticationUseCaseTest {
     private static final String REFRESH_TOKEN = "refresh_token";
     private static final ApiOAuthToken AUTH_WITH_REFRESH_TOKEN = ApiOAuthToken.builder().refreshToken(REFRESH_TOKEN).build();
     private static final String ACCOUNT_ID = "account_id";
+    private static final String GRANT_TYPE = BuildConfig.API_CALL_GRANT_TYPE;
+    private static final String REDIRECT_URI = BuildConfig.API_CALL_REDIRECT_URI;
     private final HamcrestTestSubscriber<Response<Void>> subscriber = new HamcrestTestSubscriber<>();
     @Rule
     public TestRule android = new AndroidRxSchedulerRuleImmediate();
+    @Rule
+    public TestRule timeout = Timeout.seconds(3);
     private static final String CLIENT_ID = "client_id";
     private static final String CLIENT_SECRET = "client_secret";
     private static final String CODE = "code";
@@ -67,6 +73,9 @@ public class MondoAuthenticationUseCaseTest {
         useCase.authenticate(AUTHENTICATION_DATA).subscribe();
 
         emitSuccessful(AUTH_WITH_ACCESS_TOKEN);
+
+        credentialsRepository.waitUntilAccessTokenIs(ACCESS_TOKEN);
+
         mondoApi.emitSuccessfulAccounts(ApiAccounts.builder()
                 .accounts(singletonList(ApiAccount.builder()
                         .id(ACCOUNT_ID)
@@ -82,17 +91,20 @@ public class MondoAuthenticationUseCaseTest {
 
         useCase.authenticate(AUTHENTICATION_DATA).subscribe(subscriber);
 
-        mondoApi.emitErrorOAuth(CLIENT_ID, CLIENT_SECRET, CODE);
+        mondoApi.emitErrorOAuth(CLIENT_ID, CLIENT_SECRET, CODE,
+                GRANT_TYPE, REDIRECT_URI);
 
         subscriber.assertFinishedWithItem(sameBeanAs(Response.error()));
     }
 
     private void emitSuccessful(ApiOAuthToken oAuthToken) {
-        mondoApi.emitSuccessfulOAuthFor(CLIENT_ID, CLIENT_SECRET, CODE, oAuthToken);
+        mondoApi.emitSuccessfulOAuthFor(CLIENT_ID, CLIENT_SECRET, CODE,
+                GRANT_TYPE, REDIRECT_URI, oAuthToken);
     }
 
     private void acceptOAuthCall() {
-        mondoApi.acceptsOAuthCall(CLIENT_ID, CLIENT_SECRET, CODE);
+        mondoApi.acceptsOAuthCall(CLIENT_ID, CLIENT_SECRET, CODE,
+                GRANT_TYPE, REDIRECT_URI);
     }
 
 }

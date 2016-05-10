@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
+    <com.savvasdalkitsis.mondo.android.widget.MondoToolbar
         style="@style/Mondo.Toolbar"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,12 +16,12 @@
             android:layout_height="@dimen/toolbar_extended_height"
             android:layout_margin="16dp"
             android:minHeight="@dimen/toolbar_extended_height"/>
-    </android.support.v7.widget.Toolbar>
+    </com.savvasdalkitsis.mondo.android.widget.MondoToolbar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/view_transactions"
+        android:layout_marginTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/toolbar" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

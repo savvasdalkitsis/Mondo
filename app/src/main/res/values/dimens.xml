@@ -2,4 +2,5 @@
 <resources>
     <dimen name="transactions_item_spacing">18dp</dimen>
     <dimen name="toolbar_extended_height">160dp</dimen>
+    <dimen name="toolbar_collapsed_height">56dp</dimen>
 </resources>

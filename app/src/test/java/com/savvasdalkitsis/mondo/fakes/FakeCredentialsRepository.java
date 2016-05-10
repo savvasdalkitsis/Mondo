@@ -37,4 +37,14 @@ public class FakeCredentialsRepository implements CredentialsRepository {
     public String getAccountId() {
         return accountId;
     }
+
+    public void waitUntilAccessTokenIs(String accessToken) {
+        while (!accessToken.equals(getAccessToken())) {
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Interrupted while waiting for token", e);
+            }
+        }
+    }
 }

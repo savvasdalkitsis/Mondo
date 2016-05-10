@@ -20,9 +20,17 @@ public class AccountIdInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
-        HttpUrl url = request.url().newBuilder()
-                .addQueryParameter("account_id", credentialsRepository.getAccountId())
-                .build();
-        return chain.proceed(request.newBuilder().url(url).build());
+        if (request.method().equals("GET")) {
+            HttpUrl url = request.url().newBuilder()
+                    .addQueryParameter("account_id", accountId())
+                    .build();
+            return chain.proceed(request.newBuilder().url(url).build());
+        }
+        return chain.proceed(request);
+    }
+
+    private String accountId() {
+        String accountId = credentialsRepository.getAccountId();
+        return accountId != null && !accountId.isEmpty() ? accountId : "INVALID_ACCOUNT_ID";
     }
 }
