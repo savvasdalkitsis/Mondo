@@ -7,11 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
 import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.android.widget.MondoToolbar;
+import com.savvasdalkitsis.mondo.android.widget.MoneyView;
 import com.savvasdalkitsis.mondo.android.widget.VerticalSpaceItemDecoration;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
@@ -28,13 +28,10 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     private final TransactionsPresenter presenter = transactionsPresenter();
     private final TransactionsAdapter transactionsAdapter = new TransactionsAdapter();
 
-    @Bind(R.id.view_balance) TextView balanceView;
-    @Bind(R.id.view_balance_currency) TextView balanceCurrencyView;
-    @Bind(R.id.view_spent_today) TextView spentTodayView;
-    @Bind(R.id.view_spent_today_currency) TextView spentTodayCurrencyView;
+    @Bind(R.id.view_balance) MoneyView balanceView;
+    @Bind(R.id.view_spent_today) MoneyView spentTodayView;
     @Bind(R.id.view_transactions) RecyclerView transactions;
-    @Bind(R.id.toolbar)
-    MondoToolbar toolbar;
+    @Bind(R.id.toolbar) MondoToolbar toolbar;
     @Bind(android.R.id.content) View root;
     private Snackbar snackbar;
 
@@ -64,15 +61,13 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayBalance(Balance balance) {
-        balanceView.setText(String.valueOf(balance.getBalance()));
-        balanceCurrencyView.setText(balance.getCurrencySymbol());
-        spentTodayView.setText(String.valueOf(balance.getSpentToday()));
-        spentTodayCurrencyView.setText(balance.getCurrencySymbol());
+        balanceView.bindTo(balance.getBalance());
+        spentTodayView.bindTo(balance.getSpentToday());
     }
 
     @Override
     public void displayErrorGettingBalance() {
-        balanceView.setText(R.string.error_retrieving_balance);
+//        balanceView.setText(R.string.error_retrieving_balance);
     }
 
     @Override

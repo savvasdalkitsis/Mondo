@@ -27,12 +27,12 @@ public class UserArrangements {
         this.instrumentationContext = instrumentationContext;
     }
 
-    public void hasBalance(double balance, TestCurrency currency) {
+    public void hasBalance(int balance, TestCurrency currency) {
         respond(withPath("/balance?account_id="+ TestAccountId.TEST_ACCOUNT_ID),
                 TestResponses.balance(balance, currency));
     }
 
-    public void hasSpentToday(double amount, TestCurrency currency) {
+    public void hasSpentToday(int amount, TestCurrency currency) {
         respond(withPath("/balance?account_id="+ TestAccountId.TEST_ACCOUNT_ID),
                 TestResponses.spentToday(amount, currency));
     }

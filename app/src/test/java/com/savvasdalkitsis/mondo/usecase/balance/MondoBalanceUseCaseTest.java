@@ -1,9 +1,9 @@
 package com.savvasdalkitsis.mondo.usecase.balance;
 
-import com.savvasdalkitsis.mondo.fakes.FakeCurrencySymbols;
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
+import com.savvasdalkitsis.mondo.model.money.Money;
 import com.savvasdalkitsis.mondo.repository.model.ApiBalance;
 import com.savvasdalkitsis.mondo.rx.AndroidRxSchedulerRuleImmediate;
 import com.savvasdalkitsis.mondo.subscribers.HamcrestTestSubscriber;
@@ -19,21 +19,17 @@ import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 public class MondoBalanceUseCaseTest {
 
-    private static final String USD_SYMBOL = "$";
     private static final String USD = "USD";
 
     @Rule public TestRule android = new AndroidRxSchedulerRuleImmediate();
     @Rule public TestRule timeout = Timeout.seconds(2);
 
     private final FakeMondoApi mondoApi = new FakeMondoApi();
-    private final FakeCurrencySymbols currencySymbols = new FakeCurrencySymbols();
-    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, currencySymbols);
+    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi);
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
 
     @Test
     public void retrievesBalanceFromMondoApi() {
-        currencySymbols.mapping(USD, USD_SYMBOL);
-
         getBalance().subscribe(subscriber);
 
         mondoApi.emitSuccessfulBalance(ApiBalance.builder()
@@ -43,9 +39,8 @@ public class MondoBalanceUseCaseTest {
                 .build());
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success(Balance.builder()
-                .balance(999)
-                .spentToday(666)
-                .currencySymbol(USD_SYMBOL)
+                .balance(Money.builder().wholeValue(999).currency(USD).build())
+                .spentToday(Money.builder().wholeValue(666).currency(USD).build())
                 .build())));
     }
 

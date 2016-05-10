@@ -52,6 +52,8 @@ public class MondoAuthenticationUseCaseTest {
 
         emitSuccessful(AUTH_WITH_ACCESS_TOKEN);
 
+        credentialsRepository.waitUntilAccessTokenIs(ACCESS_TOKEN);
+
         assertThat(credentialsRepository.getAccessToken(), equalTo(ACCESS_TOKEN));
     }
 
@@ -62,6 +64,8 @@ public class MondoAuthenticationUseCaseTest {
         useCase.authenticate(AUTHENTICATION_DATA).subscribe();
 
         emitSuccessful(AUTH_WITH_REFRESH_TOKEN);
+
+        credentialsRepository.waitUntilRefreshTokenIs(REFRESH_TOKEN);
 
         assertThat(credentialsRepository.getRefreshToken(), equalTo(REFRESH_TOKEN));
     }

@@ -3,6 +3,7 @@ package com.savvasdalkitsis.mondo.presenter.transactions;
 import com.savvasdalkitsis.mondo.fakes.FakeBalanceUseCase;
 import com.savvasdalkitsis.mondo.fakes.FakeTransactionsUseCase;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
+import com.savvasdalkitsis.mondo.model.money.Money;
 import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.view.transactions.TransactionsView;
@@ -27,9 +28,7 @@ public class TransactionsPresenterTest {
     @Test
     public void displaysBalanceWhenStarted() {
         Balance balance = Balance.builder()
-                .balance(100)
-                .spentToday(99)
-                .currencySymbol("$")
+                .balance(Money.builder().wholeValue(999).build())
                 .build();
 
         startPresenting();

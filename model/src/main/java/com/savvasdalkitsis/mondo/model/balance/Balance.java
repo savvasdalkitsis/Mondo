@@ -1,5 +1,7 @@
 package com.savvasdalkitsis.mondo.model.balance;
 
+import com.savvasdalkitsis.mondo.model.money.Money;
+
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Builder;
@@ -8,7 +10,7 @@ import lombok.experimental.Builder;
 @Getter
 @ToString
 public class Balance {
-    double balance;
-    double spentToday;
-    String currencySymbol;
+
+    Money balance;
+    Money spentToday;
 }

@@ -15,24 +15,24 @@ import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Field;
 import rx.Observable;
-import rx.subjects.PublishSubject;
+import rx.subjects.ReplaySubject;
 
 public class FakeMondoApi implements MondoApi {
 
-    private PublishSubject<Result<ApiBalance>> balanceSubject;
-    private PublishSubject<Result<ApiAccounts>> accountsSubject;
-    private PublishSubject<Result<ApiTransactions>> transactionsSubject;
-    private final Map<String, PublishSubject<Result<ApiOAuthToken>>> oAuthSubjects = new HashMap<>();
+    private ReplaySubject<Result<ApiBalance>> balanceSubject;
+    private ReplaySubject<Result<ApiAccounts>> accountsSubject;
+    private ReplaySubject<Result<ApiTransactions>> transactionsSubject;
+    private final Map<String, ReplaySubject<Result<ApiOAuthToken>>> oAuthSubjects = new HashMap<>();
 
     @Override
     public Observable<Result<ApiBalance>> getBalance() {
-        balanceSubject = PublishSubject.create();
+        balanceSubject = ReplaySubject.create();
         return balanceSubject;
     }
 
     @Override
     public Observable<Result<ApiTransactions>> getTransactions() {
-        transactionsSubject = PublishSubject.create();
+        transactionsSubject = ReplaySubject.create();
         return transactionsSubject;
     }
 
@@ -46,7 +46,7 @@ public class FakeMondoApi implements MondoApi {
     }
 
     public Observable<Result<ApiAccounts>> getAccounts() {
-        accountsSubject = PublishSubject.create();
+        accountsSubject = ReplaySubject.create();
         return accountsSubject;
     }
 
@@ -87,19 +87,19 @@ public class FakeMondoApi implements MondoApi {
 
     public void acceptsOAuthCall(String clientId, String clientSecret, String code,
                                  String grantType, String redirectUri) {
-        oAuthSubjects.put(keyFor(clientId, clientSecret, code, grantType, redirectUri), PublishSubject.create());
+        oAuthSubjects.put(keyFor(clientId, clientSecret, code, grantType, redirectUri), ReplaySubject.create());
     }
 
     public void emitSuccessfulOAuthFor(String clientId, String clientSecret, String code,
                                        String grantType, String redirectUri, ApiOAuthToken apiOAuthToken) {
-        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
+        ReplaySubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
         subject.onNext(Result.response(Response.success(apiOAuthToken)));
         subject.onCompleted();
     }
 
     public void emitErrorOAuth(String clientId, String clientSecret, String code,
                                String grantType, String redirectUri) {
-        PublishSubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
+        ReplaySubject<Result<ApiOAuthToken>> subject = oAuthSubjects.get(keyFor(clientId, clientSecret, code, grantType, redirectUri));
         subject.onError(new IOException("error getting oauth token"));
     }
 

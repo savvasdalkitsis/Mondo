@@ -8,6 +8,7 @@ import org.hamcrest.Matcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -23,12 +24,12 @@ public class SeesAssertions {
         return onView(withText(text)).check(matches(isDisplayed()));
     }
 
-    public static ViewInteraction seesTextOnViewWithId(@IdRes int id, double text) {
-        return seesTextOnViewWithId(id, String.valueOf(text));
+    public static ViewInteraction seesTextInsideViewWithId(@IdRes int id, double text) {
+        return seesTextInsideViewWithId(id, String.valueOf(text));
     }
 
-    public static ViewInteraction seesTextOnViewWithId(@IdRes int id, String text) {
-        return seesOnView(withId(id), withText(text));
+    public static ViewInteraction seesTextInsideViewWithId(@IdRes int id, String text) {
+        return seesOnView(withId(id), hasDescendant(withText(text)));
     }
 
     public static ViewInteraction seesOnView(Matcher<View> viewMatcher, Matcher<View> assertionMatcher) {

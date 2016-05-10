@@ -10,9 +10,9 @@ import lombok.experimental.Builder;
 public class ApiBalance {
 
     @SerializedName("balance")
-    double balance;
+    int balance;
     @SerializedName("spent_today")
-    double spentToday;
+    int spentToday;
     @SerializedName("currency")
     String currency;
 }

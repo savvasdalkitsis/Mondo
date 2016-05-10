@@ -13,7 +13,7 @@ public class TransactionsScreenTest extends MondoTest {
 
     @Test
     public void displaysUserBalance() {
-        given(user).hasBalance(123.4, GBP);
+        given(user).hasBalance(12340, GBP);
 
         when(user).launchesMondo();
 
@@ -31,7 +31,7 @@ public class TransactionsScreenTest extends MondoTest {
 
     @Test
     public void displaysSpentToday() {
-        given(user).hasSpentToday(66.6, GBP);
+        given(user).hasSpentToday(6660, GBP);
 
         when(user).launchesMondo();
 

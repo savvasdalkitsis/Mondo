@@ -2,11 +2,11 @@ package com.savvasdalkitsis.mondo.test.data;
 
 public class TestResponses {
 
-    public static String balance(double balance, TestCurrency currency) {
+    public static String balance(int balance, TestCurrency currency) {
         return "{\"balance\": " + balance + ", \"currency\": \"" + currency.apiName() + "\"}";
     }
 
-    public static String spentToday(double amount, TestCurrency currency) {
+    public static String spentToday(int amount, TestCurrency currency) {
         return "{\"spent_today\": " + amount + ", \"currency\": \"" + currency.apiName() + "\"}";
     }
 }

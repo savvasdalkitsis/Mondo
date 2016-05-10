@@ -24,8 +24,7 @@ import static java.util.Collections.singletonList;
 public class MondoTransactionsUseCaseTest {
 
     @Rule public TestRule android = new AndroidRxSchedulerRuleImmediate();
-    @Rule
-    public TestRule timeout = Timeout.seconds(3);
+    @Rule public TestRule timeout = Timeout.seconds(3);
     private final FakeMondoApi mondoApi = new FakeMondoApi();
     private final HamcrestTestSubscriber<Response<TransactionsPage>> subscriber = new HamcrestTestSubscriber<>();
     private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi);

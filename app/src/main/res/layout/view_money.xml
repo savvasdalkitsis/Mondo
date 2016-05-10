@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/view_money_currency"
+        style="@style/Mondo.Text.ToolBar.Balance.Small"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/view_money_amount"
+        style="@style/Mondo.Text.ToolBar.Balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/view_money_currency"
+        android:layout_toRightOf="@id/view_money_currency" />
+
+</merge>
