@@ -67,7 +67,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayErrorGettingBalance() {
-//        balanceView.setText(R.string.error_retrieving_balance);
+        balanceView.markNotAvailable();
     }
 
     @Override

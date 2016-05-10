@@ -15,7 +15,7 @@ public class UserAssertions {
     }
 
     public void seesErrorRetrievingBalance() {
-        seesText("Error retrieving balance");
+        seesText("N/A");
     }
 
     public void seesSpentToday(double amount, TestCurrency currency) {

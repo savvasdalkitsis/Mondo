@@ -45,4 +45,9 @@ public class MoneyView extends RelativeLayout {
         amount.setText(String.valueOf(money.getWholeValue() / 100d));
         currency.setText(currencySymbols.getSymbolFor(money.getCurrency()));
     }
+
+    public void markNotAvailable() {
+        currency.setText("");
+        amount.setText(R.string.not_available);
+    }
 }
