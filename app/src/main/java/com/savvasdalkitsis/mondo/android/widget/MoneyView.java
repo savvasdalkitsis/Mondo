@@ -18,8 +18,9 @@ public class MoneyView extends RelativeLayout {
 
     private float largeSize;
     private float smallSize;
-    private int smallColor;
     private int largeColor;
+    private int smallColorExpense;
+    private int smallColorDeposit;
 
     private enum DisplayStyle {
         LARGE(0), SMALL(1);
@@ -65,7 +66,8 @@ public class MoneyView extends RelativeLayout {
         extractAttrs(attrs);
         largeSize = getResources().getDimension(R.dimen.balance_size_large);
         smallSize = getResources().getDimension(R.dimen.balance_size_small);
-        smallColor = getResources().getColor(R.color.colorPrimary);
+        smallColorExpense = getResources().getColor(R.color.colorPrimary);
+        smallColorDeposit = getResources().getColor(R.color.deposit_green);
         largeColor = getResources().getColor(android.R.color.white);
         currency = (TextView) findViewById(R.id.view_money_currency);
         amount = (TextView) findViewById(R.id.view_money_amount);
@@ -89,8 +91,11 @@ public class MoneyView extends RelativeLayout {
         currency.setText(currencySymbols.getSymbolFor(money.getCurrency()));
         if (displayStyle == DisplayStyle.SMALL) {
             currency.setVisibility(GONE);
-            amount.setTextColor(smallColor);
+            amount.setTextColor(money.isExpense() ? smallColorExpense : smallColorDeposit);
             amount.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallSize);
+            if (!money.isExpense()) {
+                amount.setText(String.format("+%s", amount.getText().toString()));
+            }
         } else {
             currency.setVisibility(VISIBLE);
             amount.setTextColor(largeColor);

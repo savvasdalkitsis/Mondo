@@ -9,4 +9,5 @@ public class Money {
 
     int wholeValue;
     String currency;
+    boolean expense;
 }

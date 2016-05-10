@@ -37,6 +37,7 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                             transactions.add(Transaction.builder()
                                     .amount(Money.builder()
                                             .wholeValue(Math.abs(apiTransaction.getAmount()))
+                                            .expense(apiTransaction.getAmount() < 0)
                                             .currency(apiTransaction.getCurrency())
                                             .build())
                                     .description(isNotEmptyNorNull(merchantName) ? merchantName : apiTransaction.getDescription())

@@ -50,7 +50,7 @@ public class MondoTransactionsUseCaseTest {
                 .transactions(singletonList(Transaction.builder()
                         .description("merchant1")
                         .logoUrl("logo1")
-                        .amount(Money.builder().wholeValue(100).currency(USD).build())
+                        .amount(Money.builder().wholeValue(100).currency(USD).expense(true).build())
                         .build()))
                 .build())));
     }
@@ -80,7 +80,7 @@ public class MondoTransactionsUseCaseTest {
         mondoApi.emitSuccessfulTransactionPage(ApiTransactions.builder()
                 .transactions(singletonList(ApiTransaction.builder()
                         .merchant(null)
-                        .amount(-100)
+                        .amount(100)
                         .currency(USD)
                         .build()))
                 .build());
@@ -89,6 +89,7 @@ public class MondoTransactionsUseCaseTest {
                 .transactions(singletonList(Transaction.builder()
                         .amount(Money.builder()
                                 .wholeValue(100)
+                                .expense(false)
                                 .currency(USD)
                                 .build())
                         .build()))
@@ -107,8 +108,8 @@ public class MondoTransactionsUseCaseTest {
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success(TransactionsPage.builder()
                 .transactions(asList(
-                        Transaction.builder().amount(Money.builder().wholeValue(2).build()).build(),
-                        Transaction.builder().amount(Money.builder().wholeValue(1).build()).build()
+                        Transaction.builder().amount(Money.builder().wholeValue(2).expense(true).build()).build(),
+                        Transaction.builder().amount(Money.builder().wholeValue(1).expense(true).build()).build()
                 ))
                 .build())));
     }
