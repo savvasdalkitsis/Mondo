@@ -31,6 +31,11 @@ public class TransactionsPresenterTest {
                 .balance(Money.builder().wholeValue(999).build())
                 .build();
 
+        mockery.checking(new Expectations() {{
+            oneOf(view).displayLoadingBalance();
+            ignoring(view).displayLoadingTransactions();
+        }});
+
         startPresenting();
 
         mockery.checking(new Expectations() {{
@@ -42,6 +47,7 @@ public class TransactionsPresenterTest {
 
     @Test
     public void stopsDisplayingToTheViewWhenStopped() {
+        ignoreLoading();
         startPresenting();
         presenter.stopPresenting();
 
@@ -55,6 +61,7 @@ public class TransactionsPresenterTest {
 
     @Test
     public void displaysErrorWhenBalanceCannotBeRetrieved() {
+        ignoreLoading();
         startPresenting();
 
         mockery.checking(new Expectations() {{
@@ -73,6 +80,10 @@ public class TransactionsPresenterTest {
                         .build()))
                 .build();
 
+        mockery.checking(new Expectations() {{
+            ignoring(view).displayLoadingBalance();
+            oneOf(view).displayLoadingTransactions();
+        }});
         startPresenting();
 
         mockery.checking(new Expectations() {{
@@ -84,6 +95,7 @@ public class TransactionsPresenterTest {
 
     @Test
     public void displaysErrorWhenTransactionsCannotBeReceived() {
+        ignoreLoading();
         startPresenting();
 
         mockery.checking(new Expectations() {{
@@ -95,5 +107,12 @@ public class TransactionsPresenterTest {
 
     private void startPresenting() {
         presenter.startPresenting(view);
+    }
+
+    private void ignoreLoading() {
+        mockery.checking(new Expectations() {{
+            ignoring(view).displayLoadingBalance();
+            ignoring(view).displayLoadingTransactions();
+        }});
     }
 }

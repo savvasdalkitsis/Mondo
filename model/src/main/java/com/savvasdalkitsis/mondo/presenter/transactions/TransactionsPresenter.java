@@ -19,6 +19,7 @@ public class TransactionsPresenter {
 
     public void startPresenting(TransactionsView transactionsView) {
         subscriptions = new CompositeSubscription();
+        transactionsView.displayLoadingBalance();
         subscriptions.add(balanceUseCase.getBalance()
                 .subscribe(balanceResponse -> {
                     if (!balanceResponse.isError()) {
@@ -28,6 +29,7 @@ public class TransactionsPresenter {
                     }
                 })
         );
+        transactionsView.displayLoadingTransactions();
         subscriptions.add(transactionsUseCase.getTransactions()
                 .subscribe(transactionsPageResponse -> {
                     if (!transactionsPageResponse.isError()) {
