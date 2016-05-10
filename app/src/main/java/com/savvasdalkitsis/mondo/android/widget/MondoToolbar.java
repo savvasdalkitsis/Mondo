@@ -63,7 +63,7 @@ public class MondoToolbar extends Toolbar {
             if (first > 0) {
                 setTranslationY(minTranslation);
             } else {
-                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop() - toolbarCorrectionOffset, minTranslation));
+                setTranslationY(Math.max(recyclerView.getChildAt(0).getTop() / 2 - toolbarCorrectionOffset, minTranslation));
             }
         }
     }
