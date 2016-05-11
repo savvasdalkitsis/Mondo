@@ -21,12 +21,14 @@ public class TransactionsItemHolder extends RecyclerView.ViewHolder {
     private final MoneyView amount;
     private final TextView merchant;
     private final ImageView logo;
+    private final View expansion;
 
     public TransactionsItemHolder(ViewGroup parent) {
         super(createView(parent));
         logo = (ImageView) itemView.findViewById(R.id.view_transaction_row_logo);
         amount = (MoneyView) itemView.findViewById(R.id.view_transaction_row_amount);
         merchant = (TextView) itemView.findViewById(R.id.view_transaction_row_merchant);
+        expansion = itemView.findViewById(R.id.view_transaction_row_expansion);
     }
 
     private static View createView(ViewGroup parent) {
@@ -37,5 +39,15 @@ public class TransactionsItemHolder extends RecyclerView.ViewHolder {
         amount.bindTo(transaction.getAmount());
         merchant.setText(transaction.getDescription());
         imageLoader.load(transaction.getLogoUrl(), logo);
+    }
+
+    public void clear() {
+        merchant.setText(null);
+        amount.clear();
+        logo.setImageDrawable(null);
+    }
+
+    public void setToolbarExpansionMode(boolean toolbarExpansionMode) {
+        expansion.setVisibility(toolbarExpansionMode ? View.VISIBLE : View.GONE);
     }
 }

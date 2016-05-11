@@ -14,7 +14,6 @@ import com.savvasdalkitsis.butterknifeaspects.aspects.BindLayout;
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.android.widget.MondoToolbar;
 import com.savvasdalkitsis.mondo.android.widget.MoneyView;
-import com.savvasdalkitsis.mondo.android.widget.VerticalSpaceItemDecoration;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.presenter.transactions.TransactionsPresenter;

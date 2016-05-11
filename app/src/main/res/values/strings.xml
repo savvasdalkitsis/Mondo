@@ -10,4 +10,7 @@
     <string name="retry">Retry</string>
     <string name="not_available">N/A</string>
     <string name="loading_transactions">Loading transactions</string>
+    <string name="font_family_medium">sans-serif</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 </resources>

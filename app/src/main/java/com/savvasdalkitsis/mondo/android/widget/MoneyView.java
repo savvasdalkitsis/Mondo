@@ -16,35 +16,15 @@ import static com.savvasdalkitsis.mondo.injector.model.currency.CurrencySymbolsI
 
 public class MoneyView extends RelativeLayout {
 
+    private final CurrencySymbols currencySymbols = currencySymbols();
     private float largeSize;
     private float smallSize;
     private int largeColor;
     private int smallColorExpense;
     private int smallColorDeposit;
-
-    private enum DisplayStyle {
-        LARGE(0), SMALL(1);
-
-        private int style;
-
-        DisplayStyle(int style) {
-            this.style = style;
-        }
-
-        public static DisplayStyle from(int style) {
-            for (DisplayStyle displayStyle : values()) {
-                if (displayStyle.style == style) {
-                    return displayStyle;
-                }
-            }
-            return LARGE;
-        }
-    }
-
-    private final CurrencySymbols currencySymbols = currencySymbols();
     private TextView currency;
     private TextView amount;
-    private DisplayStyle displayStyle = DisplayStyle.LARGE;
+    private MoneyViewDisplayStyle displayStyle = MoneyViewDisplayStyle.defaultStyle();
 
     public MoneyView(Context context) {
         super(context);
@@ -77,7 +57,8 @@ public class MoneyView extends RelativeLayout {
         if (attrs != null) {
             TypedArray a = getContext().getTheme().obtainStyledAttributes(attrs, R.styleable.MoneyView, 0, 0);
             try {
-                displayStyle = DisplayStyle.from(a.getInt(R.styleable.MoneyView_displayStyle, 1));
+                displayStyle = MoneyViewDisplayStyle.from(
+                        a.getInt(R.styleable.MoneyView_displayStyle, MoneyViewDisplayStyle.defaultStyle().getStyleCode()));
             } finally {
                 a.recycle();
             }
@@ -89,7 +70,7 @@ public class MoneyView extends RelativeLayout {
         // Out of scope for this exercise
         amount.setText(String.valueOf(money.getWholeValue() / 100d));
         currency.setText(currencySymbols.getSymbolFor(money.getCurrency()));
-        if (displayStyle == DisplayStyle.SMALL) {
+        if (displayStyle == MoneyViewDisplayStyle.SMALL) {
             currency.setVisibility(GONE);
             amount.setTextColor(money.isExpense() ? smallColorExpense : smallColorDeposit);
             amount.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallSize);
@@ -101,6 +82,11 @@ public class MoneyView extends RelativeLayout {
             amount.setTextColor(largeColor);
             amount.setTextSize(TypedValue.COMPLEX_UNIT_PX, largeSize);
         }
+    }
+
+    public void clear() {
+        currency.setText(null);
+        amount.setText(null);
     }
 
     public void markNotAvailable() {

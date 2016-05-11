@@ -9,8 +9,6 @@ public interface TransactionsView {
     void displayErrorGettingBalance();
     void displayErrorGettingTransactions();
     void displayTransactionsPage(TransactionsPage transactionsPage);
-
     void displayLoadingBalance();
-
     void displayLoadingTransactions();
 }

@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.transactions;
 
+import com.savvasdalkitsis.mondo.infra.date.DateParser;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.money.Money;
 import com.savvasdalkitsis.mondo.model.transactions.Transaction;
@@ -20,9 +21,11 @@ import static com.savvasdalkitsis.mondo.util.StringUtils.isNotEmptyNorNull;
 public class MondoTransactionsUseCase implements TransactionsUseCase {
 
     private MondoApi mondoApi;
+    private DateParser dateParser;
 
-    public MondoTransactionsUseCase(MondoApi mondoApi) {
+    public MondoTransactionsUseCase(MondoApi mondoApi, DateParser dateParser) {
         this.mondoApi = mondoApi;
+        this.dateParser = dateParser;
     }
 
     @Override
@@ -35,6 +38,7 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                             ApiMerchant merchant = nullSafe(apiTransaction.getMerchant());
                             String merchantName = merchant.getName();
                             transactions.add(Transaction.builder()
+                                    .created(dateParser.parse(apiTransaction.getCreated()))
                                     .amount(Money.builder()
                                             .wholeValue(Math.abs(apiTransaction.getAmount()))
                                             .expense(apiTransaction.getAmount() < 0)

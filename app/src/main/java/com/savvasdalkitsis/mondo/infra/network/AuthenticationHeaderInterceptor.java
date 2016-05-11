@@ -22,7 +22,7 @@ public class AuthenticationHeaderInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         String accessToken = credentialsRepository.getAccessToken();
         Request request = chain.request();
-        if (isNotEmptyNorNull(accessToken)) {
+        if (request.method().equals("GET") && isNotEmptyNorNull(accessToken)) {
             request = request.newBuilder()
                     .header("Authorization", "Bearer " + accessToken)
                     .build();

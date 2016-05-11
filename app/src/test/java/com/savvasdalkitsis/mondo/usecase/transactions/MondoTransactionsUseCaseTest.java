@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.transactions;
 
+import com.savvasdalkitsis.mondo.fakes.FakeDateParser;
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.money.Money;
@@ -16,6 +17,8 @@ import org.junit.Test;
 import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
+import java.util.Date;
+
 import rx.Observable;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
@@ -29,16 +32,20 @@ public class MondoTransactionsUseCaseTest {
     @Rule public TestRule timeout = Timeout.seconds(3);
     private final FakeMondoApi mondoApi = new FakeMondoApi();
     private final HamcrestTestSubscriber<Response<TransactionsPage>> subscriber = new HamcrestTestSubscriber<>();
-    private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi);
+    private final FakeDateParser dateParser = new FakeDateParser();
+    private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi, dateParser);
 
     @Test
     public void retrievesPageFromMondoApi() {
         getTransactions().subscribe(subscriber);
+        Date date = new Date(0);
+        dateParser.format("date", date);
 
         mondoApi.emitSuccessfulTransactionPage(ApiTransactions.builder()
                 .transactions(singletonList(ApiTransaction.builder()
                         .amount(-100)
                         .currency(USD)
+                        .created("date")
                         .merchant(ApiMerchant.builder()
                                 .name("merchant1")
                                 .logo("logo1")
@@ -50,6 +57,7 @@ public class MondoTransactionsUseCaseTest {
                 .transactions(singletonList(Transaction.builder()
                         .description("merchant1")
                         .logoUrl("logo1")
+                        .created(date)
                         .amount(Money.builder().wholeValue(100).currency(USD).expense(true).build())
                         .build()))
                 .build())));

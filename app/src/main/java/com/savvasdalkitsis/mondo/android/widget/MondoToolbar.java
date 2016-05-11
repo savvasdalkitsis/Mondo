@@ -70,9 +70,10 @@ public class MondoToolbar extends Toolbar {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             int first = layoutManager.findFirstVisibleItemPosition();
             float translationY = maxTranslation;
-            if (first == 0) {
-                translationY = Math.max(recyclerView.getChildAt(0).getTop() / 2f, maxTranslation);
+            if (first < 2) {
+                translationY = Math.max(recyclerView.getChildAt(1 - first).getTop() / 2f, maxTranslation);
             }
+
             float progress = translationY / maxTranslation;
             setTranslationY(translationY);
             appLogo.setTranslationY(-translationY);
