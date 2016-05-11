@@ -76,6 +76,7 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayErrorGettingBalance() {
+        balanceProgressBar.setVisibility(View.GONE);
         balanceView.markNotAvailable();
     }
 
