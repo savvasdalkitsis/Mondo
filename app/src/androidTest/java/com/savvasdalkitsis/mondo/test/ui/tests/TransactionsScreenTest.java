@@ -44,11 +44,6 @@ public class TransactionsScreenTest extends MondoTest {
 
         when(user).launchesMondo();
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         then(user).seesTransaction(100, "Starbucks");
         then(user).seesTransaction(33, "McDonald's");
     }

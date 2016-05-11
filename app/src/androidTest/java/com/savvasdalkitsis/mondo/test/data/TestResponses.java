@@ -7,6 +7,6 @@ public class TestResponses {
     }
 
     public static String spentToday(int amount, TestCurrency currency) {
-        return "{\"spent_today\": " + amount + ", \"currency\": \"" + currency.apiName() + "\"}";
+        return "{\"spend_today\": " + -amount + ", \"currency\": \"" + currency.apiName() + "\"}";
     }
 }

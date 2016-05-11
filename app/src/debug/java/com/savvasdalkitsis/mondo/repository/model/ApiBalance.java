@@ -11,8 +11,8 @@ public class ApiBalance {
 
     @SerializedName("balance")
     int balance;
-    @SerializedName("spent_today")
-    int spentToday;
+    @SerializedName("spend_today")
+    int spendToday;
     @SerializedName("currency")
     String currency;
 }

@@ -28,7 +28,11 @@ public class MondoBalanceUseCase implements BalanceUseCase {
                         String currency = apiBalance.getCurrency();
                         return Response.success(Balance.<Balance>builder()
                                 .balance(Money.builder().wholeValue(apiBalance.getBalance()).currency(currency).build())
-                                .spentToday(Money.builder().wholeValue(apiBalance.getSpentToday()).currency(currency).build())
+                                .spentToday(Money.builder()
+                                        .wholeValue(Math.abs(apiBalance.getSpendToday()))
+                                        .expense(apiBalance.getSpendToday() < 0)
+                                        .currency(currency)
+                                        .build())
                                 .build());
                     }
                     return Response.<Balance>error();

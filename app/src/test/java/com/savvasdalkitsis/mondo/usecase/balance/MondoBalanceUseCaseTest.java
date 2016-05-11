@@ -34,13 +34,13 @@ public class MondoBalanceUseCaseTest {
 
         mondoApi.emitSuccessfulBalance(ApiBalance.builder()
                 .balance(999)
-                .spentToday(666)
+                .spendToday(-666)
                 .currency(USD)
                 .build());
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success(Balance.builder()
                 .balance(Money.builder().wholeValue(999).currency(USD).build())
-                .spentToday(Money.builder().wholeValue(666).currency(USD).build())
+                .spentToday(Money.builder().expense(true).wholeValue(666).currency(USD).build())
                 .build())));
     }
 
