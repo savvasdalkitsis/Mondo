@@ -18,6 +18,7 @@ import static java.util.Collections.singletonList;
 public class ApiTransactionsToTransactionsPageMapperTest {
 
     private static final String USD = "USD";
+    private static final String GBP = "GBP";
     private final FakeDateParser dateParser = new FakeDateParser();
     private final ApiTransactionsToTransactionsPageMapper mapper = new ApiTransactionsToTransactionsPageMapper(dateParser);
 
@@ -30,6 +31,8 @@ public class ApiTransactionsToTransactionsPageMapperTest {
                 .transactions(singletonList(ApiTransaction.builder()
                         .amount(-100)
                         .currency(USD)
+                        .localAmount(-800)
+                        .localCurrency(GBP)
                         .created("date")
                         .merchant(ApiMerchant.builder()
                                 .name("merchant1")
@@ -44,6 +47,7 @@ public class ApiTransactionsToTransactionsPageMapperTest {
                         .logoUrl("logo1")
                         .created(date)
                         .amount(Money.builder().wholeValue(100).currency(USD).expense(true).build())
+                        .amountInLocalCurrency(Money.builder().wholeValue(800).currency(GBP).expense(true).build())
                         .build()))
                 .build();
 
@@ -56,6 +60,7 @@ public class ApiTransactionsToTransactionsPageMapperTest {
                 .transactions(singletonList(ApiTransaction.builder()
                         .description("description")
                         .amount(0)
+                        .localAmount(0)
                         .merchant(null)
                         .build()))
                 .build();
@@ -64,6 +69,7 @@ public class ApiTransactionsToTransactionsPageMapperTest {
                 .transactions(singletonList(Transaction.builder()
                         .description("description")
                         .amount(Money.builder().wholeValue(0).build())
+                        .amountInLocalCurrency(Money.builder().wholeValue(0).build())
                         .build()))
                 .build();
 
@@ -80,8 +86,14 @@ public class ApiTransactionsToTransactionsPageMapperTest {
 
         TransactionsPage expected = TransactionsPage.builder()
                 .transactions(asList(
-                        Transaction.builder().amount(Money.builder().wholeValue(2).expense(true).build()).build(),
-                        Transaction.builder().amount(Money.builder().wholeValue(1).expense(true).build()).build()
+                        Transaction.builder()
+                                .amount(Money.builder().wholeValue(2).expense(true).build())
+                                .amountInLocalCurrency(Money.builder().build())
+                                .build(),
+                        Transaction.builder()
+                                .amount(Money.builder().wholeValue(1).expense(true).build())
+                                .amountInLocalCurrency(Money.builder().build())
+                                .build()
                 ))
                 .build();
 

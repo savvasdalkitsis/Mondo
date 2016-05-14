@@ -35,6 +35,11 @@ public class ApiTransactionsToTransactionsPageMapper implements Func1<ApiTransac
                             .expense(apiTransaction.getAmount() < 0)
                             .currency(apiTransaction.getCurrency())
                             .build())
+                    .amountInLocalCurrency(Money.builder()
+                            .wholeValue(Math.abs(apiTransaction.getLocalAmount()))
+                            .expense(apiTransaction.getLocalAmount() < 0)
+                            .currency(apiTransaction.getLocalCurrency())
+                            .build())
                     .description(isNotEmptyNorNull(merchantName) ? merchantName : apiTransaction.getDescription())
                     .logoUrl(merchant.getLogo())
                     .build());

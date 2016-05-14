@@ -11,6 +11,7 @@ import lombok.experimental.Builder;
 @Getter
 public class Transaction {
     private Money amount;
+    private Money amountInLocalCurrency;
     private String description;
     private String logoUrl;
     private Date created;

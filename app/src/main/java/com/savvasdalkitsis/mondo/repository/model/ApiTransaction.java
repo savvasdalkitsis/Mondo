@@ -13,6 +13,10 @@ public class ApiTransaction {
     private int amount;
     @SerializedName("currency")
     private String currency;
+    @SerializedName("local_amount")
+    private int localAmount;
+    @SerializedName("local_currency")
+    private String localCurrency;
     @SerializedName("description")
     private String description;
     @SerializedName("created")
