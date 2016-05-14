@@ -28,10 +28,11 @@ public class PreferencesObservableCache<T> implements ObservableCache<T> {
 
     @Override
     public Observable<Result<T>> cache(Observable<Result<T>> observable, Class<T> itemClass) {
-        return concat(observable(itemClass), observable).doOnNext(item -> save(item, itemClass));
+        return concat(cachedItems(itemClass), observable)
+                .doOnNext(item -> save(item, itemClass));
     }
 
-    private Observable<Result<T>> observable(Class<T> itemClass) {
+    private Observable<Result<T>> cachedItems(Class<T> itemClass) {
         return defer(() -> {
             String item = mondoPreferences.getStringPreference(getPreferenceKey(itemClass));
             if (StringUtils.isNotEmptyNorNull(item)) {
