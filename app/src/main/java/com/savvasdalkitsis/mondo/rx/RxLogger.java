@@ -1,6 +1,6 @@
 package com.savvasdalkitsis.mondo.rx;
 
-import android.util.Log;
+import com.savvasdalkitsis.mondo.infra.log.Logger;
 
 import rx.plugins.DebugHook;
 import rx.plugins.DebugNotificationListener;
@@ -12,7 +12,7 @@ public class RxLogger {
         RxJavaPlugins.getInstance().registerObservableExecutionHook(new DebugHook<>(new DebugNotificationListener<Object>() {
             @Override
             public void error(Object context, Throwable e) {
-                Log.e("RxLog", "onError()", e);
+                Logger.error("RxLog", "onError()", e);
                 super.error(context, e);
             }
         }));

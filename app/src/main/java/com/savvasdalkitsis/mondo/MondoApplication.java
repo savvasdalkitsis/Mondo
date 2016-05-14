@@ -11,6 +11,6 @@ public class MondoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ApplicationInjector.setApplicationInstance(this);
-//        RxLogger.logRx();
+        RxLogger.logRx();
     }
 }
