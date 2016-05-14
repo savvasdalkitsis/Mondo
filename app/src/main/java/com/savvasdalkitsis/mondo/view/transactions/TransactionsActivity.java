@@ -2,6 +2,7 @@ package com.savvasdalkitsis.mondo.view.transactions;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -33,10 +34,10 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
     @Bind(R.id.view_spent_today) MoneyView spentTodayView;
     @Bind(R.id.view_transactions) RecyclerView transactions;
     @Bind(R.id.toolbar) MondoToolbar toolbar;
-    @Bind(R.id.view_progress)
-    ProgressBar balanceProgressBar;
+    @Bind(R.id.view_progress) ProgressBar balanceProgressBar;
     @Bind(android.R.id.content) View root;
-    private Snackbar snackbar;
+    private Snackbar errorSnackbar;
+    private Snackbar loadingSnackbar;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +70,6 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayBalance(Balance balance) {
-        balanceProgressBar.setVisibility(View.GONE);
         balanceView.bindTo(balance.getBalance());
         spentTodayView.bindTo(balance.getSpentToday());
     }
@@ -82,12 +82,11 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayErrorGettingTransactions() {
-        showSnackBar(R.string.error_retrieving_transactions);
+        errorSnackbar = showSnackBar(R.string.error_retrieving_transactions);
     }
 
     @Override
     public void displayTransactionsPage(TransactionsPage transactionsPage) {
-        hideSnackBar();
         transactionsAdapter.addPage(transactionsPage);
     }
 
@@ -98,16 +97,33 @@ public class TransactionsActivity extends AspectAppCompatActivity implements Tra
 
     @Override
     public void displayLoadingTransactions() {
-        showSnackBar(R.string.loading_transactions);
+        loadingSnackbar = showSnackBar(R.string.loading_transactions);
     }
 
-    private void showSnackBar(@StringRes int message) {
-        hideSnackBar();
-        snackbar = Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE);
+    @NonNull
+    private Snackbar showSnackBar(@StringRes int message) {
+        hideSnackBars();
+        Snackbar snackbar = Snackbar.make(root, message, Snackbar.LENGTH_INDEFINITE);
         snackbar.show();
+        return snackbar;
     }
 
-    private void hideSnackBar() {
+    @Override
+    public void hideBalanceLoading() {
+        balanceProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideTransactionsLoading() {
+        hide(loadingSnackbar);
+    }
+
+    private void hideSnackBars() {
+        hide(errorSnackbar);
+        hide(loadingSnackbar);
+    }
+
+    private void hide(Snackbar snackbar) {
         if (snackbar != null) {
             snackbar.dismiss();
         }

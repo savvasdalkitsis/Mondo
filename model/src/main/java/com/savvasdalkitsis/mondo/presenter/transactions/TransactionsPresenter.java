@@ -21,6 +21,7 @@ public class TransactionsPresenter {
         subscriptions = new CompositeSubscription();
         transactionsView.displayLoadingBalance();
         subscriptions.add(balanceUseCase.getBalance()
+                .doOnCompleted(transactionsView::hideBalanceLoading)
                 .subscribe(balanceResponse -> {
                     if (!balanceResponse.isError()) {
                         transactionsView.displayBalance(balanceResponse.getData());
@@ -31,6 +32,7 @@ public class TransactionsPresenter {
         );
         transactionsView.displayLoadingTransactions();
         subscriptions.add(transactionsUseCase.getTransactions()
+                .doOnCompleted(transactionsView::hideTransactionsLoading)
                 .subscribe(transactionsPageResponse -> {
                     if (!transactionsPageResponse.isError()) {
                         transactionsView.displayTransactionsPage(transactionsPageResponse.getData());

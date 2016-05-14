@@ -11,4 +11,6 @@ public interface TransactionsView {
     void displayTransactionsPage(TransactionsPage transactionsPage);
     void displayLoadingBalance();
     void displayLoadingTransactions();
+    void hideBalanceLoading();
+    void hideTransactionsLoading();
 }
