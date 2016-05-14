@@ -15,34 +15,29 @@ import org.junit.rules.TestRule;
 import org.junit.rules.Timeout;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 import static com.shazam.shazamcrest.matcher.Matchers.sameBeanAs;
 
 public class MondoBalanceUseCaseTest {
 
-    private static final String USD = "USD";
+    private static final Balance BALANCE = Balance.builder().balance(Money.builder().currency("$").build()).build();
 
     @Rule public TestRule android = new AndroidRxSchedulerRuleImmediate();
     @Rule public TestRule timeout = Timeout.seconds(2);
 
     private final FakeMondoApi mondoApi = new FakeMondoApi();
-    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, new NoOpObservableCache<>());
+    private final Func1<ApiBalance, Balance> mapper = apiBalance -> BALANCE;
+    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, mapper, new NoOpObservableCache<>());
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
 
     @Test
     public void retrievesBalanceFromMondoApi() {
         getBalance().subscribe(subscriber);
 
-        mondoApi.emitSuccessfulBalance(ApiBalance.builder()
-                .balance(999)
-                .spendToday(-666)
-                .currency(USD)
-                .build());
+        mondoApi.emitSuccessfulBalance(ApiBalance.builder().build());
 
-        subscriber.assertFinishedWithItems(sameBeanAs(Response.success(Balance.builder()
-                .balance(Money.builder().wholeValue(999).currency(USD).build())
-                .spentToday(Money.builder().expense(true).wholeValue(666).currency(USD).build())
-                .build())));
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.success(BALANCE)));
     }
 
     @Test
