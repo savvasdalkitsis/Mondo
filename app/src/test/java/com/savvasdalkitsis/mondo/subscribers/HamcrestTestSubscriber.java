@@ -13,6 +13,11 @@ public class HamcrestTestSubscriber<T> extends TestSubscriber<T> {
     public final void assertFinishedWithItems(Matcher<T>... itemMatchers) {
         awaitTerminalEvent();
         assertCompleted();
+        assertReceivedItems(itemMatchers);
+    }
+
+    @SafeVarargs
+    public final void assertReceivedItems(Matcher<T>... itemMatchers) {
         assertThat(getOnNextEvents(), contains(itemMatchers));
     }
 }

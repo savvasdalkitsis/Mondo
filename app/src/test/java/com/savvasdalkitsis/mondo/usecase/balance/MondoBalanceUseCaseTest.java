@@ -25,7 +25,7 @@ public class MondoBalanceUseCaseTest {
     @Rule public TestRule timeout = Timeout.seconds(2);
 
     private final FakeMondoApi mondoApi = new FakeMondoApi();
-    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi);
+    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, (observable, itemClass) -> observable);
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
 
     @Test

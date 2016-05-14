@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.balance;
 
+import com.savvasdalkitsis.mondo.infra.cache.ObservableCache;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.model.money.Money;
@@ -13,14 +14,16 @@ import rx.Observable;
 public class MondoBalanceUseCase implements BalanceUseCase {
 
     private MondoApi mondoApi;
+    private ObservableCache<ApiBalance> observableCache;
 
-    public MondoBalanceUseCase(MondoApi mondoApi) {
+    public MondoBalanceUseCase(MondoApi mondoApi, ObservableCache<ApiBalance> observableCache) {
         this.mondoApi = mondoApi;
+        this.observableCache = observableCache;
     }
 
     @Override
     public Observable<Response<Balance>> getBalance() {
-        return mondoApi.getBalance()
+        return observableCache.cache(mondoApi.getBalance(), ApiBalance.class)
                 .map(apiBalanceResult -> {
                     retrofit2.Response<ApiBalance> response = apiBalanceResult.response();
                     if (!apiBalanceResult.isError() && response.isSuccessful()) {
@@ -38,7 +41,6 @@ public class MondoBalanceUseCase implements BalanceUseCase {
                     return Response.<Balance>error();
                 })
                 .compose(RxTransformers.androidNetworkCall())
-                .onErrorResumeNext(Observable.just(Response.<Balance>error()));
+                .compose(RxTransformers.mapToErrorResponse());
     }
-
 }

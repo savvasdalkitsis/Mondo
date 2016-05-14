@@ -33,7 +33,8 @@ public class MondoTransactionsUseCaseTest {
     private final FakeMondoApi mondoApi = new FakeMondoApi();
     private final HamcrestTestSubscriber<Response<TransactionsPage>> subscriber = new HamcrestTestSubscriber<>();
     private final FakeDateParser dateParser = new FakeDateParser();
-    private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi, dateParser);
+    private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi, dateParser,
+            (observable, itemClass) -> observable);
 
     @Test
     public void retrievesPageFromMondoApi() {

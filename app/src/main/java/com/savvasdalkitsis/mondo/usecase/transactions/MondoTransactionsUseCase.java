@@ -1,5 +1,6 @@
 package com.savvasdalkitsis.mondo.usecase.transactions;
 
+import com.savvasdalkitsis.mondo.infra.cache.ObservableCache;
 import com.savvasdalkitsis.mondo.infra.date.DateParser;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.money.Money;
@@ -8,6 +9,7 @@ import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
 import com.savvasdalkitsis.mondo.repository.model.ApiMerchant;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransaction;
+import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
 import com.savvasdalkitsis.mondo.rx.RxTransformers;
 
 import java.util.ArrayList;
@@ -22,15 +24,17 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
 
     private MondoApi mondoApi;
     private DateParser dateParser;
+    private ObservableCache<ApiTransactions> observableCache;
 
-    public MondoTransactionsUseCase(MondoApi mondoApi, DateParser dateParser) {
+    public MondoTransactionsUseCase(MondoApi mondoApi, DateParser dateParser, ObservableCache<ApiTransactions> observableCache) {
         this.mondoApi = mondoApi;
         this.dateParser = dateParser;
+        this.observableCache = observableCache;
     }
 
     @Override
     public Observable<Response<TransactionsPage>> getTransactions() {
-        return mondoApi.getTransactions()
+        return observableCache.cache(mondoApi.getTransactions(), ApiTransactions.class)
                 .map(apiTransactionsResult -> {
                     if (!apiTransactionsResult.isError() && apiTransactionsResult.response().isSuccessful()) {
                         List<Transaction> transactions = new ArrayList<>();
@@ -57,7 +61,7 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
                     return Response.<TransactionsPage>error();
                 })
                 .compose(RxTransformers.androidNetworkCall())
-                .onErrorResumeNext(Observable.just(Response.error()));
+                .compose(RxTransformers.mapToErrorResponse());
     }
 
     private ApiMerchant nullSafe(ApiMerchant merchant) {
