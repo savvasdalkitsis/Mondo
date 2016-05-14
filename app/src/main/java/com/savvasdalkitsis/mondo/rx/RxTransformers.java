@@ -9,13 +9,13 @@ import rx.schedulers.Schedulers;
 
 public class RxTransformers {
 
-    public static <T> Observable.Transformer<T, T> androidNetworkCall() {
+    public static <T> Observable.Transformer<T, T> applyAndroidSchedulers() {
         return observable -> observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T> Observable.Transformer<Response<T>, Response<T>> mapErrorToErrorResponse() {
+    public static <T> Observable.Transformer<Response<T>, Response<T>> onErrorToErrorResponse() {
         return observable -> observable
                 .onErrorResumeNext(error -> {
                     Logger.error("RxTransformers", "onError()", error);

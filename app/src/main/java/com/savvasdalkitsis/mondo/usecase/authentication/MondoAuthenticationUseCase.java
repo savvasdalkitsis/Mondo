@@ -36,7 +36,7 @@ public class MondoAuthenticationUseCase implements AuthenticationUseCase {
                 .map(result -> result.response().body())
                 .doOnNext(accounts -> credentialsRepository.saveAccountId(accounts.getAccounts().get(0).getId()))
                 .map(apiOAuthTokenResult -> Response.<Void>success(null))
-                .compose(RxTransformers.androidNetworkCall())
-                .compose(RxTransformers.mapErrorToErrorResponse());
+                .compose(RxTransformers.applyAndroidSchedulers())
+                .compose(RxTransformers.onErrorToErrorResponse());
     }
 }

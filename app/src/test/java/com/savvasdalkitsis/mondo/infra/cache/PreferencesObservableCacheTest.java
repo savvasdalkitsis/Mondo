@@ -51,7 +51,7 @@ public class PreferencesObservableCacheTest {
     }
 
     private Subscription subscribe(HamcrestTestSubscriber<Result<String>> subscriber, PublishSubject<Result<String>> subject) {
-        return cache.cache(subject, String.class).subscribe(subscriber);
+        return subject.compose(cache.on(String.class)).subscribe(subscriber);
     }
 
 }

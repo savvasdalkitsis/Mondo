@@ -5,11 +5,13 @@ import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
-import com.savvasdalkitsis.mondo.rx.RxTransformers;
 
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
 import rx.functions.Func1;
+
+import static com.savvasdalkitsis.mondo.rx.RxTransformers.applyAndroidSchedulers;
+import static com.savvasdalkitsis.mondo.rx.RxTransformers.onErrorToErrorResponse;
 
 public class MondoTransactionsUseCase implements TransactionsUseCase {
 
@@ -27,18 +29,19 @@ public class MondoTransactionsUseCase implements TransactionsUseCase {
 
     @Override
     public Observable<Response<TransactionsPage>> getTransactions() {
-        return observableCache.cache(mondoApi.getTransactions(), ApiTransactions.class)
+        return mondoApi.getTransactions()
+                .compose(observableCache.on(ApiTransactions.class))
                 .map(result -> {
-                    if (success(result)) {
+                    if (isSuccess(result)) {
                         return Response.success(mapper.call(result.response().body()));
                     }
                     return Response.<TransactionsPage>error();
                 })
-                .compose(RxTransformers.androidNetworkCall())
-                .compose(RxTransformers.mapErrorToErrorResponse());
+                .compose(applyAndroidSchedulers())
+                .compose(onErrorToErrorResponse());
     }
 
-    private boolean success(Result<ApiTransactions> result) {
+    private boolean isSuccess(Result<ApiTransactions> result) {
         return !result.isError() && result.response().isSuccessful();
     }
 }

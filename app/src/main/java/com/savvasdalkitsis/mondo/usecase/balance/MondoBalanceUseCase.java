@@ -11,6 +11,9 @@ import com.savvasdalkitsis.mondo.usecase.BalanceUseCase;
 
 import rx.Observable;
 
+import static com.savvasdalkitsis.mondo.rx.RxTransformers.applyAndroidSchedulers;
+import static com.savvasdalkitsis.mondo.rx.RxTransformers.onErrorToErrorResponse;
+
 public class MondoBalanceUseCase implements BalanceUseCase {
 
     private MondoApi mondoApi;
@@ -23,7 +26,8 @@ public class MondoBalanceUseCase implements BalanceUseCase {
 
     @Override
     public Observable<Response<Balance>> getBalance() {
-        return observableCache.cache(mondoApi.getBalance(), ApiBalance.class)
+        return mondoApi.getBalance()
+                .compose(observableCache.on(ApiBalance.class))
                 .map(apiBalanceResult -> {
                     retrofit2.Response<ApiBalance> response = apiBalanceResult.response();
                     if (!apiBalanceResult.isError() && response.isSuccessful()) {
@@ -40,7 +44,7 @@ public class MondoBalanceUseCase implements BalanceUseCase {
                     }
                     return Response.<Balance>error();
                 })
-                .compose(RxTransformers.androidNetworkCall())
-                .compose(RxTransformers.mapErrorToErrorResponse());
+                .compose(applyAndroidSchedulers())
+                .compose(onErrorToErrorResponse());
     }
 }

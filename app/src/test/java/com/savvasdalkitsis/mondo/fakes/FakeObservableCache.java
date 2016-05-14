@@ -12,9 +12,9 @@ public class FakeObservableCache<T> implements ObservableCache<T> {
     private PublishSubject<Result<T>> subject;
 
     @Override
-    public Observable<Result<T>> cache(Observable<Result<T>> observable, Class<T> itemClass) {
+    public Observable.Transformer<Result<T>, Result<T>> on(Class<T> itemClass) {
         subject = PublishSubject.create();
-        return subject;
+        return observable -> subject;
     }
 
     public void emitSuccessfulResult(T item) {

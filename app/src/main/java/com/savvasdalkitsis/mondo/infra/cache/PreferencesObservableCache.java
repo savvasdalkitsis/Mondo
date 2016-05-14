@@ -27,8 +27,8 @@ public class PreferencesObservableCache<T> implements ObservableCache<T> {
     }
 
     @Override
-    public Observable<Result<T>> cache(Observable<Result<T>> observable, Class<T> itemClass) {
-        return concat(cachedItems(itemClass), observable)
+    public Observable.Transformer<Result<T>, Result<T>> on(Class<T> itemClass) {
+        return observable -> concat(cachedItems(itemClass), observable)
                 .doOnNext(item -> save(item, itemClass));
     }
 

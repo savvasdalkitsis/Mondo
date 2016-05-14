@@ -1,6 +1,7 @@
 package com.savvasdalkitsis.mondo.usecase.transactions;
 
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
+import com.savvasdalkitsis.mondo.fakes.NoOpObservableCache;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
@@ -32,7 +33,7 @@ public class MondoTransactionsUseCaseTest {
     private final HamcrestTestSubscriber<Response<TransactionsPage>> subscriber = new HamcrestTestSubscriber<>();
     private final Func1<ApiTransactions, TransactionsPage> mapper = apiTransactions -> TRANSACTIONS_PAGE;
     private final MondoTransactionsUseCase useCase = new MondoTransactionsUseCase(mondoApi, mapper,
-            (observable, itemClass) -> observable);
+            new NoOpObservableCache<>());
 
     @Test
     public void retrievesPageFromMondoApi() {

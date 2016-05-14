@@ -1,6 +1,7 @@
 package com.savvasdalkitsis.mondo.usecase.balance;
 
 import com.savvasdalkitsis.mondo.fakes.FakeMondoApi;
+import com.savvasdalkitsis.mondo.fakes.NoOpObservableCache;
 import com.savvasdalkitsis.mondo.model.Response;
 import com.savvasdalkitsis.mondo.model.balance.Balance;
 import com.savvasdalkitsis.mondo.model.money.Money;
@@ -25,7 +26,7 @@ public class MondoBalanceUseCaseTest {
     @Rule public TestRule timeout = Timeout.seconds(2);
 
     private final FakeMondoApi mondoApi = new FakeMondoApi();
-    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, (observable, itemClass) -> observable);
+    private final MondoBalanceUseCase useCase = new MondoBalanceUseCase(mondoApi, new NoOpObservableCache<>());
     private final HamcrestTestSubscriber<Response<Balance>> subscriber = new HamcrestTestSubscriber<>();
 
     @Test
