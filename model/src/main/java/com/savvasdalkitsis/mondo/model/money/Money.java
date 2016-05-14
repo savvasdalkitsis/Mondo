@@ -12,6 +12,6 @@ public class Money {
     boolean expense;
 
     public boolean sameCurrencyAs(Money money) {
-        return money.getCurrency().equals(getCurrency());
+        return money != null && getCurrency().equals(money.getCurrency());
     }
 }
