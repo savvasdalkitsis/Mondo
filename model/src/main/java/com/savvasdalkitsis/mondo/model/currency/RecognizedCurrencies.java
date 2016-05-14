@@ -2,7 +2,9 @@ package com.savvasdalkitsis.mondo.model.currency;
 
 public enum RecognizedCurrencies {
 
-    GBP("GBP", "£");
+    GBP("GBP", "£"),
+    EUR("EUR", "€"),
+    USD("USD", "$");
 
     private String currencyName;
     private String currencySymbol;

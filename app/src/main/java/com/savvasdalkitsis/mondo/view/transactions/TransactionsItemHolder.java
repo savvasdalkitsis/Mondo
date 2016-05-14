@@ -22,6 +22,7 @@ public class TransactionsItemHolder extends RecyclerView.ViewHolder {
     private final TextView merchant;
     private final ImageView logo;
     private final View expansion;
+    private final MoneyView localCurrencyMoney;
 
     public TransactionsItemHolder(ViewGroup parent) {
         super(createView(parent));
@@ -29,6 +30,7 @@ public class TransactionsItemHolder extends RecyclerView.ViewHolder {
         amount = (MoneyView) itemView.findViewById(R.id.view_transaction_row_amount);
         merchant = (TextView) itemView.findViewById(R.id.view_transaction_row_merchant);
         expansion = itemView.findViewById(R.id.view_transaction_row_expansion);
+        localCurrencyMoney = (MoneyView) itemView.findViewById(R.id.view_transaction_row_local_currency_amount);
     }
 
     private static View createView(ViewGroup parent) {
@@ -39,6 +41,12 @@ public class TransactionsItemHolder extends RecyclerView.ViewHolder {
         amount.bindTo(transaction.getAmount());
         merchant.setText(transaction.getDescription());
         imageLoader.load(transaction.getLogoUrl(), logo);
+        if (transaction.getAmount().sameCurrencyAs(transaction.getAmountInLocalCurrency())) {
+            localCurrencyMoney.setVisibility(View.GONE);
+        } else {
+            localCurrencyMoney.setVisibility(View.VISIBLE);
+            localCurrencyMoney.bindTo(transaction.getAmountInLocalCurrency());
+        }
     }
 
     public void clear() {

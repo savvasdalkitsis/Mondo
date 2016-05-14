@@ -17,11 +17,6 @@ import static com.savvasdalkitsis.mondo.injector.model.currency.CurrencySymbolsI
 public class MoneyView extends RelativeLayout {
 
     private final CurrencySymbols currencySymbols = currencySymbols();
-    private float largeSize;
-    private float smallSize;
-    private int largeColor;
-    private int smallColorExpense;
-    private int smallColorDeposit;
     private TextView currency;
     private TextView amount;
     private MoneyViewDisplayStyle displayStyle = MoneyViewDisplayStyle.defaultStyle();
@@ -44,11 +39,6 @@ public class MoneyView extends RelativeLayout {
     private void init(AttributeSet attrs) {
         LayoutInflater.from(getContext()).inflate(R.layout.view_money, this);
         extractAttrs(attrs);
-        largeSize = getResources().getDimension(R.dimen.balance_size_large);
-        smallSize = getResources().getDimension(R.dimen.balance_size_small);
-        smallColorExpense = getResources().getColor(R.color.colorPrimary);
-        smallColorDeposit = getResources().getColor(R.color.deposit_green);
-        largeColor = getResources().getColor(android.R.color.white);
         currency = (TextView) findViewById(R.id.view_money_currency);
         amount = (TextView) findViewById(R.id.view_money_amount);
     }
@@ -68,20 +58,15 @@ public class MoneyView extends RelativeLayout {
     public void bindTo(Money money) {
         // this would be formatted by a money formatting class that understands different currencies
         // Out of scope for this exercise
-        amount.setText(String.valueOf(money.getWholeValue() / 100d));
+        // noinspection WrongConstant
+        currency.setVisibility(displayStyle.getCurrencyVisibility());
         currency.setText(currencySymbols.getSymbolFor(money.getCurrency()));
-        if (displayStyle == MoneyViewDisplayStyle.SMALL) {
-            currency.setVisibility(GONE);
-            amount.setTextColor(money.isExpense() ? smallColorExpense : smallColorDeposit);
-            amount.setTextSize(TypedValue.COMPLEX_UNIT_PX, smallSize);
-            if (!money.isExpense()) {
-                amount.setText(String.format("+%s", amount.getText().toString()));
-            }
-        } else {
-            currency.setVisibility(VISIBLE);
-            amount.setTextColor(largeColor);
-            amount.setTextSize(TypedValue.COMPLEX_UNIT_PX, largeSize);
-        }
+        currency.setTextSize(TypedValue.COMPLEX_UNIT_PX, displayStyle.getCurrencyTextSize(getResources()));
+        int color = displayStyle.getAmountColor(money, getResources());
+        currency.setTextColor(color);
+        amount.setTextColor(color);
+        amount.setTextSize(TypedValue.COMPLEX_UNIT_PX, displayStyle.getAmountTextSize(getResources()));
+        amount.setText(displayStyle.format(money, String.valueOf(money.getWholeValue() / 100d)));
     }
 
     public void clear() {

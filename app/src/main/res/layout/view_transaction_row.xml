@@ -27,20 +27,36 @@
             android:layout_marginLeft="16dp"
             android:id="@+id/view_transaction_row_merchant"
             android:layout_toRightOf="@id/view_transaction_row_logo"
-            android:layout_toLeftOf="@+id/view_transaction_row_amount"
+            android:layout_toLeftOf="@+id/view_transaction_row_amounts"
             android:layout_centerVertical="true"
             android:textSize="18sp"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <com.savvasdalkitsis.mondo.android.widget.MoneyView
-            android:id="@id/view_transaction_row_amount"
-            app:displayStyle="small"
+        <LinearLayout
+            android:id="@+id/view_transaction_row_amounts"
+            android:orientation="horizontal"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <com.savvasdalkitsis.mondo.android.widget.MoneyView
+                android:id="@+id/view_transaction_row_local_currency_amount"
+                app:displayStyle="local"
+                android:visibility="gone"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.savvasdalkitsis.mondo.android.widget.MoneyView
+                android:id="@+id/view_transaction_row_amount"
+                app:displayStyle="small"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </RelativeLayout>
 </FrameLayout>

@@ -5,6 +5,8 @@
 
     <dimen name="balance_size_large">32sp</dimen>
     <dimen name="balance_size_small">20sp</dimen>
+    <dimen name="balance_size_local">14sp</dimen>
+    <dimen name="balance_size_local_currency">10sp</dimen>
     <dimen name="toolbar_logo_height">42dp</dimen>
     <dimen name="toolbar_logo_width">180dp</dimen>
     <dimen name="toolbar_balance_offset">64dp</dimen>

@@ -2,16 +2,16 @@ package com.savvasdalkitsis.mondo.test.ui.actors.assertions;
 
 import com.savvasdalkitsis.mondo.R;
 import com.savvasdalkitsis.mondo.test.data.TestCurrency;
-import com.savvasdalkitsis.mondo.test.ui.assertions.SeesAssertions;
 
 import static com.savvasdalkitsis.mondo.test.ui.assertions.SeesAssertions.seesText;
+import static com.savvasdalkitsis.mondo.test.ui.assertions.SeesAssertions.seesTextInsideViewWithId;
 
 public class UserAssertions {
 
     public void seesBalance(double balance, TestCurrency currency) {
         seesText("Balance");
         seesText(balance);
-        SeesAssertions.seesTextInsideViewWithId(R.id.view_balance, currency.displayString());
+        seesTextInsideViewWithId(R.id.view_balance, currency.displayString());
     }
 
     public void seesErrorRetrievingBalance() {
@@ -21,12 +21,18 @@ public class UserAssertions {
     public void seesSpentToday(double amount, TestCurrency currency) {
         seesText("Spent today");
         seesText(amount);
-        SeesAssertions.seesTextInsideViewWithId(R.id.view_spent_today, currency.displayString());
+        seesTextInsideViewWithId(R.id.view_spent_today, currency.displayString());
     }
 
     public void seesTransaction(double amount, String merchant) {
         seesText(merchant);
         seesText(amount);
+    }
+
+    public void seesTransaction(int amount, String merchant, int localAmount, String localCurrencySymbol) {
+        seesTransaction(amount, merchant);
+        seesText(localAmount);
+        seesText(localCurrencySymbol);
     }
 
     public void seesErrorRetrievingTransactions() {

@@ -4,6 +4,7 @@
         <attr name="displayStyle" format="enum">
             <enum name="large" value="0" />
             <enum name="small" value="1" />
+            <enum name="local" value="2" />
         </attr>
     </declare-styleable>
 </resources>

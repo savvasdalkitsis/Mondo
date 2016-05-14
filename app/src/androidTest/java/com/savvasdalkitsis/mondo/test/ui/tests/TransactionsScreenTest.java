@@ -49,6 +49,15 @@ public class TransactionsScreenTest extends MondoTest {
     }
 
     @Test
+    public void displaysForeignTransactionsDisplayingLocalCurrency() {
+        given(user).hasTransactions(R.raw.transactions_starbucks_100_gbp_dollars_143_usd);
+
+        when(user).launchesMondo();
+
+        then(user).seesTransaction(100, "Starbucks", 143, "$");
+    }
+
+    @Test
     public void displaysErrorWhenFailingToRetrieveTransactions() {
         given(mondo).isDown();
 
