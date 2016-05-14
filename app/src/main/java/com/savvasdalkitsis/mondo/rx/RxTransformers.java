@@ -15,7 +15,7 @@ public class RxTransformers {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static <T> Observable.Transformer<Response<T>, Response<T>> mapToErrorResponse() {
+    public static <T> Observable.Transformer<Response<T>, Response<T>> mapErrorToErrorResponse() {
         return observable -> observable
                 .onErrorResumeNext(error -> {
                     Logger.error("RxTransformers", "onError()", error);

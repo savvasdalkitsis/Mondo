@@ -41,6 +41,6 @@ public class MondoBalanceUseCase implements BalanceUseCase {
                     return Response.<Balance>error();
                 })
                 .compose(RxTransformers.androidNetworkCall())
-                .compose(RxTransformers.mapToErrorResponse());
+                .compose(RxTransformers.mapErrorToErrorResponse());
     }
 }

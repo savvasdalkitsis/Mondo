@@ -1,70 +1,44 @@
 package com.savvasdalkitsis.mondo.usecase.transactions;
 
 import com.savvasdalkitsis.mondo.infra.cache.ObservableCache;
-import com.savvasdalkitsis.mondo.infra.date.DateParser;
 import com.savvasdalkitsis.mondo.model.Response;
-import com.savvasdalkitsis.mondo.model.money.Money;
-import com.savvasdalkitsis.mondo.model.transactions.Transaction;
 import com.savvasdalkitsis.mondo.model.transactions.TransactionsPage;
 import com.savvasdalkitsis.mondo.repository.MondoApi;
-import com.savvasdalkitsis.mondo.repository.model.ApiMerchant;
-import com.savvasdalkitsis.mondo.repository.model.ApiTransaction;
 import com.savvasdalkitsis.mondo.repository.model.ApiTransactions;
 import com.savvasdalkitsis.mondo.rx.RxTransformers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
-
-import static com.savvasdalkitsis.mondo.util.StringUtils.isNotEmptyNorNull;
+import rx.functions.Func1;
 
 public class MondoTransactionsUseCase implements TransactionsUseCase {
 
     private MondoApi mondoApi;
-    private DateParser dateParser;
+    private Func1<ApiTransactions, TransactionsPage> mapper;
     private ObservableCache<ApiTransactions> observableCache;
 
-    public MondoTransactionsUseCase(MondoApi mondoApi, DateParser dateParser, ObservableCache<ApiTransactions> observableCache) {
+    public MondoTransactionsUseCase(MondoApi mondoApi,
+                                    Func1<ApiTransactions, TransactionsPage> mapper,
+                                    ObservableCache<ApiTransactions> observableCache) {
         this.mondoApi = mondoApi;
-        this.dateParser = dateParser;
+        this.mapper = mapper;
         this.observableCache = observableCache;
     }
 
     @Override
     public Observable<Response<TransactionsPage>> getTransactions() {
         return observableCache.cache(mondoApi.getTransactions(), ApiTransactions.class)
-                .map(apiTransactionsResult -> {
-                    if (!apiTransactionsResult.isError() && apiTransactionsResult.response().isSuccessful()) {
-                        List<Transaction> transactions = new ArrayList<>();
-                        for (ApiTransaction apiTransaction : apiTransactionsResult.response().body().getTransactions()) {
-                            ApiMerchant merchant = nullSafe(apiTransaction.getMerchant());
-                            String merchantName = merchant.getName();
-                            transactions.add(Transaction.builder()
-                                    .created(dateParser.parse(apiTransaction.getCreated()))
-                                    .amount(Money.builder()
-                                            .wholeValue(Math.abs(apiTransaction.getAmount()))
-                                            .expense(apiTransaction.getAmount() < 0)
-                                            .currency(apiTransaction.getCurrency())
-                                            .build())
-                                    .description(isNotEmptyNorNull(merchantName) ? merchantName : apiTransaction.getDescription())
-                                    .logoUrl(merchant.getLogo())
-                                    .build());
-                        }
-                        // in a real app, this would be sorted by a comparator using the transaction date
-                        Collections.reverse(transactions);
-                        return Response.success(TransactionsPage.builder()
-                                .transactions(transactions)
-                                .build());
+                .map(result -> {
+                    if (success(result)) {
+                        return Response.success(mapper.call(result.response().body()));
                     }
                     return Response.<TransactionsPage>error();
                 })
                 .compose(RxTransformers.androidNetworkCall())
-                .compose(RxTransformers.mapToErrorResponse());
+                .compose(RxTransformers.mapErrorToErrorResponse());
     }
 
-    private ApiMerchant nullSafe(ApiMerchant merchant) {
-        return merchant != null ? merchant : ApiMerchant.builder().build();
+    private boolean success(Result<ApiTransactions> result) {
+        return !result.isError() && result.response().isSuccessful();
     }
 }
