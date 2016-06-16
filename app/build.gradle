@@ -36,10 +36,19 @@ android {
             res.srcDirs = ['src/androidTest/res']
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 retrolambda {
     jvmArgs '-noverify'
+}
+
+tasks.withType(Test) {
+    testLogging {
+        exceptionFormat "full"
+    }
 }
 
 dependencies {

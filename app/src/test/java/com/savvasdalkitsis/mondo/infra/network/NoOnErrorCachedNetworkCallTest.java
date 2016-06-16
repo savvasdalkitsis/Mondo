@@ -68,7 +68,7 @@ public class NoOnErrorCachedNetworkCallTest {
     public void respondsWithResponseErrorWhenResultHasError() {
         subscribeTo(Observable.<Result<Integer>>just(Result.error(new IOException())));
 
-        subscriber.assertReceivedItems(sameBeanAs(Response.error()));
+        subscriber.assertFinishedWithItems(sameBeanAs(Response.error()));
     }
 
     @Test

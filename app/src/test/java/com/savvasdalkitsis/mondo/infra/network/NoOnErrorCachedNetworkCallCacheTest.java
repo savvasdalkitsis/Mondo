@@ -40,11 +40,12 @@ public class NoOnErrorCachedNetworkCallCacheTest {
 
     @Test
     public void usesCache() {
+        observableCache.emitsSuccessfulResultFor(Integer.class, 1);
+
         Observable.<Result<Integer>>empty()
                 .compose(call.withMapper(Object::toString, Integer.class))
                 .subscribe(subscriber);
 
-        observableCache.emitSuccessfulResultFor(Integer.class, 1);
 
         subscriber.assertFinishedWithItems(sameBeanAs(Response.success("1")));
     }

@@ -12,6 +12,12 @@ configurations {
     compile.extendsFrom provided
 }
 
+test {
+    testLogging {
+        exceptionFormat = 'full'
+    }
+}
+
 dependencies {
     compile (
         'io.reactivex:rxjava:1.1.0',

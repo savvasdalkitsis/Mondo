@@ -15,6 +15,8 @@
  */
 package com.savvasdalkitsis.mondo.fakes;
 
+import android.support.annotation.NonNull;
+
 import com.savvasdalkitsis.mondo.infra.cache.ObservableCache;
 
 import java.util.HashMap;
@@ -23,22 +25,30 @@ import java.util.Map;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.Result;
 import rx.Observable;
-import rx.subjects.PublishSubject;
+import rx.subjects.ReplaySubject;
 
 public class FakeObservableCache<T> implements ObservableCache<T> {
 
-    private final Map<Class<?>, PublishSubject<Result<T>>> subjects = new HashMap<>();
+    private final Map<Class<?>, ReplaySubject<Result<T>>> subjects = new HashMap<>();
 
     @Override
     public Observable.Transformer<Result<T>, Result<T>> on(Class<T> itemClass) {
-        PublishSubject<Result<T>> subject = PublishSubject.create();
-        subjects.put(itemClass, subject);
-        return  observable -> subject;
+        return observable -> getOrCreateSubjectFor(itemClass);
     }
 
-    public void emitSuccessfulResultFor(Class<T> itemClass, T item) {
-        PublishSubject<Result<T>> subject = subjects.get(itemClass);
+    public void emitsSuccessfulResultFor(Class<T> itemClass, T item) {
+        ReplaySubject<Result<T>> subject = getOrCreateSubjectFor(itemClass);
         subject.onNext(Result.response(Response.success(item)));
         subject.onCompleted();
+    }
+
+    @NonNull
+    private ReplaySubject<Result<T>> getOrCreateSubjectFor(Class<T> itemClass) {
+        if (subjects.get(itemClass) != null) {
+            return subjects.get(itemClass);
+        }
+        ReplaySubject<Result<T>> subject = ReplaySubject.create();
+        subjects.put(itemClass, subject);
+        return subject;
     }
 }
